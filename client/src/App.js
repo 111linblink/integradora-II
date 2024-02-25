@@ -4,10 +4,10 @@ import './App.css'; // Importa el archivo CSS aquí
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import SaAgregar from './Screens/Agregar/SA_Agregar';
 import SaVisualizar from './Screens/Visualizar/SA_visualizar';
-
 import SAModificar from './Screens/Modificar/SA_Modificar';
-
 import Login from './Screens/Login/Loggin';
+import Capacitacion from './Screens/Capacitar/Capacitacion';
+import Sadmicapacitacion from './Screens/Capacitar/Sadmicapacitacion';
 
 
 function App() {
@@ -18,11 +18,9 @@ function App() {
         <Route path="/" element={<Login />} />
           <Route path="/SA_Agregar" element={<SaAgregar />} />
           <Route path="/SA_visualizar" element={<SaVisualizar />} />
-
           <Route path="/SA_Modificar" element={<SAModificar />} />
-
-          
-
+          <Route path="/capacitacion" element={<Capacitacion/>}></Route>
+          <Route path="/sadmicapacitacion" element={<Sadmicapacitacion/>}/>
         </Routes>
       </Router>
     </div>

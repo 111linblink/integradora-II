@@ -5,15 +5,15 @@ const SA_Modificar = () => {
 <div className="SAdmin" style={{width: 1529, height: 685, background: '#0C789C'}}>
   <div className="Rectangle112" style={{width: 1519, height: 109, left: 5, top: 4, position: 'absolute', background: 'white', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'}} />
   <div className="Rectangle157" style={{width: 1439, height: 502, left: 39, top: 132, position: 'absolute', background: 'white', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 20}} />
-  <img className="Rectangle113" style={{width: 151.21, height: 90.84, left: 27.05, top: 12.91, position: 'absolute'}} src="https://via.placeholder.com/151x91" />
+  {/*<img className="Rectangle113" style={{width: 151.21, height: 90.84, left: 27.05, top: 12.91, position: 'absolute'}} src="https://via.placeholder.com/151x91" />
   <img className="Rectangle114" style={{width: 51, height: 39, left: 1396, top: 38, position: 'absolute'}} src="https://via.placeholder.com/51x39" />
   <img className="Rectangle115" style={{width: 52, height: 39, left: 1314, top: 38, position: 'absolute'}} src="https://via.placeholder.com/52x39" />
   <img className="Rectangle116" style={{width: 51, height: 39, left: 1233, top: 38, position: 'absolute'}} src="https://via.placeholder.com/51x39" />
   <img className="Rectangle117" style={{width: 50, height: 39, left: 1153, top: 38, position: 'absolute'}} src="https://via.placeholder.com/50x39" />
-  <img className="Rectangle118" style={{width: 51, height: 39, left: 1072, top: 38, position: 'absolute'}} src="https://via.placeholder.com/51x39" />
+  <img className="Rectangle118" style={{width: 51, height: 39, left: 1072, top: 38, position: 'absolute'}} src="https://via.placeholder.com/51x39" />*/}
   <div className="Rectangle196" style={{width: 296, height: 118, left: 1111, top: 384, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10}} />
   <div className="FotoDelEmpleado" style={{width: 222, height: 19, left: 1159, top: 393, position: 'absolute', color: 'rgba(0, 0, 0, 0.70)', fontSize: 24, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word'}}>Foto del empleado</div>
-  <img className="Rectangle195" style={{width: 69, height: 52, left: 1227, top: 436, position: 'absolute'}} src="https://via.placeholder.com/69x52" />
+{/*<img className="Rectangle195" style={{width: 69, height: 52, left: 1227, top: 436, position: 'absolute'}} src="https://via.placeholder.com/69x52" />*/}
   <div className="Rectangle97" style={{width: 362.28, height: 38.30, left: 103.71, top: 252.48, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10}} />
   <div className="Nombre" style={{width: 409.53, height: 18.70, left: 117.36, top: 262.28, position: 'absolute', color: 'rgba(0, 0, 0, 0.70)', fontSize: 24, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word'}}>Nombre</div>
   <div className="Rectangle158" style={{width: 362.28, height: 37.41, left: 103.71, top: 312.15, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10}} />
