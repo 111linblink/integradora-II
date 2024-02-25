@@ -1,28 +1,20 @@
+import React from 'react';
+import './App.css'; // Importa el archivo CSS aquí
 
-import './App.css';
-
-import 'bootstrap';
-import {MdClose} from "react-icons/md"
-
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import SaAgregar from './Screens/Agregar/SA_Agregar';
+import SaVisualizar from './Screens/Visualizar/SA_visualizar';
 
 function App() {
   return (
-    <>
-      <div className ="container">
-        <button className='btn btn-add'>Add</button>
-        <div className="addContainer">
-          <form>
-            <label htmlFor="name">Name :</label>
-            <input type="text" id="name" name="name"></input>
-          
-            <label htmlFor="control">NumControl :</label>
-            <input type="number" id="control" name="control"></input>
-         
-            <button className="btn">Submit</button>
-          </form>
-        </div>
-      </div>
-    </>
+    <div className=''>
+      <Router>
+        <Routes>
+          <Route path="/SA_Agregar" element={<SaAgregar />} />
+          <Route path="/SA_visualizar" element={<SaVisualizar />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
