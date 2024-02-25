@@ -15,12 +15,13 @@ function App() {
     <div className=''>
       <Router>
         <Routes>
+        <Route path="/" element={<Login />} />
           <Route path="/SA_Agregar" element={<SaAgregar />} />
           <Route path="/SA_visualizar" element={<SaVisualizar />} />
 
           <Route path="/SA_Modificar" element={<SAModificar />} />
 
-          <Route path="/login" element={<Login />} />
+          
 
         </Routes>
       </Router>
