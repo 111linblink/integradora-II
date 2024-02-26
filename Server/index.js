@@ -10,14 +10,22 @@ const PORT = process.env.PORT || 3000
 
 //Schema
 
-const User =mongoose.Schema({
-    name:String,
-    control:Number
+const perros =mongoose.Schema({
+    Nombre: String,
+    Numero_Empleado: Number,
+    Status: Number,
+    CorreoElectronico: String,
+    Area: String,
+    Sede: String,
+    FecahaNacimiento: Date,
+    Sexo: String,
+    Contrato:String,
+    Tipo:String
 },{
     timestamps:true
 })
 
-const userModel =mongoose.model("user",User)
+const userModel =mongoose.model("perros",perros)
 
 // read
 app.get("/",async(req,res)=>{
