@@ -1,28 +1,18 @@
-
-import './App.css';
-
-import 'bootstrap';
-import {MdClose} from "react-icons/md"
-
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import EmpleadoVacaciones from './Components/EmpleadoVacaciones/App';
+import EmpleadoHorario from './Components/EmpleadoHorario/App'
 
 function App() {
   return (
-    <>
-      <div className ="container">
-        <button className='btn btn-add'>Add</button>
-        <div className="addContainer">
-          <form>
-            <label htmlFor="name">Name :</label>
-            <input type="text" id="name" name="name"></input>
-          
-            <label htmlFor="control">NumControl :</label>
-            <input type="number" id="control" name="control"></input>
-         
-            <button className="btn">Submit</button>
-          </form>
-        </div>
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/empleado-vacaciones" element={<EmpleadoVacaciones />} />
+          <Route path="/empleado-horario" element={<EmpleadoHorario/>} />
+        </Routes>
       </div>
-    </>
+    </Router>
   );
 }
 
