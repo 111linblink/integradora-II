@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Capacitacion.css'; // Import del archivo CSS
+import './Sadmicapacitacion.css'; // Import del archivo CSS
 import { Link } from 'react-router-dom';
 
 const Capacitacion = () => {
@@ -86,22 +86,7 @@ const Capacitacion = () => {
       )}
 
     <div className="rectangulo2">
-          <div className="solicitarVacaciones" onClick={handleSolicitarVacaciones}>Solicitar vacaciones</div>
-          <input
-            className="primerDia"
-            type="text"
-            placeholder="   Primer día"
-            value={primerDia}
-            onChange={handlePrimerDiaChange}
-          />
-          <input
-            className="ultimoDia"
-            type="text"
-            placeholder="   Último día"
-            value={ultimoDia}
-            onChange={handleUltimoDiaChange}
-          />
-          <button className="solicitar" onClick={handleSolicitarVacaciones}>Solicitar</button>
+      
       </div>
 
       <div className="rectanguloInterior">
