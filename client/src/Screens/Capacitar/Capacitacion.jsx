@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import './Sadmicapacitacion.css'; // Import del archivo CSS
+import './Capacitacion.css'; // Import del archivo CSS
 import { Link } from 'react-router-dom';
 
 const Capacitacion = () => {
+  const [UserId, setUserId] = useState('');
   const [primerDia, setPrimerDia] = useState('');
   const [ultimoDia, setUltimoDia] = useState('');
   const [mostrarVentanaNotificaciones, setMostrarVentanaNotificaciones] = useState(false);
   const [mostrarVentanaUsuario, setMostrarVentanaUsuario] = useState(false);
+
+  const handleUseridChange = (event) => {
+    setUserId(event.target.value);
+  };
 
   const handlePrimerDiaChange = (event) => {
     setPrimerDia(event.target.value);
@@ -85,27 +90,63 @@ const Capacitacion = () => {
         </div>
       )}
 
-    <div className="rectangulo2">
-      
-      </div>
+    <div className="Userid">
+        <input
+          className="Userid"
+          type="text"
+          placeholder="   Id del Empleado"
+          value={UserId}
+          onChange={handleUseridChange}
+        />
+    </div>
 
-      <div className="rectanguloInterior">
-          <div className="solicitarVacaciones" onClick={handleSolicitarVacaciones}>Solicitar vacaciones</div>
+    <div className="CuadroTabla">
+      <table className="tablaBonita">
+        <thead>
+          <tr>
+            <th colSpan="4">Empleados</th>
+          </tr>
+          <tr>
+            <th>Nombre</th>
+            <th>Área</th>
+            <th>ID</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Juan Pérez</td>
+            <td>Ventas</td>
+            <td>001</td>
+            <td>20/02/2024</td>
+          </tr>
+          <tr>
+            <td>Maria Rodríguez</td>
+            <td>Recursos Humanos</td>
+            <td>002</td>
+            <td>20/02/2024</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+      <div className="agregarCap1">
+          <div className="solicitarVacaciones" onClick={handleSolicitarVacaciones}>Agregar Capacitacion</div>
           <input
             className="primerDia"
             type="text"
-            placeholder="   Primer día"
+            placeholder="   Día"
             value={primerDia}
             onChange={handlePrimerDiaChange}
           />
           <input
             className="ultimoDia"
             type="text"
-            placeholder="   Último día"
+            placeholder="    Hora"
             value={ultimoDia}
             onChange={handleUltimoDiaChange}
           />
-          <button className="solicitar" onClick={handleSolicitarVacaciones}>Solicitar</button>
+          <button className="solicitar" onClick={handleSolicitarVacaciones}>Agregar</button>
         </div>
       </div>
    );

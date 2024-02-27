@@ -1,186 +1,23 @@
-.rectangulo1 {
-    position: absolute;
-    width: 330px;
-    height: 570px;
-    left: 25px;
-    top: 82px;
-    border-radius: 20px;
-  }
 
-  .rectangulo3 {
-    position: absolute;
-    width: 330px;
-    height: 570px;
-    left: 25px;
-    top: 82px;
-    border-radius: 20px;
-  }
-  
-  .usuario {
-    position: absolute;
-    width: 160px;
-    height: 160px;
-    left: 90px;
-    top: 39px;
-  }
-  
-  .nombreEmpleado {
-    position: absolute;
-    width: 274px;
-    height: 32px;
-    left: 80px;
-    top: 220px;
-    font-family: Roboto;
-    font-size: 18px;
-  }
-  
-  .tipoContrato {
-    position: absolute;
-    width: 230px;
-    height: 33px;
-    left: 52px;
-    top: 318px;
-    background-color: #E1F6FF;
-    border-radius: 10px;
-    font-family: Roboto;
-    font-size: 14px;
-    border: none;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .dias {
-    position: absolute;
-    width: 230px;
-    height: 33px;
-    left: 52px;
-    top: 378px;
-    background-color: #E1F6FF;
-    border-radius: 10px;
-    font-family: Roboto;
-    font-size: 14px;
-    border: none;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .solicitarContrato,
-  .solicitar {
-    position: absolute;
-    width: 154px;
-    height: 40px;
-    left: 90px;
-    top: 480px;
-    background-color: #047393;
-    border-radius: 30px;
-    color: #FFFFFF;
-    font-family: Roboto;
-    font-size: 14px;
-    border: none;
-    box-shadow: none;
-    transition: box-shadow 0.3s ease; /* Add transition for smooth effect */
-  }
-  
-  .solicitarContrato:hover,
-  .solicitar:hover {
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Add shadow on hover */
-  }
-  
-  .rectangulo2 {
-    position: absolute;
-    width: 1020px;
-    height: 570px;
-    left: 450px;
-    top: 130px;
-    background-color: #FFFFFF;
-    border-radius: 20px;
-  }
-  
-  .calendarioInterior {
-    position: absolute;
-    width: 600px;
-    height: 350px;
-    left: 70px;
-    top: 168px;
-    background-color: #E1F6FF;
-    border-radius: 20px;
-  }
-  
-  .my-calendar {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
-    font-size: 24px;
-  }
-  
-  .textoCalendario {
-    position: absolute;
-    left: 70px;
-    top: 55px;
-    font-family: Roboto;
-    font-size: 40px;
-  }
-  
-  .rectanguloInterior {
+
+.agregarCap2 {
     position: absolute;
     width: 280px;
     height: 465px;
-    left: 710px;
-    top: 55px;
+    left: 1200px;
+    top: 175px;
     background-color: #D9EBF3;
     border-radius: 20px;
   }
   
-  .solicitarVacaciones {
+  .CuadroTabla1 {
     position: absolute;
-    text-align: center;
-    left: 4px;
-    top: 50px;
-    border-radius: 10px;
-    font-family: Roboto;
-    font-size: 40px;
-  }
-  
-  .primerDia {
-    position: absolute;
-    width: 180px;
-    height: 33px;
-    left: 50px;
-    top: 248px;
-    background-color: #E1F6FF;
-    border-radius: 10px;
-    font-family: Roboto;
-    font-size: 14px;
-    border: none;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .ultimoDia {
-    position: absolute;
-    width: 180px;
-    height: 33px;
-    left: 50px;
-    top: 310px;
-    background-color: #E1F6FF;
-    border-radius: 10px;
-    font-family: Roboto;
-    font-size: 14px;
-    border: none;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .solicitar {
-    position: absolute;
-    width: 154px;
-    height: 40px;
-    left: 70px;
-    top: 400px;
-    background-color: #047393;
-    border-radius: 30px;
-    color: #FFFFFF;
-    font-family: Roboto;
-    font-size: 14px;
-    border: none;
-    box-shadow: none;
+    width: 1100px;
+    height: 465px;
+    left: 40px;
+    top: 175px;
+    background-color: #D9EBF3;
+    border-radius: 20px;
   }
   
   .ventanaEmergente {
@@ -234,5 +71,48 @@
     font-size: 12px;
     margin-bottom: 10px;
   }
-
   
+  .Userid1{
+    position: absolute;
+    width: 180px;
+    height: 33px;
+    left: 20px;
+    top: 60px;
+    border-radius: 10px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: black;
+    border: none;
+  }
+
+  .Area{
+    position: absolute;
+    width: 180px;
+    height: 33px;
+    left: 130px;
+    top: 60px;
+    border-radius: 10px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: black;
+    border: none;
+  }
+
+  .tablaBonita {
+    width: 100%;
+    border-radius: 20px;
+  }
+  
+  .tablaBonita th, .tablaBonita td {
+    border: 2px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+    border-radius: 20px;
+    font-family:Roboto ;
+    font-size: 18px;
+  }
+  
+  .tablaBonita th {
+    background-color: #f2f2f2;
+    border-radius: 20px;
+  }
