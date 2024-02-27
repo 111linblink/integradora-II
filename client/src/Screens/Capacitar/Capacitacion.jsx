@@ -1,46 +1,111 @@
-import React from "react";
+import React, { useState } from 'react';
+import './Capacitacion.css'; // Import del archivo CSS
+import { Link } from 'react-router-dom';
 
-function Capacitacion() {
+const Capacitacion = () => {
+  const [primerDia, setPrimerDia] = useState('');
+  const [ultimoDia, setUltimoDia] = useState('');
+  const [mostrarVentanaNotificaciones, setMostrarVentanaNotificaciones] = useState(false);
+  const [mostrarVentanaUsuario, setMostrarVentanaUsuario] = useState(false);
+
+  const handlePrimerDiaChange = (event) => {
+    setPrimerDia(event.target.value);
+  };
+
+  const handleUltimoDiaChange = (event) => {
+    setUltimoDia(event.target.value);
+  };
+
+
+  const handleSolicitarVacaciones = () => {
+    console.log('Vacaciones solicitadas');
+  };
+
+  const handleMostrarVentanaNotificaciones = () => {
+    setMostrarVentanaNotificaciones(true);
+  };
+
+  const handleMostrarVentanaUsuario = () => {
+    setMostrarVentanaUsuario(true);
+  };
+
+  const handleCloseVentana = () => {
+    setMostrarVentanaNotificaciones(false);
+    setMostrarVentanaUsuario(false);
+  };
+
   return (
-    <div style={{ width: '100%', height: '100vh', position: 'relative', background: '#0C789C', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div style={{ width: '90%', maxWidth: 1200, height: '90%', background: 'white', borderRadius: 20, padding: 20, boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', boxSizing: 'border-box' }}>
-        <h1 style={{ textAlign: 'center', marginBottom: 20 }}>Agregar capacitación</h1>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr>
-                <th>Id del usuario</th>
-                <th>Área</th>
-                <th>Nombre del empleado</th>
-                <th>Empleado</th>
-                <th>14/02/2024</th>
-                <th>15/02/2024</th>
-                <th>16/02/2024</th>
-                <th>17/02/2024</th>
-                <th>18/02/2024</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* Add table body rows here */}
-              <tr>
-                <td>1</td>
-                <td>Area 1</td>
-                <td>Empleado 1</td>
-                <td>Emp 1</td>
-                <td>Capacitación</td>
-                <td>Capacitación</td>
-                <td>Capacitación</td>
-                <td>Capacitación</td>
-                <td>Capacitación</td>
-              </tr>
-              {/* Add more table rows as needed */}
-            </tbody>
-          </table>
+    <div style={{
+      position: 'relative',
+      width: '100%',
+      height: '100vh',
+      backgroundColor: '#0c789c',
+      overflow: 'hidden',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }} className="root">
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        right: 0,
+        width: '100%',
+        height: 100,
+        backgroundColor: '#FFFFFF',
+      }} className="cabecera">
+        <img className="logo" src="../assets/Logo.png" alt="Logo" style={{ position: 'absolute', top: 0, left: 5, width: 100, height: 100 }} />
+        <Link to="/empleado-vacaciones">
+          <img className="calendario" src="../assets/Calendario.png" alt="Calendario" style={{ position: 'absolute', top: 32, left: 1180, width: 42, height: 42 }} />
+        </Link>
+        <Link to="/empleado-horario">
+          <img className="horarioEmpleado" src="../assets/Horario-empleado.png" alt="Horario empleado" style={{ position: 'absolute', top: 32, left: 1260, width: 42, height: 42 }} />
+        </Link>
+        <img className="notificaciones" src="../assets/Notificaciones.png" alt="Notificaciones" onClick={handleMostrarVentanaNotificaciones} style={{ position: 'absolute', top: 32, left: 1340, cursor: 'pointer', width: 42, height: 42 }} />
+        <img className="usuarioCabecera" src="../assets/Usuario.png" alt="Usuario" onClick={handleMostrarVentanaUsuario} style={{ position: 'absolute', top: 32, left: 1420, cursor: 'pointer', width: 42, height: 42 }} />
+      </div>
+
+      {mostrarVentanaNotificaciones && (
+        <div className="ventanaEmergente" onClick={handleCloseVentana}>
+          <div className="contenido">
+            <h3>Vacaciones aprobadas</h3>
+            <p>Día(s): 16/02/2024 - 18/02/2024</p>
+            <p>Comentario: Disfruta tus vacaciones</p>
+          </div>
+        </div>
+      )}
+
+      {mostrarVentanaUsuario && (
+        <div className="usuarioVentanaEmergente" onClick={handleCloseVentana}>
+          <div className="contenido">
+            <h3>Información del empleado</h3>
+            <p>Nombre de empleado: John Doe</p>
+            <p>Sede: Ciudad de México</p>
+            <p>Área: Recursos Humanos</p>
+            <p>Id: 123456</p>
+          </div>
+        </div>
+      )}
+
+        <div className="rectanguloInterior">
+          <div className="solicitarVacaciones" onClick={handleSolicitarVacaciones}>Agregar Capacitación</div>
+          <input
+            className="primerDia"
+            type="text"
+            placeholder="   Día"
+            value={primerDia}
+            onChange={handlePrimerDiaChange}
+          />
+          <input
+            className="ultimoDia"
+            type="text"
+            placeholder="   Hora"
+            value={ultimoDia}
+            onChange={handleUltimoDiaChange}
+          />
+          <button className="solicitar" onClick={handleSolicitarVacaciones}>Agregar</button>
         </div>
       </div>
-    </div>
   );
-}
+};
 
 export default Capacitacion;
-
