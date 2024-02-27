@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000
 const perros =mongoose.Schema({
     Nombre: String,
     Numero_Empleado: Number,
-    Status: Number,
+    Status: String,
     CorreoElectronico: String,
     Area: String,
     Sede: String,

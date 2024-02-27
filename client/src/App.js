@@ -11,6 +11,9 @@ import Sadmicapacitacion from './Screens/Capacitar/Sadmicapacitacion';
 import EmpleadoVacaciones from './Screens/EmpleadoVacaciones/App';
 import EmpleadoHorario from './Screens/EmpleadoHorario/App'
 
+import NarBar from './components/NarBar.js/NarBar';
+
+
 
 function App() {
   return (
@@ -18,13 +21,15 @@ function App() {
       <Router>
         <Routes>
         <Route path="/" element={<Login />} />
-          <Route path="/SA_Agregar" element={<SaAgregar />} />
-          <Route path="/SA_visualizar" element={<SaVisualizar />} />
-          <Route path="/SA_Modificar" element={<SAModificar />} />
+          <Route path="/sa-agregar" element={<SaAgregar />} />
+          <Route path="/sa-visualizar" element={<SaVisualizar />} />
+          <Route path="/sa-Modificar" element={<SAModificar />} />
           <Route path="/capacitacion" element={<Capacitacion/>}></Route>
           <Route path="/sadmicapacitacion" element={<Sadmicapacitacion/>}/>
           <Route path="/empleado-vacaciones" element={<EmpleadoVacaciones />} />
           <Route path="/empleado-horario" element={<EmpleadoHorario/>} />
+          <Route path="/empleado-horario" element={<EmpleadoHorario/>} />
+          <Route path="/narbar" element={<NarBar/>} />
         </Routes>
       </Router>
     </div>

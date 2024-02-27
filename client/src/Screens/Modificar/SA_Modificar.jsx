@@ -1,8 +1,12 @@
 import React from 'react';
+import NarBar from '../../components/NarBar.js/NarBar';
 
 const SA_Modificar = () => {
   return (
-    <div className="SAdmin" style={{ width: 1544, height: 683, background: '#0C789C' }}>
+    <>
+    <NarBar/>
+    
+    <div className="SAdmin" style={{ width: 1536, height: 695, background: '#0C789C' }}>
     
         <div className="Rectangle157" style={{ width: 1459, height: 490, left: 32, top: 125, position: 'absolute' ,
             background: 'white' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 20 }} />
@@ -111,6 +115,7 @@ const SA_Modificar = () => {
         </button>
     
     </div>
+    </>
   );
 };
 

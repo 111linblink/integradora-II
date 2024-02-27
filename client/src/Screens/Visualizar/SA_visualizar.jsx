@@ -2,7 +2,7 @@ import React from 'react'
 
 const SA_visualizar = () => {
   return (
-    <div className="SAdmin" style={{width: 1530, height: 685, position: 'relative', background: '#0C789C'}}>
+    <div className="SAdmin" style={{width: 1536, height: 695, position: 'relative', background: '#0C789C'}}>
     <div className="Rectangle112" style={{width: 1530, height: 113, left: 0, top: -13, position: 'absolute', background: 'white', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'}} />
    {/* <img className="Rectangle113" style={{width: 157, height: 98, left: 22, top: -4, position: 'absolute'}} src="https://via.placeholder.com/157x98" />
     <img className="Rectangle114" style={{width: 52, height: 41, left: 1444, top: 25, position: 'absolute'}} src="https://via.placeholder.com/52x41" />
