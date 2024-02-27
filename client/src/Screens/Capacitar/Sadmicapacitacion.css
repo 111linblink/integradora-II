@@ -2,9 +2,17 @@
     position: absolute;
     width: 330px;
     height: 570px;
-    left: 55px;
-    top: 130px;
-    background-color: #FFFFFF;
+    left: 25px;
+    top: 82px;
+    border-radius: 20px;
+  }
+
+  .rectangulo3 {
+    position: absolute;
+    width: 330px;
+    height: 570px;
+    left: 25px;
+    top: 82px;
     border-radius: 20px;
   }
   
@@ -226,4 +234,5 @@
     font-size: 12px;
     margin-bottom: 10px;
   }
+
   

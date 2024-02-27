@@ -3,6 +3,7 @@ import './Sadmicapacitacion.css'; // Import del archivo CSS
 import { Link } from 'react-router-dom';
 
 const Sadmicapacitacion = () => {
+    const [IdUsuario, setIdUsuario] = useState('');
   const [primerDia, setPrimerDia] = useState('');
   const [ultimoDia, setUltimoDia] = useState('');
   const [mostrarVentanaNotificaciones, setMostrarVentanaNotificaciones] = useState(false);
@@ -10,6 +11,10 @@ const Sadmicapacitacion = () => {
 
   const handlePrimerDiaChange = (event) => {
     setPrimerDia(event.target.value);
+  };
+
+  const handleIdUsuarioChange = (event) => {
+    setIdUsuario(event.target.value);
   };
 
   const handleUltimoDiaChange = (event) => {
@@ -85,6 +90,26 @@ const Sadmicapacitacion = () => {
         </div>
       )}
 
+    <div className="rectangulo1">
+        <input
+          className="IdUsuario"
+          type="text"
+          placeholder="   Id del Empleado"
+          value={IdUsuario}
+          onChange={handleIdUsuarioChange}
+        />
+    </div>
+
+    <div className="rectangulo3">
+        <input
+          className="IdUsuario"
+          type="text"
+          placeholder="   Id del Empleado"
+          value={IdUsuario}
+          onChange={handleIdUsuarioChange}
+        />
+    </div>
+
     <div className="rectangulo2">
       
       </div>
@@ -108,6 +133,8 @@ const Sadmicapacitacion = () => {
           <button className="solicitar" onClick={handleSolicitarVacaciones}>Solicitar</button>
         </div>
       </div>
+
+      
    );
 };
 
