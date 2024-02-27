@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 
 const SA_Agregar = () => { const [formData, setFormData] = useState({
-  Nombre: '',
-  Numero_Empleado: '',
-  CorreoElectronico: '',
-  Contraseña: '',
-  ConfirmarContraseña: '',
-  Sexo: '',
-  Tipo: '',
-  fechaCumpleaños: '' // Agregamos el campo fechaCumpleaños
+
 });
 
 const handleSubmit = async (event) => {
@@ -50,53 +43,56 @@ const handleInputChange = (event) => {
             <div className="Rectangle196" style={{ width: 296, height: 118, left: 1111, top: 384, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10 }} />
             <div className="FotoDelEmpleado" style={{ width: 222, height: 19, left: 1159, top: 393, position: 'absolute', color: 'rgba(0, 0, 0, 0.70)', fontSize: 24, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>Foto del empleado</div>
 
-            <input className="Rectangle97" style={{ width: 365, height: 37, left: 98, top: 239, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }} placeholder="NombreAppaternoApmaterno" onChange={handleInputChange} name="nombre" />
+            <input className="Rectangle97" style={{ width: 365, height: 37, left: 98, top: 239, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400',border:'none', wordWrap: 'break-word' }} placeholder="NombreAppaternoApmaterno" onChange={handleInputChange} name="Nombre" />
 
-            <input className="Rectangle158" style={{ width: 365, height: 37, left: 98, top: 297, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }} type="number" placeholder="Número Control Empleado" onChange={handleInputChange} name="numeroControl" />
-
-
-            <input className="Rectangle159" style={{ width: 365, height: 37, left: 98, top: 354, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }} type="email" placeholder="Correo" onChange={handleInputChange} name="correo" />
-
-            <input className="Rectangle160" style={{ width: 365, height: 37, left: 98, top: 411, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }} type="password" placeholder="Contraseña" onChange={handleInputChange} name="contraseña" />
+            <input className="Rectangle158" style={{ width: 365, height: 37, left: 98, top: 297, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', border:'none', wordWrap: 'break-word' }} type="number" placeholder="Número Control Empleado" onChange={handleInputChange} name="Numero_Empleado" />
 
 
+            <input className="Rectangle159" style={{ width: 365, height: 37, left: 98, top: 354, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10,border:'none', color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }} type="email" placeholder="Correo" onChange={handleInputChange} name="CorreoElectronico" />
 
-            <input className="Rectangle161" style={{ width: 365, height: 38, left: 98, top: 468, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }} type="password" placeholder="Confirmar contraseña" onChange={handleInputChange} name="confirmarContraseña" />
+            <input className="Rectangle160" style={{ width: 365, height: 37, left: 98, top: 411, position: 'absolute', background: '#E1F6FF', border:'none',boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }} type="password" placeholder="Contraseña" onChange={handleInputChange} name="contraseña" />
 
-            <select className="Rectangle162" style={{ width: 365, height: 37, left: 609, top: 237, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
+
+
+            <input className="Rectangle161" style={{ width: 365, height: 38, left: 98, top: 468, position: 'absolute', background: '#E1F6FF', border:'none',boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }} type="password" placeholder="Confirmar contraseña" onChange={handleInputChange} name="confirmarContraseña" />
+
+            <select className="Rectangle162" style={{ width: 365, height: 37, left: 609, top: 237, position: 'absolute', background: '#E1F6FF',border:'none', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}onChange={handleInputChange} name="Sexo" >
                 <option disabled selected value="">Género</option>
                 <option value="femenino">Femenino</option>
                 <option value="masculino">Masculino</option>
             </select>
 
 
-            <select className="Rectangle168" style={{ width: 365, height: 37, left: 1085, top: 239, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
+            <select className="Rectangle168" style={{ border:'none',width: 365, height: 37, left: 1085, top: 239, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}onChange={handleInputChange} name="Tipo">
                 <option disabled selected value="">Empleado o Admin</option>
                 <option value="empleado">Empleado</option>
                 <option value="admin">Admin</option>
             </select>
 
 
-            <select className="Rectangle163" style={{ width: 365, height: 37, left: 609, top: 294, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
+            <select className="Rectangle163" style={{ border:'none',width: 365, height: 37, left: 609, top: 294, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}onChange={handleInputChange} name="Tipo">
                 <option disabled selected value="">División</option>
+                <option value="1">1</option>
+                <option value="1">2</option>
 
             </select>
 
-            <select className="Rectangle164" style={{ width: 365, height: 37, left: 609, top: 352, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
+            <select className="Rectangle164" style={{  border:'none',width: 365, height: 37, left: 609, top: 352, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}onChange={handleInputChange} name="Area">
                 <option disabled selected value="">Subdivisión área</option>
-                {/* Aquí puedes agregar más opciones si es necesario */}
+                <option value="1">1</option>
+                <option value="1">2</option>
             </select>
 
-            <input className="Rectangle165" style={{ width: 365, height: 36, left: 609, top: 409, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10 }} type="date" placeholder="Fecha de cumpleaños" onChange={handleInputChange} name="fechaCumpleaños" />
+            <input className="Rectangle165" style={{width: 365, height: 36, left: 609, top: 409, position: 'absolute',border:'none', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10 }} type="date" placeholder="FecahaNacimiento" onChange={handleInputChange} name="FecahaNacimiento" />
 
 
-            <select className="Rectangle166" style={{ width: 365, height: 37, left: 609, top: 466, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
+            <select className="Rectangle166" style={{border:'none', width: 365, height: 37, left: 609, top: 466, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}onChange={handleInputChange} name="Status">
                 <option disabled selected value="">Estado</option>
                 <option value="activo">Activo</option>
                 <option value="inactivo">Inactivo</option>
             </select>
 
-            <select className="Rectangle166" style={{ width: 365, height: 37, left: 1092, top: 320, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
+            <select className="Rectangle166" style={{ border:'none',width: 365, height: 37, left: 1092, top: 320, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }} onChange={handleInputChange} name="Contrato">
                 <option disabled selected value="">Contrato</option>
                 <option value="Contrato ">5/8</option>/
                 <option value="Contrato">1/2</option>
