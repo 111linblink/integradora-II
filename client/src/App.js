@@ -11,7 +11,7 @@ import Sadmicapacitacion from './Screens/Capacitar/Sadmicapacitacion';
 import EmpleadoVacaciones from './Screens/EmpleadoVacaciones/App';
 import EmpleadoHorario from './Screens/EmpleadoHorario/App'
 
-import NarBar from './components/NarBar.js/NarBar';
+import NarBar from './Screens/NarBar.js/NarBar';
 
 
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import NarBar from '../../components/NarBar.js/NarBar';
+import NarBar from '../NarBar.js/NarBar';
 
 const SA_Agregar = () => {
     
