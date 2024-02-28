@@ -8,7 +8,7 @@ app.use(express.json())
 
 const PORT = process.env.PORT || 3000
 
-//Schema
+
 
 const perros =mongoose.Schema({
     Nombre: String,

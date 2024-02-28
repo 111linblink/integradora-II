@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import SaAgregar from './Screens/Agregar/SA_Agregar';
-import SaVisualizar from './Screens/Visualizar/SA_visualizar';
+import SAvisualizar from './Screens/Visualizar/SA_visualizar';
 import SAModificar from './Screens/Modificar/SA_Modificar';
 import Login from './Screens/Login/Loggin';
 import Capacitacion from './Screens/Capacitar/Capacitacion';
@@ -22,7 +22,7 @@ function App() {
         <Routes>
         <Route path="/" element={<Login />} />
           <Route path="/sa-agregar" element={<SaAgregar />} />
-          <Route path="/sa-visualizar" element={<SaVisualizar />} />
+          <Route path="/sa-visualizar" element={<SAvisualizar />} />
           <Route path="/sa-Modificar" element={<SAModificar />} />
           <Route path="/capacitacion" element={<Capacitacion/>}></Route>
           <Route path="/sadmicapacitacion" element={<Sadmicapacitacion/>}/>
