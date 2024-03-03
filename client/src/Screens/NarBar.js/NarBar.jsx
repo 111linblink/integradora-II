@@ -22,7 +22,7 @@ const NarBar = () => {
         <Link to="/sa-agregar">
           <div className="v141_13"></div>
         </Link>
-        <Link to="/ruta-del-componente">
+        <Link to="/sa-visualizar">
           <div className="v141_14"></div>
         </Link>
         <Link to="/ruta-del-componente">

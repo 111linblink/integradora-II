@@ -27,21 +27,21 @@
     overflow: hidden;
   }
   .v141_10 {
-    width: 157px;
-    height: 98px;
+    width: 100px;
+    height: 63px;
     background: url("./images/v141_10.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
     opacity: 1;
     position: absolute;
-    top: 9px;
-    left: 22px;
+    top: 20px;
+    left: 12px;
     overflow: hidden;
   }
   .v141_11 {
     width: 52px;
-    height: 41px;
+    height: 50px;
     background: url("./images/v141_11.png");
     background-repeat: no-repeat;
     background-position: center center;
@@ -54,7 +54,7 @@
   }
   .v141_12 {
     width: 52px;
-    height: 39px;
+    height: 50px;
     background: url("./images/v141_12.png");
     background-repeat: no-repeat;
     background-position: center center;
@@ -67,7 +67,7 @@
   }
   .v141_13 {
     width: 51px;
-    height: 39px;
+    height: 50px;
     background: url("./images/v141_13.png");
     background-repeat: no-repeat;
     background-position: center center;
@@ -80,7 +80,7 @@
   }
   .v141_14 {
     width: 52px;
-    height: 39px;
+    height: 50px;
     background: url("./images/v141_14.png");
     background-repeat: no-repeat;
     background-position: center center;
@@ -93,7 +93,7 @@
   }
   .v141_15 {
     width: 52px;
-    height: 39px;
+    height: 50px;
     background: url("./images/v141_15.png");
     background-repeat: no-repeat;
     background-position: center center;

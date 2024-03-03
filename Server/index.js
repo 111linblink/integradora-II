@@ -28,7 +28,7 @@ const perros =mongoose.Schema({
 const userModel =mongoose.model("perros",perros)
 
 // read
-app.get("/",async(req,res)=>{
+app.get("/user",async(req,res)=>{
     const data =await userModel.find({})
     res.json({success:true, data:data})
 })
@@ -58,7 +58,7 @@ app.post("/create",async(req,res)=>{
 })
 
 //update data
-app.put("/update",async(req,res)=>{
+app.put("/update/:id",async(req,res)=>{
     console.log(req.body)
     const {id,...rest}=req.body
     console.log(rest)
@@ -75,7 +75,7 @@ app.delete("/delete/:id",async (req,res)=>{
 
 })
 
-mongoose.connect("mongodb://127.0.0.1:27017/torres")
+mongoose.connect("mongodb://127.0.0.1:27017/tt")
 .then(()=>{console.log("Conectado a db")
 app.listen(PORT,()=>console.log("Server Corriendo"))
 })

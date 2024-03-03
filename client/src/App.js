@@ -23,7 +23,7 @@ function App() {
         <Route path="/" element={<Login />} />
           <Route path="/sa-agregar" element={<SaAgregar />} />
           <Route path="/sa-visualizar" element={<SAvisualizar />} />
-          <Route path="/sa-Modificar" element={<SAModificar />} />
+          <Route path='/sa-Modificar/:id' element={<SAModificar/>} />
           <Route path="/capacitacion" element={<Capacitacion/>}></Route>
           <Route path="/sadmicapacitacion" element={<Sadmicapacitacion/>}/>
           <Route path="/empleado-vacaciones" element={<EmpleadoVacaciones />} />
