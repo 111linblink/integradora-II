@@ -21,31 +21,30 @@ body {
   overflow: hidden;
 }
 .v141_17 {
-  width: 235px;
+  width: 270px;
   height: 41px;
-  background: rgba(225,246,255,1);
-  opacity: 1;
+  background: transparent; /* Cambiamos el fondo a transparente */
+  border: none; /* Eliminamos el borde */
   position: absolute;
   top: 167px;
   left: 57px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: none; /* Eliminamos la sombra */
   overflow: hidden;
 }
 .v141_18 {
-  width: 149px;
-  color: rgba(0,0,0,0.699999988079071);
-  position: absolute;
-  top: 177px;
-  left: 73px;
+  width: 250px;
+  color: rgba(0, 0, 0, 0.7);
+  position: relative;
+  top: 159px; /* Alineamos el campo de entrada con el recuadro */
+  left: 50px; /* Alineamos el campo de entrada con el recuadro */
   font-family: Roboto;
   font-weight: Regular;
   font-size: 24px;
   opacity: 1;
-  text-align: left;
+  text-align: center;
+  background: rgba(225, 246, 255, 1); /* Agregamos un fondo al campo de entrada */
+  border-radius: 10px; /* Agregamos bordes redondeados */
+  padding: 10px; /* Agregamos espacio interno */
 }
 .v141_23 {
   width: 80px;
@@ -118,7 +117,7 @@ body {
   overflow: hidden;
 }
 .v141_73 {
-  width: 65px;
+  width: 100px;
   color: rgba(0,0,0,0.699999988079071);
   position: absolute;
   top: 177px;
@@ -182,6 +181,33 @@ body {
   font-size: 24px;
   opacity: 1;
   text-align: left;
+}
+.v141_78 {
+  width: 229px;
+  height: 40px;
+  background: rgba(225,246,255,1);
+  opacity: 1;
+  position: absolute;
+  top: 162px;
+  left: 1170px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+.v141_79 {
+  width: 120px;
+  color: rgba(0,0,0,0.699999988079071);
+  position: absolute;
+  top: 170px;
+  left: 1150px;
+  font-family: Roboto;
+  font-weight: Regular;
+  font-size: 24px;
+  opacity: 1;
+  text-align: center;
 }
 .user-container {
   margin-bottom: 0%; /* Ajusta el espacio entre los contenedores de usuarios */

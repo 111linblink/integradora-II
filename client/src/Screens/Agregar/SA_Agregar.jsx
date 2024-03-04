@@ -24,6 +24,8 @@ const SA_Agregar = () => {
             }
 
             console.log('Usuario creado correctamente');
+            setFormData({}); // Limpiar los datos del formulario
+            window.location.reload(); // Recargar la página
         } catch (error) {
             console.error('Error al crear el usuario:', error.message);
         }
@@ -73,8 +75,8 @@ const SA_Agregar = () => {
 
             <select className="Rectangle163" style={{ border: 'none', width: 365, height: 37, left: 609, top: 294, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }} onChange={CrearUsuario} name="Sede">
                 <option disabled defaultValue="">Sede</option>
-                <option value="Leon">1</option>
-                <option value="Salamanca">2</option>
+                <option value="Leon">Leon</option>
+                <option value="Salamanca">Salamanca</option>
 
             </select>
 
