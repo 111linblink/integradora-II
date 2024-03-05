@@ -18,12 +18,13 @@ const perrosSchema = new mongoose.Schema({
     FechaNacimiento: Date,
     Sexo: String,
     Contrato: String,
-    Tipo: String
+    Tipo: String,
+    Contrasena:String
 }, {
     timestamps: true
 });
 
-const userModel = mongoose.model("perros", perrosSchema);
+const userModel = mongoose.model("empleados", perrosSchema);
 
 // read
 app.get("/user", async (req, res) => {
@@ -91,7 +92,7 @@ app.delete("/delete/:id", async (req, res) => {
     }
 });
 
-mongoose.connect("mongodb://127.0.0.1:27017/tt")
+mongoose.connect("mongodb://127.0.0.1:27017/intel")
     .then(() => {
         console.log("Conectado a la base de datos");
         app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));

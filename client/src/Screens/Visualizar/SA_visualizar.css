@@ -55,7 +55,7 @@ body {
   background-size: cover;
   opacity: 1;
   position: relative;
-  top: 280px;
+  top: 180px;
   left: 57px;
   overflow: hidden;
 }
@@ -63,7 +63,7 @@ body {
   width: 257px;
   color: rgba(0,0,0,1);
   position: relative;
-  top: 210px;
+  top: 120px;
   left: 165px;
   font-family: Roboto;
   font-weight: Regular;
@@ -73,25 +73,25 @@ body {
  
 }
 .v141_27 {
-  width: 200px;
+  width: 00px;
   height: 50px;
   background: rgba(4,115,147,1);
   opacity: 1;
   position: relative;
-  top: 300px;
+  top: 180px;
   left: 10px;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
+  border-radius: 30px; /* Simplificación para todos los bordes */
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   overflow: hidden;
+  cursor: pointer; /* Cambio del cursor al puntero */
 }
+
 .v141_28 {
   width: 245px;
+  height: 40px;
   color: rgba(255,255,255,1);
   position: relative;
-  top: 150px; /* Ajusta la posición vertical */
+  top: 50px;
   left: 490px;
   font-family: Roboto;
   font-weight: Regular;
@@ -99,15 +99,18 @@ body {
   opacity: 1;
   text-align: center;
   text-decoration: none; 
+  border: none;
+  cursor: pointer; /* Cambio del cursor al puntero */
 }
+
 
 .v141_72 {
   width: 229px;
   height: 40px;
   background: rgba(225,246,255,1);
   opacity: 1;
-  position: absolute;
-  top: 162px;
+  position: relative;
+  top: 175px;
   left: 343px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -117,11 +120,11 @@ body {
   overflow: hidden;
 }
 .v141_73 {
-  width: 100px;
+  width: 250px;
   color: rgba(0,0,0,0.699999988079071);
   position: absolute;
-  top: 177px;
-  left: 366px;
+  top: 168px;
+  left: 310px;
   font-family: Roboto;
   font-weight: Regular;
   font-size: 24px;
@@ -144,11 +147,11 @@ body {
   overflow: hidden;
 }
 .v141_75 {
-  width: 63px;
+  width: 250px;
   color: rgba(0,0,0,0.699999988079071);
   position: absolute;
-  top: 172px;
-  left: 634px;
+  top: 168px;
+  left: 570px;
   font-family: Roboto;
   font-weight: Regular;
   font-size: 24px;
@@ -171,11 +174,11 @@ body {
   overflow: hidden;
 }
 .v141_77 {
-  width: 120px;
+  width: 250px;
   color: rgba(0,0,0,0.699999988079071);
   position: absolute;
-  top: 172px;
-  left: 911px;
+  top: 168px;
+  left: 830px;
   font-family: Roboto;
   font-weight: Regular;
   font-size: 24px;
@@ -198,20 +201,41 @@ body {
   overflow: hidden;
 }
 .v141_79 {
-  width: 120px;
+  width: 250px;
   color: rgba(0,0,0,0.699999988079071);
   position: absolute;
-  top: 170px;
-  left: 1150px;
+  top: 168px;
+  left: 1090px;
+  font-family: Roboto;
+  font-weight: Regular;
+  font-size: 24px;
+  opacity: 1;
+  text-align: left;
+}
+.v141_80 {
+  width: 229px;
+  height: 40px;
+  background: rgba(225,246,255,1);
+  opacity: 1;
+  position: absolute;
+  top: 162px;
+  left: 1170px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+.v141_81 {
+  width: 130px;
+  color: rgba(0,0,0,0.699999988079071);
+  position: absolute;
+  top: 168px;
+  left: 1350px;
   font-family: Roboto;
   font-weight: Regular;
   font-size: 24px;
   opacity: 1;
   text-align: center;
-}
-.user-container {
-  margin-bottom: 0%; /* Ajusta el espacio entre los contenedores de usuarios */
-}
-.button-container {
-  margin-top: 5px; /* Ajusta el espacio entre el contenedor de botones y los elementos anteriores */
 }

@@ -47,44 +47,93 @@ const SA_visualizar = () => {
       (sedeSeleccionada === '' || user.Sede === sedeSeleccionada) &&
       (areaSeleccionada === '' || user.Area === areaSeleccionada) &&
       (estadoSeleccionado === '' || user.Status === estadoSeleccionado) &&
-      (generoSeleccionado === '' || user.Sexo === generoSeleccionado) &&
-      (numeroEmpleadoBuscado === '' || user.Numero_Empleado.toString().includes(numeroEmpleadoBuscado))
+      (generoSeleccionado === '' || user.Tipo === generoSeleccionado) &&
+      (numeroEmpleadoBuscado === '' || (user.Numero_Empleado && user.Numero_Empleado.toString().includes(numeroEmpleadoBuscado)))
     );
   });
+  
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 90 },
+    {
+      field: 'firstName',
+      headerName: 'First name',
+      width: 150,
+      editable: true,
+    },
+    {
+      field: 'lastName',
+      headerName: 'Last name',
+      width: 150,
+      editable: true,
+    },
+    {
+      field: 'age',
+      headerName: 'Age',
+      type: 'number',
+      width: 110,
+      editable: true,
+    },
+    {
+      field: 'fullName',
+      headerName: 'Full name',
+      description: 'This column has a value getter and is not sortable.',
+      sortable: false,
+      width: 160,
+      valueGetter: (params) =>
+        `${params.getValue(params.id, 'firstName') || ''} ${
+          params.getValue(params.id, 'lastName') || ''
+        }`,
+    },
+  ];
+
+  
+const rows = [
+  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
+  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
+  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
+  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
+  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
+  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
+  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
+  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
+  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+];
 
   return (
     <>
       <NarBar />
       
       <div className="v141_16"></div>
-     
 
-      <select className="v141_72" value={sedeSeleccionada} onChange={handleSedeChange}>
+      <button className="v141_80 v141_81" value={generoSeleccionado} onChange={handleGeneroChange}>
+      Descargar
+      </button>
+
+    
+      <select className="v141_72 v141_73" value={sedeSeleccionada} onChange={handleSedeChange}>
+      <option  value=''>Seleccione una Sede</option>
         <option value="Leon">Leon</option>
         <option value="Salamanca">Salamanca</option>
       </select>
-      <span className="v141_73">Sede</span>
-
-      <div className="v141_74"></div>
-      <select className="v141_74" value={areaSeleccionada} onChange={handleAreaChange}>
+           
+      <select className="v141_74 v141_75" value={areaSeleccionada} onChange={handleAreaChange}>
+        <option  value=''>Seleccione una Area</option>
         <option value="1">1</option>
         <option value="2">2</option>
       </select>
-      <span className="v141_75">Área</span>
-
-      <div className="v141_76"></div>
-      <select className="v141_76" value={estadoSeleccionado} onChange={handleEstadoChange}>
-        <option value="Activo">Activo</option>
-        <option value="Inactivo">Inactivo</option>
+      
+      <select className="v141_76 v141_77" value={estadoSeleccionado} onChange={handleEstadoChange}>
+      <option  value=''>Seleccione un Estado</option>
+      <option value="Activo">Activo</option>
+      <option value="Inactivo">Inactivo</option>
       </select>
-      <span className="v141_77">Estado</span>
 
-      <div className="v141_78"></div>
-      <select className="v141_78" value={generoSeleccionado} onChange={handleGeneroChange}>
-        <option value="femenino">Femenino</option>
-        <option value="masculino">Masculino</option>
+      <select className="v141_78 v141_79" value={generoSeleccionado} onChange={handleGeneroChange}>
+      <option  value=''>Seleccione un Tipo</option>
+        <option value="Empleado">Empleado</option>
+        <option value="Admin">Masculino</option>
       </select>
-      <span className="v141_79">Género</span>
+ 
 
       <div className="v141_17"></div>
       <input
@@ -102,18 +151,22 @@ const SA_visualizar = () => {
           <div className="v141_24">Área</div>
           <span className="v141_24">{user.Sede}</span>
           <div className="button-container">
-            <button className="v141_27 v141_28">
-              <a href={`/sa-Modificar/${user._id}`} style={{ textDecoration: 'none', color: 'white' }}>Ver horario</a>    
-            </button>
-            <button className="v141_27 v141_28">
-              <a href={`/sa-Modificar/${user._id}`} style={{ textDecoration: 'none', color: 'white' }}>Subir</a>    
-            </button>
-            <button className="v141_27 v141_28">
-              <a href={`/sa-Modificar/${user._id}`} style={{ textDecoration: 'none', color: 'white' }}>Ver/Modificar contrato</a>    
-            </button>
-            <button className="v141_27 v141_28">
-              <a href={`/sa-Modificar/${user._id}`} style={{ textDecoration: 'none', color: 'white' }}>Modificar/ Ver Datos</a>    
-            </button>
+
+
+
+          <button className="v141_27 v141_28" onClick={() => { window.location.href = `/empleado-horario` }}>
+         Ver horario
+          </button>
+        <button className="v141_27 v141_28" onClick={() => { window.location.href = `/sa-Modificar/${user._id}` }}>
+         Subir
+        </button>
+        <button className="v141_27 v141_28" onClick={() => { window.location.href = `/sa-Modificar/${user._id}` }}>        
+         Ver/Modificar contrato
+        </button>
+        <button className="v141_27 v141_28" onClick={() => { window.location.href = `/sa-Modificar/${user._id}` }}>
+         Modificar/ Ver Datos
+        </button>
+
           </div>
         </div>
       ))}
