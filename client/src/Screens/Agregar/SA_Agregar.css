@@ -16,7 +16,7 @@
   }
   
   .Rectangle955 {
-    width: 296px;
+    width: 29px;
     height: 36px;
     left: 1157px;
     top: 160px;
@@ -278,11 +278,37 @@
     word-wrap: break-word;
   }
   .SAdmin {
-    width: 1536px;
-    height: 695px;
+    width: 153px;
+    height: 69px;
     background: #0C789C;
   }
   
+  .alert-container {
+    margin-bottom: 20px; /* Espacio entre las alertas y otros elementos */
+    position: relative; /* Establecer el posicionamiento relativo */
+    z-index: 999; /* Asegurar que las alertas estén en la parte delantera */
+    width: auto;
+}
+
+  /* Ajustes de estilo para las alertas individuales */
+  .MuiAlert-filledSuccess {
+    background-color: #4caf50; /* Color de fondo para alertas de éxito */
+    color: #fff; /* Color del texto para alertas de éxito */
+  }
   
+  .MuiAlert-filledInfo {
+    background-color: #2196f3; /* Color de fondo para alertas de información */
+    color: #fff; /* Color del texto para alertas de información */
+  }
+  
+  .MuiAlert-filledWarning {
+    background-color: #ff9800; /* Color de fondo para alertas de advertencia */
+    color: #fff; /* Color del texto para alertas de advertencia */
+  }
+  
+  .MuiAlert-filledError {
+    background-color: #f44336; /* Color de fondo para alertas de error */
+    color: #fff; /* Color del texto para alertas de error */
+  }
   
   

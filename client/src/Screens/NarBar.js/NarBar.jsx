@@ -7,9 +7,9 @@ const NarBar = () => {
     <div className="v283_4">
       <div className="v283_2">
        
-        <Link to="/">
+        
           <div className="v141_9"></div>
-        </Link>
+     
         <Link to="/">
           <div className="v141_10"></div>
         </Link>

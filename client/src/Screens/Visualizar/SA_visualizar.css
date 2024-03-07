@@ -239,3 +239,6 @@ body {
   opacity: 1;
   text-align: center;
 }
+.actions-button {
+  margin-right: 10px; /* Ajusta este valor según lo necesites */
+}

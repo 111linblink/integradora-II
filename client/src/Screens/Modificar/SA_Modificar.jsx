@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import NarBar from '../NarBar.js/NarBar';
+import { Alert } from '@mui/material';
 
 const SA_Modificar = () => {
     const { id } = useParams();
@@ -19,6 +20,9 @@ const SA_Modificar = () => {
         Contrato: '',
         Tipo: ''
     });
+
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [showErrorAlert, setShowErrorAlert] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,16 +48,19 @@ const SA_Modificar = () => {
         e.preventDefault();
         try {
             await axios.put(`http://localhost:3000/update/${id}`, formData);
+            setShowSuccessAlert(true);
             navigate('/sa-visualizar');
         } catch (error) {
             console.error("Error al actualizar el usuario:", error);
+            setShowErrorAlert(true);
         }
     };
+
   return (
     <>
     <NarBar/>
     
-    <div className="SAdmin" style={{ width: 1536, height: 695, background: '#0C789C' }}>
+    <div className="SAdmin" style={{ width: 153, height: 69, background: '#0C789C' }}>
     
         <div className="Rectangle157" style={{ width: 1459, height: 490, left: 32, top: 125, position: 'absolute' ,
             background: 'white' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 20 }} />
@@ -131,8 +138,8 @@ const SA_Modificar = () => {
             background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10,
             color: 'rgba(0, 0, 0, 0.70)' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
             }} name="Status" value={formData.Status} onChange={handleInputChange}>
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
         </select>
     
         <select className="Rectangle166" style={{ width: 365, height: 37, left: 1092, top: 320, position: 'absolute' ,
@@ -152,6 +159,11 @@ const SA_Modificar = () => {
                         Guardar cambios
                     </div>
                 </button>
+
+                <div className="alert-container">
+                    {showSuccessAlert && <Alert variant="filled" severity="success">Usuario actualizado correctamente</Alert>}
+                    {showErrorAlert && <Alert variant="filled" severity="error">Error al actualizar el usuario</Alert>}
+                </div>
     </div>
     </>
   );

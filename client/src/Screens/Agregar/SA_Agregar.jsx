@@ -1,79 +1,59 @@
 import React, { useState } from 'react';
 import NarBar from '../NarBar.js/NarBar';
-import "./SA_Agregar.css"
+import { Alert } from '@mui/material'; // Importar el componente Alert de Material-UI
+import "./SA_Agregar.css";
+import Axios from 'axios';
 
 const SA_Agregar = () => {
-    
-    const [formData, setFormData] = useState({});
-    const [usuariosArchivo, setUsuariosArchivo] = useState([]);
+    const [formData, setFormData] = useState({
+        Nombre: "",
+        Numero_Empleado: "",
+        CorreoElectronico: "",
+        Sexo: "",
+        Tipo: "",
+        Contrato: ""
+    });
+
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [showErrorAlert, setShowErrorAlert] = useState(false);
 
     const Creacion = async (event) => {
         event.preventDefault();
-
+        // Validar que los campos requeridos estén llenos
+        const requiredFields = ['Nombre', 'Numero_Empleado', 'CorreoElectronico', 'Sexo', 'Tipo', 'Contrato'];
+        const fieldsAreFilled = requiredFields.every(field => formData[field] !== "");
+        if (!fieldsAreFilled) {
+            setShowErrorAlert(true);
+            setShowSuccessAlert(false); // Asegurarse de que la alerta de éxito se oculte
+            return;
+        }
         try {
-            const response = await fetch('http://localhost:3000/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+            await Axios.post("http://localhost:3000/create", formData);
+            setShowSuccessAlert(true);
+            setShowErrorAlert(false); // Asegurarse de que la alerta de error se oculte
+            setFormData({ // Limpiar los datos del formulario
+                Nombre: "",
+                Numero_Empleado: "",
+                CorreoElectronico: "",
+                Sexo: "",
+                Tipo: "",
+                Contrato: ""
             });
-
-            const responseData = await response.json();
-
-            if (!response.ok) {
-                throw new Error(responseData.message || 'Hubo un error al crear el usuario');
-            }
-
-            console.log('Usuario creado correctamente');
-            setFormData({}); // Limpiar los datos del formulario
             window.location.reload(); // Recargar la página
         } catch (error) {
             console.error('Error al crear el usuario:', error.message);
+            setShowErrorAlert(true);
+            setShowSuccessAlert(false); // Asegurarse de que la alerta de éxito se oculte
         }
     };
 
     const CrearUsuario = (event) => {
-        const { name, value } = event.target;
-
-        if(name === 'contraseña' || name === 'confirmarContraseña') {
-            // Realizamos una validación o cualquier procesamiento adicional si es necesario
-            // En este ejemplo, solo lo agregamos al formData
-            setFormData({
-                ...formData,
-                [name]: value,
-            });
-        } else {
-            setFormData({
-                ...formData,
-                [name]: value,
-            });
-        }
+        setFormData({
+            ...formData,
+            [event.target.name]: event.target.value,
+        });
     };
-
-    const ManejarSubidaArchivo = (evento) => {
-        const archivo = evento.target.files[0];
-        const extension = archivo.name.split('.').pop().toLowerCase();
-
-        if (extension === 'json') {
- 
-            const lector = new FileReader();
-            lector.onload = (e) => {
-                const contenidoArchivo = e.target.result;
-                const usuarios = JSON.parse(contenidoArchivo);
-                setUsuariosArchivo(usuarios);
-                
-            };
-            lector.readAsText(archivo);
-            console.log ("Archivo JSON")
-        } else if (extension === 'xlsx' || extension === 'csv') {
-  
-            console.log("Archivo Excel o CSV seleccionado:", archivo);
-        } else {
-            console.error("Tipo de archivo no soportado");
-        }
-    };
-
+    
     return (
         <>
             <NarBar />
@@ -82,70 +62,54 @@ const SA_Agregar = () => {
                 <div className="Rectangle196" />
                 <div className="FotoDelEmpleado">Foto del empleado</div>
 
-                <input className="Rectangle97" type="text" placeholder="Nombre Apellido Paterno Apellido Materno" onChange={CrearUsuario} name="Nombre" />
+                <div className="alert-container">
+                    {showSuccessAlert && <Alert variant="filled" severity="success">Usuario creado correctamente</Alert>}
+                    {showErrorAlert && <Alert variant="filled" severity="error">Por favor, llene todos los campos requeridos</Alert>}
+                </div>
 
-                <input className="Rectangle158" type="number" placeholder="Número Control Empleado" onChange={CrearUsuario} name="Numero_Empleado" />
-
-                <input className="Rectangle159" type="email" placeholder="Correo" onChange={CrearUsuario} name="CorreoElectronico" />
-
-                <input className="Rectangle160" type="password" placeholder="Contraseña" onChange={CrearUsuario} name="Contrasena" />
-
-                <input className="Rectangle161" type="password" placeholder="Confirmar contraseña" onChange={CrearUsuario} name="contraseña" />
-
+                <input className="Rectangle97" type="text" placeholder="Nombre Apellido Paterno Apellido Materno" onChange={CrearUsuario} name="Nombre" value={formData.Nombre} />
+                <input className="Rectangle158" type="number" placeholder="Número Control Empleado" onChange={CrearUsuario} name="Numero_Empleado" value={formData.Numero_Empleado} />
+                <input className="Rectangle159" type="email" placeholder="Correo" onChange={CrearUsuario} name="CorreoElectronico" value={formData.CorreoElectronico} />
+                <input className="Rectangle160" type="password" placeholder="Contraseña" onChange={CrearUsuario} name="Contraseña" />
+                <input className="Rectangle161" type="password" placeholder="Confirmar contraseña" onChange={CrearUsuario} name="ConfirmarContraseña" />
                 <select className="Rectangle162" onChange={CrearUsuario} name="Sexo">
-                    <option  defaultValue="">Género</option>
-                    <option value="femenino">Femenino</option>
-                    <option value="masculino">Masculino</option>
+                    <option value=""  defaultValue="">Género</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Masculino">Masculino</option>
                 </select>
-
-                <select className="Rectangle168" onChange={CrearUsuario} name="Tipo" value={formData.Tipo}>
-                    <option  value="Empleado o Admin">Empleado o Admin</option>
+                <select className="Rectangle168" onChange={CrearUsuario} name="Tipo">
+                    <option value=""  defaultValue="">Empleado o Admin</option>
                     <option value="Empleado">Empleado</option>
                     <option value="Admin">Admin</option>
                 </select>
-
                 <select className="Rectangle163" onChange={CrearUsuario} name="Sede">
-                    <option  defaultValue="">Sede</option>
+                    <option value=""  defaultValue="">Sede</option>
                     <option value="Leon">Leon</option>
                     <option value="Salamanca">Salamanca</option>
                 </select>
-
                 <select className="Rectangle164" onChange={CrearUsuario} name="Area">
-                    <option  defaultValue="">Subdivisión área</option>
+                    <option value=""  defaultValue="">Subdivisión área</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                 </select>
-
                 <input className="Rectangle165" type="date" placeholder="Fecha de Nacimiento" onChange={CrearUsuario} name="FechaNacimiento" />
-
                 <select className="Rectangle186" onChange={CrearUsuario} name="Status">
-                    <option  defaultValue="">Estado</option>
+                    <option value=""  defaultValue="">Estado</option>
                     <option value="Activo">Activo</option>
                     <option value="Inactivo">Inactivo</option>
                 </select>
-
-                <select className="Rectangle166" onChange={CrearUsuario} name="Contrato" value={formData.Contrato}>
-                    <option disabled defaultValue="">Contrato</option>
+                <select className="Rectangle166" onChange={CrearUsuario} name="Contrato">
+                    <option value=""  defaultValue="">Contrato</option>
                     <option value="5/8">5/8</option>
                     <option value="1/2">1/2</option>
                 </select>
-
-                <div className="AgregarNuevoEmpleado">Agregar nuevo empleado</div>
-
+                
+                <div className="AgregarNuevoEmpleado" style={{ width: 540, height: 37, left: 98, top: 161, position: 'absolute' ,
+            color: 'black' , fontSize: 30, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word' }}>
+            Agregar Empleado
+        </div>
                 <button onClick={Creacion} className="Rectangle977">
                     <div className="RegistrarNuevoEmpleado">Registrar nuevo empleado</div>
-                </button>
-
-                <input
-                    type="file"
-                    id="fileInput"
-                    style={{ display: 'none' }}
-                    onChange={ManejarSubidaArchivo}
-                    accept=".json, .xlsx, .csv"
-                />
-
-                <button className="Rectangle955" onClick={() => document.getElementById('fileInput').click()}>
-                    <div className="RegistrarArchivo">Subir archivo (Carga masiva)</div>
                 </button>
             </div>
         </>

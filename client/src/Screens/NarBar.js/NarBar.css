@@ -17,7 +17,7 @@
   
   .v141_9 {
     width: 100%;
-    height: 110px;
+    height: 80px;
     background: rgba(255,255,255,1);
     opacity: 1;
     position: absolute;
@@ -35,7 +35,7 @@
     background-size: cover;
     opacity: 1;
     position: absolute;
-    top: 20px;
+    top: 8px;
     left: 12px;
     overflow: hidden;
   }
@@ -48,7 +48,7 @@
     background-size: cover;
     opacity: 1;
     position: absolute;
-    top: 38px;
+    top: 15px;
     left: 1444px;
     overflow: hidden;
   }
@@ -61,7 +61,7 @@
     background-size: cover;
     opacity: 1;
     position: absolute;
-    top: 37px;
+    top: 15px;
     left: 1329px;
     overflow: hidden;
   }
@@ -74,7 +74,7 @@
     background-size: cover;
     opacity: 1;
     position: absolute;
-    top: 37px;
+    top: 15px;
     left: 1247px;
     overflow: hidden;
   }
@@ -87,7 +87,7 @@
     background-size: cover;
     opacity: 1;
     position: absolute;
-    top: 37px;
+    top: 15px;
     left: 1164px;
     overflow: hidden;
   }
@@ -100,7 +100,7 @@
     background-size: cover;
     opacity: 1;
     position: absolute;
-    top: 37px;
+    top: 15px;
     left: 1082px;
     overflow: hidden;
   }
