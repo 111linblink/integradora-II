@@ -70,7 +70,7 @@ const SA_Agregar = () => {
                 <input className="Rectangle97" type="text" placeholder="Nombre Apellido Paterno Apellido Materno" onChange={CrearUsuario} name="Nombre" value={formData.Nombre} />
                 <input className="Rectangle158" type="number" placeholder="Número Control Empleado" onChange={CrearUsuario} name="Numero_Empleado" value={formData.Numero_Empleado} />
                 <input className="Rectangle159" type="email" placeholder="Correo" onChange={CrearUsuario} name="CorreoElectronico" value={formData.CorreoElectronico} />
-                <input className="Rectangle160" type="password" placeholder="Contraseña" onChange={CrearUsuario} name="Contraseña" />
+                <input className="Rectangle160" type="password" placeholder="Contraseña" onChange={CrearUsuario} name="Contrasena" />
                 <input className="Rectangle161" type="password" placeholder="Confirmar contraseña" onChange={CrearUsuario} name="ConfirmarContraseña" />
                 <select className="Rectangle162" onChange={CrearUsuario} name="Sexo">
                     <option value=""  defaultValue="">Género</option>

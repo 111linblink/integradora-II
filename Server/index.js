@@ -93,7 +93,7 @@ app.delete("/delete_sede_area/:id", async (req, res) => {
 });
 
 // Esquema para Usuario
-const perrosSchema = new mongoose.Schema({
+const empleadosSchema = new mongoose.Schema({
     Nombre: String,
     Numero_Empleado: Number,
     Status: String,
@@ -104,12 +104,12 @@ const perrosSchema = new mongoose.Schema({
     Sexo: String,
     Contrato: String,
     Tipo: String,
-    Contrasena: String
+    Contrasena:String
 }, {
     timestamps: true
 });
 
-const userModel = mongoose.model("empleados", perrosSchema);
+const userModel = mongoose.model("empleados", empleadosSchema);
 
 // read
 app.get("/user", async (req, res) => {
@@ -173,6 +173,24 @@ app.delete("/delete/:id", async (req, res) => {
         res.json({ success: true, message: "Datos eliminados exitosamente", data: data });
     } catch (error) {
         console.error("Error al eliminar los datos:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
+
+//Login
+app.post("/login", async (req, res) => {
+    const { CorreoElectronico, Contrasena } = req.body;
+
+    try {
+        console.log('CorreoElectronico:', CorreoElectronico);
+        console.log('Contrasena:', Contrasena);
+        const user = await userModel.findOne({ CorreoElectronico });
+        if (!user || user.Contrasena !== Contrasena) {
+            return res.status(401).json({ success: false, message: "Credenciales incorrectas" });
+        }
+        res.json({ success: true, message: "Inicio de sesión exitoso" });
+    } catch (error) {
+        console.error("Error al iniciar sesión:", error);
         res.status(500).json({ success: false, message: "Error del servidor" });
     }
 });
