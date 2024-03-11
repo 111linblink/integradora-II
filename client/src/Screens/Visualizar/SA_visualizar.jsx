@@ -3,9 +3,12 @@ import NarBar from '../NarBar.js/NarBar';
 import axios from 'axios';
 import "./SA_visualizar.css";
 import { DataGrid } from '@mui/x-data-grid';
-import { makeStyles } from '@material-ui/core/styles';
+//import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 const SA_visualizar = () => {
   const [data, setData] = useState([]);
@@ -16,6 +19,7 @@ const SA_visualizar = () => {
   const [numeroEmpleadoBuscado, setNumeroEmpleadoBuscado] = useState('');
   const [openAlert, setOpenAlert] = useState(false);
   const [deletedUserName, setDeletedUserName] = useState('');
+  
 
   const handleCloseAlert = (event, reason) => {
     if (reason === 'clickaway') {
@@ -78,13 +82,13 @@ const SA_visualizar = () => {
     {
       field: 'actions',
       headerName: 'Acciones',
-      width: 400,
+      width: 500,
       renderCell: (params) => (
         <div>
-          <button className="actions-button" onClick={() => window.location.href=`/empleado-horario/${params.row.id}`}>Ver horario</button>
-          <button className="actions-button" onClick={() => window.location.href=`/sa-Modificar/${params.row.id}`}>Subir</button>
-          <button className="actions-button" onClick={() => window.location.href=`/sa-Modificar/${params.row.id}`}>Modificar/Ver Datos</button>
-          <button onClick={() => handleDelete(params.row.id, params.row.Nombre)}>Eliminar</button>
+
+          <Button className="actions-button"  variant="outlined"  startIcon={<CloudUploadIcon />}onClick={() => window.location.href=`/sa-Modificar/${params.row.id}`}>Subir Doct</Button>
+          <Button className="actions-button"  variant="outlined"  onClick={() => window.location.href=`/sa-Modificar/${params.row.id}`}>Modificar/Ver Datos</Button>
+          <Button onClick={() => handleDelete(params.row.id, params.row.Nombre)} variant="outlined" color="error" startIcon={<DeleteIcon />}>Eliminar</Button>
         </div>
       ),
       
@@ -146,17 +150,11 @@ const SA_visualizar = () => {
       <select className="v141_78 v141_79" value={generoSeleccionado} onChange={handleGeneroChange}>
         <option  value=''>Seleccione un Tipo</option>
         <option value="Empleado">Empleado</option>
-        <option value="Admin">Masculino</option>
+        <option value="Admin">Admin</option>
       </select>
 
       <div className="v141_17"></div>
-      <input
-        type="text"
-        value={numeroEmpleadoBuscado}
-        onChange={handleNumeroEmpleadoChange}
-        placeholder="Buscar Num.Empleado"
-        className='v141_18 '
-      />
+      <input type="text" value={numeroEmpleadoBuscado} onChange={handleNumeroEmpleadoChange} placeholder="Buscar Num.Empleado" className='v141_18 ' />
 
       <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
         <MuiAlert onClose={handleCloseAlert} severity="success" sx={{ width: '100%' }}>

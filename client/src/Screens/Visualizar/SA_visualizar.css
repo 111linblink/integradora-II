@@ -21,27 +21,30 @@ body {
   overflow: hidden;
 }
 .v141_17 {
-  width: 270px;
+  width: 150px;
   height: 41px;
   background: transparent; /* Cambiamos el fondo a transparente */
   border: none; /* Eliminamos el borde */
   position: absolute;
   top: 167px;
   left: 57px;
+  font-size: 15px;
   box-shadow: none; /* Eliminamos la sombra */
   overflow: hidden;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .v141_18 {
   width: 250px;
   color: rgba(0, 0, 0, 0.7);
   position: relative;
-  top: 159px; /* Alineamos el campo de entrada con el recuadro */
+  top: 170px; /* Alineamos el campo de entrada con el recuadro */
   left: 50px; /* Alineamos el campo de entrada con el recuadro */
-  font-family: Roboto;
   font-weight: Regular;
-  font-size: 24px;
+  font-size: 15px;
   opacity: 1;
+  border: none;
   text-align: center;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   background: rgba(225, 246, 255, 1); /* Agregamos un fondo al campo de entrada */
   border-radius: 10px; /* Agregamos bordes redondeados */
   padding: 10px; /* Agregamos espacio interno */
@@ -105,7 +108,7 @@ body {
 
 
 .v141_72 {
-  width: 229px;
+  width: 250px;
   height: 40px;
   background: rgba(225,246,255,1);
   opacity: 1;
@@ -120,16 +123,16 @@ body {
   overflow: hidden;
 }
 .v141_73 {
-  width: 250px;
+  width: 170px;
   color: rgba(0,0,0,0.699999988079071);
   position: absolute;
   top: 168px;
   left: 310px;
-  font-family: Roboto;
   font-weight: Regular;
-  font-size: 24px;
+  font-size: 15px;
   opacity: 1;
   text-align: left;
+  border: none;
 }
 .v141_74 {
   width: 229px;
@@ -145,16 +148,16 @@ body {
   border-bottom-right-radius: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   overflow: hidden;
+  border: none;
 }
 .v141_75 {
-  width: 250px;
+  width: 170px;
   color: rgba(0,0,0,0.699999988079071);
   position: absolute;
   top: 168px;
-  left: 570px;
-  font-family: Roboto;
+  left: 490px;
   font-weight: Regular;
-  font-size: 24px;
+  font-size: 15px;
   opacity: 1;
   text-align: left;
 }
@@ -172,16 +175,17 @@ body {
   border-bottom-right-radius: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   overflow: hidden;
+  border: none;
 }
 .v141_77 {
-  width: 250px;
+  width: 170px;
   color: rgba(0,0,0,0.699999988079071);
   position: absolute;
   top: 168px;
-  left: 830px;
-  font-family: Roboto;
+  left: 670px;
+ 
   font-weight: Regular;
-  font-size: 24px;
+  font-size: 15px;
   opacity: 1;
   text-align: left;
 }
@@ -199,16 +203,16 @@ body {
   border-bottom-right-radius: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   overflow: hidden;
+  border: none;
 }
 .v141_79 {
-  width: 250px;
+  width: 170px;
   color: rgba(0,0,0,0.699999988079071);
   position: absolute;
   top: 168px;
-  left: 1090px;
-  font-family: Roboto;
+  left: 850px;
   font-weight: Regular;
-  font-size: 24px;
+  font-size: 15px;
   opacity: 1;
   text-align: left;
 }
