@@ -149,6 +149,81 @@ app.post("/login", async (req, res) => {
         res.status(500).json({ success: false, message: "Error del servidor" });
     }
 });
+// Esquema para Contrato
+const contratoSchema = new mongoose.Schema({
+    Tipo: Number,
+    Turno: Number,
+    Horario: String
+}, {
+    timestamps: true
+});
+
+const contratoModel = mongoose.model("contratos", contratoSchema);
+// create contrato data
+app.post("/create_contrato", async (req, res) => {
+    try {
+        const data = new contratoModel(req.body);
+        await data.save();
+        res.json({ success: true, message: "Contrato guardado exitosamente", data: data });
+    } catch (error) {
+        console.error("Error al crear el contrato:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
+
+// read contratos
+app.get("/contratos", async (req, res) => {
+    try {
+        const data = await contratoModel.find({});
+        res.json({ success: true, data: data });
+    } catch (error) {
+        console.error("Error al obtener los contratos:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
+
+// Obtener un contrato por su ID
+app.get("/contrato/:id", async (req, res) => {
+    const contratoId = req.params.id;
+
+    try {
+        const contrato = await contratoModel.findById(contratoId);
+        if (!contrato) {
+            return res.status(404).json({ success: false, message: "Contrato no encontrado" });
+        }
+        res.json({ success: true, data: contrato });
+    } catch (error) {
+        console.error("Error al obtener el contrato:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
+
+// update contrato data
+app.put("/update_contrato/:id", async (req, res) => {
+    const id = req.params.id;
+    const newData = req.body;
+
+    try {
+        const data = await contratoModel.findOneAndUpdate({ _id: id }, newData, { new: true, omitUndefined: true });
+        res.json({ success: true, message: "Datos de contrato actualizados exitosamente", data: data });
+    } catch (error) {
+        console.error("Error al actualizar los datos de contrato:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
+
+// delete contrato data
+app.delete("/delete_contrato/:id", async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const data = await contratoModel.findByIdAndDelete(id);
+        res.json({ success: true, message: "Contrato eliminado exitosamente", data: data });
+    } catch (error) {
+        console.error("Error al eliminar el contrato:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
 
 mongoose.connect("mongodb://127.0.0.1:27017/intel")
     .then(() => {

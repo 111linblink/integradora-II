@@ -277,6 +277,22 @@
     font-weight: 400;
     word-wrap: break-word;
   }
+  .Rectangle789 {
+    width: 365px;
+    height: 37px;
+    left: 98px;
+    top: 360px;
+    position: absolute;
+    background: #E1F6FF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    border: none;
+    color: rgba(0, 0, 0, 0.70);
+    font-size: 20px;
+    font-family: Roboto;
+    font-weight: 400;
+    word-wrap: break-word;
+  }
   .Rectangle157 {
     width: 1459px;
     height: 490px;
