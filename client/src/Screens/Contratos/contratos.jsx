@@ -15,7 +15,7 @@ const Contratos = () => {
     });
 
     const [contratos, setContratos] = useState([]);
-    const [selectedContratoId, setSelectedContratoId] = useState('');
+    const [, ] = useState('');
     const [sedesAreas, setSedesAreas] = useState([]);
 
     useEffect(() => {
@@ -73,11 +73,6 @@ const Contratos = () => {
         }
     };
 
-    const handleSelectChange = (event) => {
-        setSelectedContratoId(event.target.value);
-        // Aquí podrías cargar los datos del contrato seleccionado para la modificación
-    };
-
     const columns = [
         { field: 'Tipo', headerName: 'Tipo', width: 130 },
         { field: 'Turno', headerName: 'Turno', width: 130 },
@@ -97,9 +92,9 @@ const Contratos = () => {
     return (
         <>
             <NarBar />
-            <div className="SAdmin">
-                <div className="Rectangle157" />
-                <div className="Rectangle196" style={{ height: '400px', width: '39%' }}>
+            <div className="contrato">
+                <div className="RectanguloBlanco" />
+                <div className="RectanguloAzul" style={{ height: '400px', width: '39%' }}>
                     <h2>Tabla de contratos</h2>
                     <div style={{ height: 400, width: '100%' }}>
                         <DataGrid
@@ -114,10 +109,10 @@ const Contratos = () => {
 
             <div>
                 <h2>Crear nuevo contrato</h2>
-                <input className="Rectangle97" type="number" placeholder="Tipo" onChange={handleChange} name="Tipo" value={formData.Tipo} />
-                <input className="Rectangle158" type="number" placeholder="Turno" onChange={handleChange} name="Turno" value={formData.Turno} />
-                <input className="Rectangle789" type="text" placeholder="Horario" onChange={handleChange} name="Horario" value={formData.Horario} />
-                <button onClick={CreacionContrato} className="Rectangle977">
+                <input className="Rtipo" type="number" placeholder="Tipo" onChange={handleChange} name="Tipo" value={formData.Tipo} />
+                <input className="RectaTurno" type="number" placeholder="Turno" onChange={handleChange} name="Turno" value={formData.Turno} />
+                <input className="Rectanglehorario" type="text" placeholder="Horario" onChange={handleChange} name="Horario" value={formData.Horario} />
+                <button onClick={CreacionContrato} className="RectangleContrato">
                     Registrar nuevo contrato
                 </button>
             </div>
@@ -125,18 +120,18 @@ const Contratos = () => {
             <div>
                 <h2>Actualizar Contrato</h2>
                 <h2>Actualizar área existente</h2>
-                <select className="Rectangle163" name="sedeSeleccionada" onChange={handleChange}>
+                <select className="sedeSeleccionada" name="sedeSeleccionada" onChange={handleChange}>
                     <option value="" defaultValue="">Seleccione una sede</option>
                     {sedesAreas.map((sede, index) => (
                         <option key={index} value={sede._id}>{sede.Nombre}</option>
                     ))}
                 </select>
-                <input className="Rectangle163" type="number" placeholder="Tipo" onChange={handleChange} name="Tipo" value={formData.Tipo} />
-                <input className="Rectangle162" type="number" placeholder="Turno" onChange={handleChange} name="Turno" value={formData.Turno} />
-                <input className="Rectangle165" type="text" placeholder="Horario" onChange={handleChange} name="Horario" value={formData.Horario} />
+                <input className="ActualizarTipo" type="number" placeholder="Tipo" onChange={handleChange} name="Tipo" value={formData.Tipo} />
+                <input className="ActualizarTurno" type="number" placeholder="Turno" onChange={handleChange} name="Turno" value={formData.Turno} />
+                <input className="ActualizarHorario" type="text" placeholder="Horario" onChange={handleChange} name="Horario" value={formData.Horario} />
                 
-                <button onClick={CreacionContrato} className="Rectangle978">
-                    <div className="RegistrarNuevoSedeArea">Actualizar contrato</div>
+                <button onClick={CreacionContrato} className="RegistrarNuevoSedeArea">
+                    Actualizar contrato
                 </button>
             </div>
             <div className="AgregarNuevoEmpleado" style={{ width: 540, height: 37, left: 98, top: 161, position: 'absolute' ,

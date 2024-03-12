@@ -1,32 +1,4 @@
-.Rectangle166 {
-    border: none;
-    width: 365px;
-    height: 37px;
-    left: 1092px;
-    top: 320px;
-    position: absolute;
-    background: #E1F6FF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    color: rgba(0, 0, 0, 0.70);
-    font-size: 20px;
-    font-family: Roboto;
-    font-weight: 400;
-    word-wrap: break-word;
-  }
-  
-  .Rectangle955 {
-    width: 29px;
-    height: 36px;
-    left: 1157px;
-    top: 160px;
-    position: absolute;
-    background: #047393;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 30px;
-    cursor: pointer;
-  }
-  
+
   .RegistrarArchivo {
     width: 275px;
     height: 20px;
@@ -37,7 +9,7 @@
     word-wrap: break-word;
     align-content: center;
   }
-  .Rectangle977 {
+  .RegistrarNuevoSedeArea {
     width: 296px;
     height: 36px;
     left: 130px;
@@ -58,7 +30,7 @@
     font-weight: 400;
     word-wrap: break-word;
   }
-  .Rectangle978 {
+  .ActualizarArea {
     width: 296px;
     height: 36px;
     left: 520px;
@@ -101,23 +73,7 @@
     font-weight: 400;
     word-wrap: break-word;
   }
-  .Rectangle186 {
-    border: none;
-    width: 365px;
-    height: 37px;
-    left: 609px;
-    top: 466px;
-    position: absolute;
-    background: #E1F6FF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    color: rgba(0, 0, 0, 0.70);
-    font-size: 20px;
-    font-family: Roboto;
-    font-weight: 400;
-    word-wrap: break-word;
-  }
-  .Rectangle165 {
+  .SedeTipoArea {
     width: 365px;
     height: 36px;
     left: 480px;
@@ -133,23 +89,7 @@
     font-weight: 400;
     word-wrap: break-word;
   }
-  .Rectangle164 {
-    border: none;
-    width: 365px;
-    height: 37px;
-    left: 609px;
-    top: 352px;
-    position: absolute;
-    background: #E1F6FF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    color: rgba(0, 0, 0, 0.70);
-    font-size: 20px;
-    font-family: Roboto;
-    font-weight: 400;
-    word-wrap: break-word;
-  }
-  .Rectangle163 {
+  .sedeSeleccionada {
     border: none;
     width: 365px;
     height: 37px;
@@ -165,23 +105,7 @@
     font-weight: 400;
     word-wrap: break-word;
   }
-  .Rectangle168 {
-    border: none;
-    width: 365px;
-    height: 37px;
-    left: 1085px;
-    top: 239px;
-    position: absolute;
-    background: #E1F6FF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    color: rgba(0, 0, 0, 0.70);
-    font-size: 20px;
-    font-family: Roboto;
-    font-weight: 400;
-    word-wrap: break-word;
-  }
-  .Rectangle162 {
+  .SedeTipo{
     width: 365px;
     height: 37px;
     left: 479px;
@@ -197,55 +121,7 @@
     font-weight: 400;
     word-wrap: break-word;
   }
-  .Rectangle161 {
-    width: 365px;
-    height: 38px;
-    left: 98px;
-    top: 468px;
-    position: absolute;
-    background: #E1F6FF;
-    border: none;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    color: rgba(0, 0, 0, 0.70);
-    font-size: 20px;
-    font-family: Roboto;
-    font-weight: 400;
-    word-wrap: break-word;
-  }
-  .Rectangle160 {
-    width: 365px;
-    height: 37px;
-    left: 98px;
-    top: 411px;
-    position: absolute;
-    background: #E1F6FF;
-    border: none;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    color: rgba(0, 0, 0, 0.70);
-    font-size: 20px;
-    font-family: Roboto;
-    font-weight: 400;
-    word-wrap: break-word;
-  }
-  .Rectangle159 {
-    width: 365px;
-    height: 37px;
-    left: 98px;
-    top: 354px;
-    position: absolute;
-    background: #E1F6FF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    border: none;
-    color: rgba(0, 0, 0, 0.70);
-    font-size: 20px;
-    font-family: Roboto;
-    font-weight: 400;
-    word-wrap: break-word;
-  }
-  .Rectangle158 {
+  .Ubicación {
     width: 365px;
     height: 37px;
     left: 98px;
@@ -261,7 +137,7 @@
     font-weight: 400;
     word-wrap: break-word;
   }
-  .Rectangle97 {
+  .NombreSede {
     width: 365px;
     height: 37px;
     left: 98px;
@@ -277,7 +153,7 @@
     font-weight: 400;
     word-wrap: break-word;
   }
-  .Rectangle157 {
+  .Rectangle {
     width: 1459px;
     height: 490px;
     left: 32px;
@@ -288,7 +164,7 @@
     border-radius: 20px;
   }
   
-  .Rectangle196 {
+  .Tablas {
     width: 580px;
     height: 420px;
     left: 870px;
@@ -311,7 +187,7 @@
     font-weight: 400;
     word-wrap: break-word;
   }
-  .SAdmin {
+  .Sede {
     width: 153px;
     height: 69px;
     background: #0C789C;

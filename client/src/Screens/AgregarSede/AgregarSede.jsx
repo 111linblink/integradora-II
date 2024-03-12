@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import NarBar from '../NarBar.js/NarBar';
 import Axios from 'axios';
-import "./AgregarSede.css";
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -16,6 +15,10 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
+import "./AgregarSede.css"
 
 const AgregarSede = () => {
     const [formData, setFormData] = useState({
@@ -103,9 +106,9 @@ const AgregarSede = () => {
     return (
         <>
             <NarBar />
-            <div className="SAdmin">
-                <div className="Rectangle157" />
-                <div className="Rectangle196" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+            <div className="Sede">
+                <div className="Rectangle" />
+                <div className="Tablas" style={{ maxHeight: '400px', overflowY: 'auto' }}>
                     <h2>Tabla de sedes y áreas</h2>
                     <TableContainer component={Paper}>
                         <Table aria-label="collapsible table">
@@ -129,10 +132,25 @@ const AgregarSede = () => {
                                             <TableCell>{sedeArea.Nombre}</TableCell>
                                             <TableCell>{sedeArea.Ubicacion}</TableCell>
                                             <TableCell>
-                                                <IconButton onClick={() => EliminarSedeArea(sedeArea._id)} size="small">
-                                                    <DeleteIcon />
-                                                </IconButton>
+
+                                                <Button onClick={() => EliminarSedeArea(sedeArea._id)} size="small" variant="outlined" color="error"startIcon={<DeleteIcon />}>Eliminar</Button>
+
+
                                             </TableCell>
+                                            <TableCell>
+
+                                             <TableCell>
+
+                                             <Button className="actions-button"  variant="outlined"  >Modificar</Button>
+                                             </TableCell>
+                                            <TableCell>
+
+                                        
+                                    <Button className="actions-button"  variant="outlined"  startIcon={<CloudUploadIcon />}>Agregar Area</Button>
+                                    </TableCell>
+
+
+                                        </TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={3}>
@@ -164,30 +182,30 @@ const AgregarSede = () => {
 
             <div>
                 <h2>Crear nueva sede</h2>
-                <input className="Rectangle97" type="text" placeholder="Nombre de la sede" onChange={handleChange} name="Nombre" value={formData.Nombre} />
-                <input className="Rectangle158" type="text" placeholder="Ubicación" onChange={handleChange} name="Ubicacion" value={formData.Ubicacion} />
+                <input className="NombreSede" type="text" placeholder="Nombre de la sede" onChange={handleChange} name="Nombre" value={formData.Nombre} />
+                <input className="Ubicación" type="text" placeholder="Ubicación" onChange={handleChange} name="Ubicacion" value={formData.Ubicacion} />
                 
-                <button onClick={CreacionSede} className="Rectangle977">
+                <button onClick={CreacionSede} className="RegistrarNuevoSedeArea">
                     <div className="RegistrarNuevoSedeArea">Registrar nueva sede</div>
                 </button>
             </div>
 
             <div>
                 <h2>Actualizar área existente</h2>
-                <select className="Rectangle163" name="sedeSeleccionada" onChange={handleChange}>
+                <select className="sedeSeleccionada" name="sedeSeleccionada" onChange={handleChange}>
                     <option value="" defaultValue="">Seleccione una sede</option>
                     {sedesAreas.map((sede, index) => (
                         <option key={index} value={sede._id}>{sede.Nombre}</option>
                     ))}
                 </select>
-                <select className="Rectangle162" onChange={handleChange} name="Tipo" value={formData.Tipo}>
+                <select className="SedeTipo" onChange={handleChange} name="Tipo" value={formData.Tipo}>
                     <option value="" defaultValue="">Tipo de área</option>
                     <option value="Administrativa">Administrativa</option>
                     <option value="Operativa">Operativa</option>
                 </select>
-                <input className="Rectangle165" type="text" placeholder="Nombre del área" onChange={handleChange} name="NombreArea" />
+                <input className="SedeTipoArea" type="text" placeholder="Nombre del área" onChange={handleChange} name="NombreArea" />
 
-                <button onClick={ActualizarArea} className="Rectangle978">
+                <button onClick={ActualizarArea} className="ActualizarArea">
                     <div className="RegistrarNuevoSedeArea">Actualizar área</div>
                 </button>
             </div>

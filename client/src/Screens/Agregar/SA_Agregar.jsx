@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import NarBar from '../NarBar.js/NarBar';
 import { Alert } from '@mui/material'; // Importar el componente Alert de Material-UI
-import "./SA_Agregar.css";
+import "./agregar.css";
 import Axios from 'axios';
 
 const SA_Agregar = () => {
