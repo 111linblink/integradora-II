@@ -1,170 +1,210 @@
-import React, { useState } from 'react';
-import './Sadmicapacitacion.css'; // Import del archivo CSS
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import NarBar from '../NarBar.js/NarBar';
+import Axios from 'axios';
+import "./Sadmicapacitacion.css";
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-const Sadmicapacitacion = () => {
-  const [UserId1, setUserId1] = useState('');
-  const [Area, setArea] = useState('');
-  const [primerDia, setPrimerDia] = useState('');
-  const [ultimoDia, setUltimoDia] = useState('');
-  const [mostrarVentanaNotificaciones, setMostrarVentanaNotificaciones] = useState(false);
-  const [mostrarVentanaUsuario, setMostrarVentanaUsuario] = useState(false);
 
-  const handleUserid1Change = (event) => {
-    setUserId1(event.target.value);
-  };
+const AgregarSede = () => {
+    const [formData, setFormData] = useState({
+        Nombre: "",
+        Ubicacion: "",
+        Tipo: "",
+        NombreArea: "",
+        sedeSeleccionada: "",
+        sedeSeleccionadaEliminar: "" 
+    });
 
-  const handleAreaChange = (event) => {
-    setArea(event.target.value);
-  };
+    const [sedesAreas, setSedesAreas] = useState([]);
+    const [openRow, setOpenRow] = useState(null);
 
-  const handlePrimerDiaChange = (event) => {
-    setPrimerDia(event.target.value);
-  };
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await Axios.get("http://localhost:3000/sedes_areas");
+                setSedesAreas(response.data.data);
+            } catch (error) {
+                console.error('Error al obtener las sedes y áreas:', error.message);
+            }
+        }
+        fetchData();
+    }, []);
 
-  const handleUltimoDiaChange = (event) => {
-    setUltimoDia(event.target.value);
-  };
+    const handleRowClick = (index) => {
+        setOpenRow(openRow === index ? null : index);
+    };
 
-  const handleSolicitarVacaciones = () => {
-    console.log('Vacaciones solicitadas');
-  };
+    const CreacionSede = async () => {
+        try {
+            await Axios.post("http://localhost:3000/create_sede_area", formData);
+            setFormData({
+                Nombre: "",
+                Ubicacion: "",
+                Tipo: "",
+                NombreArea: "",
+                sedeSeleccionada: "",
+                sedeSeleccionadaEliminar: ""
+            });
+            window.location.reload();
+        } catch (error) {
+            console.error('Error al crear la sede:', error.message);
+        }
+    };
 
-  const handleMostrarVentanaNotificaciones = () => {
-    setMostrarVentanaNotificaciones(true);
-  };
+    const ActualizarArea = async () => {
+        const { NombreArea, Tipo, sedeSeleccionada } = formData;
 
-  const handleMostrarVentanaUsuario = () => {
-    setMostrarVentanaUsuario(true);
-  };
+        try {
+            await Axios.put(`http://localhost:3000/update_sede_area/${sedeSeleccionada}`, { $push: { Areas: { NombreArea, Tipo } } });
+            setFormData({
+                ...formData,
+                NombreArea: "",
+                Tipo: ""
+            });
+            window.location.reload();
+        } catch (error) {
+            console.error('Error al actualizar el área:', error.message);
+        }
+    };
 
-  const handleCloseVentana = () => {
-    setMostrarVentanaNotificaciones(false);
-    setMostrarVentanaUsuario(false);
-  };
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
 
-  return (
-    <div style={{
-      position: 'relative',
-      width: '100%',
-      height: '100vh',
-      backgroundColor: '#0c789c',
-      overflow: 'hidden',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }} className="root">
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        right: 0,
-        width: '100%',
-        height: 100,
-        backgroundColor: '#FFFFFF',
-      }} className="cabecera">
-        <img className="logo" src="../assets/Logo.png" alt="Logo" style={{ position: 'absolute', top: 0, left: 5, width: 100, height: 100 }} />
-        <Link to="/empleado-vacaciones">
-          <img className="calendario" src="../assets/Calendario.png" alt="Calendario" style={{ position: 'absolute', top: 32, left: 1180, width: 42, height: 42 }} />
-        </Link>
-        <Link to="/empleado-horario">
-          <img className="horarioEmpleado" src="../assets/Horario-empleado.png" alt="Horario empleado" style={{ position: 'absolute', top: 32, left: 1260, width: 42, height: 42 }} />
-        </Link>
-        <img className="notificaciones" src="../assets/Notificaciones.png" alt="Notificaciones" onClick={handleMostrarVentanaNotificaciones} style={{ position: 'absolute', top: 32, left: 1340, cursor: 'pointer', width: 42, height: 42 }} />
-        <img className="usuarioCabecera" src="../assets/Usuario.png" alt="Usuario" onClick={handleMostrarVentanaUsuario} style={{ position: 'absolute', top: 32, left: 1420, cursor: 'pointer', width: 42, height: 42 }} />
-      </div>
+    const EliminarSedeArea = async (id) => {
+        try {
+            await Axios.delete(`http://localhost:3000/delete_sede_area/${id}`);
+            setFormData({
+                ...formData,
+                sedeSeleccionadaEliminar: ""
+            });
+            window.location.reload();
+        } catch (error) {
+            console.error('Error al eliminar la sede o área:', error.message);
+        }
+    };
 
-      {mostrarVentanaNotificaciones && (
-        <div className="ventanaEmergente" onClick={handleCloseVentana}>
-          <div className="contenido">
-            <h3>Vacaciones aprobadas</h3>
-            <p>Día(s): 16/02/2024 - 18/02/2024</p>
-            <p>Comentario: Disfruta tus vacaciones</p>
-          </div>
+    return (
+        <>
+            <NarBar />
+            <div className="SupAdmin">
+                <div className="Rectangle020" />
+                <div className="Rectangle016" style={{ maxHeight: '400px', overflowY: 'auto'}}>
+                    <h2>Tabla de capacitaciones</h2>
+                    <TableContainer component={Paper}>
+                        <Table aria-label="collapsible table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell />
+                                    <TableCell>Nombre</TableCell>
+                                    <TableCell>Dirección</TableCell>
+                                    <TableCell>Eliminar</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {sedesAreas.map((sedeArea, index) => (
+                                    <React.Fragment key={index}>
+                                        <TableRow onClick={() => handleRowClick(index)}>
+                                            <TableCell>
+                                                <IconButton size="small">
+                                                    {openRow === index ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                                </IconButton>
+                                            </TableCell>
+                                            <TableCell>{sedeArea.Nombre}</TableCell>
+                                            <TableCell>{sedeArea.Ubicacion}</TableCell>
+                                            <TableCell>
+                                                <IconButton onClick={() => EliminarSedeArea(sedeArea._id)} size="small">
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={3}>
+                                                <Collapse in={openRow === index} timeout="auto" unmountOnExit>
+                                                    <Box sx={{ margin: 1 }}>
+                                                        <Typography variant="subtitle1">Administradores:</Typography>
+                                                        {sedeArea.Administradores.map((admin, adminIndex) => (
+                                                            <div key={adminIndex}>
+                                                                {admin.Id_Admin}
+                                                            </div>
+                                                        ))}
+                                                        <Typography variant="subtitle1">Áreas:</Typography>
+                                                        {sedeArea.Areas.map((area, areaIndex) => (
+                                                            <div key={areaIndex}>
+                                                                Tipo: {area.Tipo}, Nombre: {area.NombreArea}
+                                                            </div>
+                                                        ))}
+                                                    </Box>
+                                                </Collapse>
+                                            </TableCell>
+                                        </TableRow>
+                                    </React.Fragment>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
+            </div>
+
+            <div>
+                <h2>Crear nueva sede</h2>
+                <input className="Rectangle015" type="text" placeholder="Nombre de la capacitación" onChange={handleChange} name="Nombre" value={formData.Nombre} />
+                <input className="ubi" type="text" placeholder="Ubicación" onChange={handleChange} name="Ubicacion" value={formData.Ubicacion} />
+                
+                <button onClick={CreacionSede} className="Rectangle03">
+                    <div className="RegistrarNuevoSedeArea">Registrar nueva sede</div>
+                </button>
+            </div>
+
+            <div>
+                <h2>Actualizar área existente</h2>
+                <select className="Rectangle08" name="sedeSeleccionada" onChange={handleChange}>
+                    <option value="" defaultValue="">Seleccione una sede</option>
+                    {sedesAreas.map((sede, index) => (
+                        <option key={index} value={sede._id}>{sede.Nombre}</option>
+                    ))}
+                </select>
+                <select className="tipoArea" onChange={handleChange} name="Tipo" value={formData.Tipo}>
+                    <option value="" defaultValue="">Tipo de área</option>
+                    <option value="Administrativa">Administrativa</option>
+                    <option value="Operativa">Operativa</option>
+                </select>
+
+                <input className="fechaIni" type="date" placeholder="Inicio" onChange={handleChange} name="NombreArea" />
+                <input className="fechaFin" type="date" placeholder="Final" onChange={handleChange} name="NombreArea" />
+
+                <button onClick={ActualizarArea} className="Rectangle04">
+                    <div className="RegistrarNuevoSedeArea">Actualizar área</div>
+                </button>
+            </div>
+            <div className="AgregarEmpleado" style={{ width: 540, height: 37, left: 98, top: 151, position: 'absolute' ,
+            color: 'black' , fontSize: 30, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word' }}>
+            Capacitaciones
         </div>
-      )}
 
-      {mostrarVentanaUsuario && (
-        <div className="usuarioVentanaEmergente" onClick={handleCloseVentana}>
-          <div className="contenido">
-            <h3>Información del empleado</h3>
-            <p>Nombre de empleado: John Doe</p>
-            <p>Sede: Ciudad de México</p>
-            <p>Área: Recursos Humanos</p>
-            <p>Id: 123456</p>
-          </div>
+        <div className="AgregarEmp" style={{ width: 540, height: 37, left: 98, top: 210, position: 'absolute' ,
+            color: 'black' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word' }}>
+            Registro de Capacitaciones
         </div>
-      )}
-
-    <div className="Userid1">
-        <input
-          className="Userid1"
-          type="text"
-          placeholder="   Id del Empleado"
-          value={UserId1}
-          onChange={handleUserid1Change}
-        />
-    </div>
-
-    <div className="Area">
-        <input
-          className="Area"
-          type="text"
-          placeholder="Área"
-          value={Area}
-          onChange={handleAreaChange}
-        />
-    </div>
-
-    <div className="CuadroTabla1">
-      <table className="tablaBonita">
-        <thead>
-          <tr>
-            <th colSpan="4">Empleados</th>
-          </tr>
-          <tr>
-            <th>Nombre</th>
-            <th>Área</th>
-            <th>ID</th>
-            <th>Fecha</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Juan Pérez</td>
-            <td>Ventas</td>
-            <td>001</td>
-            <td>20/02/2024</td>
-          </tr>
-          <tr>
-            <td>Maria Rodríguez</td>
-            <td>Recursos Humanos</td>
-            <td>002</td>
-            <td>20/02/2024</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-      <div className="agregarCap2">
-          <div className="solicitarVacaciones" onClick={handleSolicitarVacaciones}>Agregar Capacitacion</div>
-          <input
-            className="primerDia"
-            type="text"
-            placeholder="   Día"
-            value={primerDia}
-            onChange={handlePrimerDiaChange}
-          />
-          <input
-            className="ultimoDia"
-            type="text"
-            placeholder="    Hora"
-            value={ultimoDia}
-            onChange={handleUltimoDiaChange}
-          />
-          <button className="solicitar" onClick={handleSolicitarVacaciones}>Agregar</button>
-        </div>
-      </div>
-   );
+        </>
+    );
 };
 
-export default Sadmicapacitacion;
+export default AgregarSede;
