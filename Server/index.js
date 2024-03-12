@@ -149,6 +149,71 @@ app.post("/login", async (req, res) => {
         res.status(500).json({ success: false, message: "Error del servidor" });
     }
 });
+
+app.get("/user", async (req, res) => {
+    try {
+        const data = await userModel.find({});
+        res.json({ success: true, data: data });
+    } catch (error) {
+        console.error("Error al obtener los usuarios:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
+
+// Obtener un usuario por su ID
+app.get("/user/:id", async (req, res) => {
+    const userId = req.params.id;
+
+    try {
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: "Usuario no encontrado" });
+        }
+        res.json({ success: true, data: user });
+    } catch (error) {
+        console.error("Error al obtener el usuario:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
+
+// create data || save data in mongo
+app.post("/create", async (req, res) => {
+    try {
+        const data = new userModel(req.body);
+        await data.save();
+        res.json({ success: true, message: "Data guardada exitosamente", data: data });
+    } catch (error) {
+        console.error("Error al crear los datos:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
+
+// update data
+app.put("/update/:id", async (req, res) => {
+    const id = req.params.id;
+    const rest = req.body;
+
+    try {
+        const data = await userModel.findByIdAndUpdate(id, rest, { new: true });
+        res.json({ success: true, message: "Datos actualizados exitosamente", data: data });
+    } catch (error) {
+        console.error("Error al actualizar los datos:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
+
+// delete api
+app.delete("/delete/:id", async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const data = await userModel.findByIdAndDelete(id);
+        res.json({ success: true, message: "Datos eliminados exitosamente", data: data });
+    } catch (error) {
+        console.error("Error al eliminar los datos:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
 // Esquema para Contrato
 const contratoSchema = new mongoose.Schema({
     Tipo: Number,
