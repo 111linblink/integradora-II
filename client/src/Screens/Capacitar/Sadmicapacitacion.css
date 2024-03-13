@@ -41,7 +41,7 @@
   width: 296px;
   height: 36px;
   left: 130px;
-  top: 540px;
+  top: 630px;
   position: absolute;
   background: #047393;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -62,7 +62,7 @@
   width: 296px;
   height: 36px;
   left: 520px;
-  top: 456px;
+  top: 630px;
   position: absolute;
   background: #047393;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -114,6 +114,8 @@
   font-weight: 400;
   word-wrap: break-word;
 }
+
+
 .Rectangle05 {
   border: none;
   width: 365px;
@@ -148,10 +150,10 @@
 }
 
 .fechaIni {
-  width: 155px;
+  width: 165px;
   height: 36px;
-  left: 480px;
-  top: 365px;
+  left: 98px;
+  top: 565px;
   position: absolute;
   background: #E1F6FF;
   border: none;
@@ -167,8 +169,8 @@
 .fechaFin {
   width: 165px;
   height: 36px;
-  left: 670px;
-  top: 365px;
+  left: 300px;
+  top: 565px;
   position: absolute;
   background: #E1F6FF;
   border: none;
@@ -246,6 +248,25 @@
   font-weight: 400;
   word-wrap: break-word;
 }
+
+.tipoSede {
+  width: 365px;
+  height: 37px;
+  left: 98px;
+  top: 420px;
+  position: absolute;
+  background: #E1F6FF;
+  border: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  color: rgba(0, 0, 0, 0.70);
+  font-size: 20px;
+  font-family: Roboto;
+  font-weight: 400;
+  word-wrap: break-word;
+}
+
+
 .Rectangle011 {
   width: 365px;
   height: 38px;
@@ -328,7 +349,7 @@
 }
 .Rectangle020 {
   width: 1459px;
-  height: 490px;
+  height: 560px;
   left: 32px;
   top: 125px;
   position: absolute;
@@ -338,9 +359,9 @@
 }
 
 .Rectangle016 {
-  width: 580px;
+  width: 865px;
   height: 420px;
-  left: 890px;
+  left: 520px;
   top: 180px;
   position: absolute;
   background: #E1F6FF;
