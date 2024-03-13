@@ -1,170 +1,200 @@
-import React, { useState } from 'react';
-import './Sadmicapacitacion.css'; // Import del archivo CSS
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import NarBar from '../NarBar.js/NarBar';
+import Axios from 'axios';
+import "./Sadmicapacitacion.css";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Sadmicapacitacion = () => {
-  const [UserId1, setUserId1] = useState('');
-  const [Area, setArea] = useState('');
-  const [primerDia, setPrimerDia] = useState('');
-  const [ultimoDia, setUltimoDia] = useState('');
-  const [mostrarVentanaNotificaciones, setMostrarVentanaNotificaciones] = useState(false);
-  const [mostrarVentanaUsuario, setMostrarVentanaUsuario] = useState(false);
+    const [formData, setFormData] = useState({
+        Nombre: "",
+        Area: "",
+        Sede: "",
+        Ubicacion: "",
+        Actividad: [
+            {
+                NombreActividad: "",
+                FechaInicio: "",
+                FechaFin: ""
+            }
+        ]
+    });
 
-  const handleUserid1Change = (event) => {
-    setUserId1(event.target.value);
-  };
+    const [capacitaciones, setCapacitaciones] = useState([]);
+    const [selectedCapacitacionIndex, setSelectedCapacitacionIndex] = useState(null);
 
-  const handleAreaChange = (event) => {
-    setArea(event.target.value);
-  };
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await Axios.get("http://localhost:3000/capacitaciones");
+                setCapacitaciones(response.data.data);
+            } catch (error) {
+                console.error('Error al obtener las capacitaciones:', error.message);
+            }
+        }
+        fetchData();
+    }, []);
 
-  const handlePrimerDiaChange = (event) => {
-    setPrimerDia(event.target.value);
-  };
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        if (name === "FechaInicio" || name === "FechaFin") {
+            setFormData({
+                ...formData,
+                Actividad: {
+                    ...formData.Actividad,
+                    [name]: value
+                }
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value
+            });
+        }
+    };
 
-  const handleUltimoDiaChange = (event) => {
-    setUltimoDia(event.target.value);
-  };
+    const handleCrearCapacitacion = async () => {
+        try {
+            await Axios.post("http://localhost:3000/crear_capacitacion", formData);
+            setFormData({
+                Nombre: "",
+                Area: "",
+                Sede: "",
+                Ubicacion: "",
+                Actividad: [
+                    {
+                        NombreActividad: "",
+                        FechaInicio: "",
+                        FechaFin: ""
+                    }
+                ]
+            });
+            window.location.reload();
+        } catch (error) {
+            console.error('Error al crear la capacitación:', error.message);
+        }
+    };
 
-  const handleSolicitarVacaciones = () => {
-    console.log('Vacaciones solicitadas');
-  };
+    const openModal = (index) => {
+        setSelectedCapacitacionIndex(index);
+        setFormData(capacitaciones[index]); // Cargar datos de la capacitación seleccionada en el formulario
+    };
 
-  const handleMostrarVentanaNotificaciones = () => {
-    setMostrarVentanaNotificaciones(true);
-  };
+    const closeModal = () => {
+        setSelectedCapacitacionIndex(null);
+    };
 
-  const handleMostrarVentanaUsuario = () => {
-    setMostrarVentanaUsuario(true);
-  };
+    const handleEliminarCapacitacion = async (nombre) => {
+        try {
+            await Axios.delete(`http://localhost:3000/eliminar_capacitacion/${nombre}`);
+            alert(`Capacitación "${nombre}" eliminada correctamente.`);
+            const nuevasCapacitaciones = capacitaciones.filter(capacitacion => capacitacion.Nombre !== nombre);
+            setCapacitaciones(nuevasCapacitaciones);
+        } catch (error) {
+            console.error(`Error al eliminar la capacitación "${nombre}":`, error.message);
+        }
+    };         
 
-  const handleCloseVentana = () => {
-    setMostrarVentanaNotificaciones(false);
-    setMostrarVentanaUsuario(false);
-  };
+    const handleModificarCapacitacion = async () => {
+        try {
+            await Axios.put(`http://localhost:3000/modificar_capacitacion/${formData.id}`, formData);
+            alert(`Capacitación modificada correctamente.`);
+            closeModal();
+        } catch (error) {
+            console.error('Error al modificar la capacitación:', error.message);
+        }
+    }; 
 
-  return (
-    <div style={{
-      position: 'relative',
-      width: '100%',
-      height: '100vh',
-      backgroundColor: '#0c789c',
-      overflow: 'hidden',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }} className="root">
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        right: 0,
-        width: '100%',
-        height: 100,
-        backgroundColor: '#FFFFFF',
-      }} className="cabecera">
-        <img className="logo" src="../assets/Logo.png" alt="Logo" style={{ position: 'absolute', top: 0, left: 5, width: 100, height: 100 }} />
-        <Link to="/empleado-vacaciones">
-          <img className="calendario" src="../assets/Calendario.png" alt="Calendario" style={{ position: 'absolute', top: 32, left: 1180, width: 42, height: 42 }} />
-        </Link>
-        <Link to="/empleado-horario">
-          <img className="horarioEmpleado" src="../assets/Horario-empleado.png" alt="Horario empleado" style={{ position: 'absolute', top: 32, left: 1260, width: 42, height: 42 }} />
-        </Link>
-        <img className="notificaciones" src="../assets/Notificaciones.png" alt="Notificaciones" onClick={handleMostrarVentanaNotificaciones} style={{ position: 'absolute', top: 32, left: 1340, cursor: 'pointer', width: 42, height: 42 }} />
-        <img className="usuarioCabecera" src="../assets/Usuario.png" alt="Usuario" onClick={handleMostrarVentanaUsuario} style={{ position: 'absolute', top: 32, left: 1420, cursor: 'pointer', width: 42, height: 42 }} />
-      </div>
+    return (
+        <>
+            <NarBar />
+            <div className="SupAdmin">
+                <div className="Rectangle020" />
+                <div className="Rectangle016" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                    <div>
+                        <h2>Listado de capacitaciones</h2>
+                        <ul>
+                            {capacitaciones.map((capacitacion, index) => (
+                                <li key={index}>
+                                    <p>Nombre: {capacitacion.Nombre}</p>
+                                    <p>Área: {capacitacion.Area}</p>
+                                    <p>Sede: {capacitacion.Sede}</p>
+                                    <p>Ubicación: {capacitacion.Ubicacion}</p>
+                                    <p>Actividad: {capacitacion.Actividad && Array.isArray(capacitacion.Actividad) && capacitacion.Actividad.map((actividad, i) => (
+                                        <span key={i}>
+                                            <p>Nombre: {actividad.NombreActividad}</p>
+                                            <p>Fecha de inicio: {actividad.FechaInicio}</p>
+                                            <p>Fecha de fin: {actividad.FechaFin}</p>
+                                        </span>
+                                    ))}</p>
+                                    <button onClick={() => handleEliminarCapacitacion(capacitacion.Nombre)}><DeleteIcon />Eliminar</button>
+                                    <button onClick={() => openModal(index)}><EditIcon />Modificar</button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-      {mostrarVentanaNotificaciones && (
-        <div className="ventanaEmergente" onClick={handleCloseVentana}>
-          <div className="contenido">
-            <h3>Vacaciones aprobadas</h3>
-            <p>Día(s): 16/02/2024 - 18/02/2024</p>
-            <p>Comentario: Disfruta tus vacaciones</p>
-          </div>
-        </div>
-      )}
+            {selectedCapacitacionIndex !== null && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h2>Modificar Capacitación</h2>
+                        <input type="text" value={formData.Nombre} onChange={(e) => setFormData({ ...formData, Nombre: e.target.value })} />
+                        <button onClick={closeModal}>Cerrar</button>
+                        <button onClick={handleModificarCapacitacion}>Guardar cambios</button>
+                    </div>
+                </div>
+            )}
+            <div>
+                <h2>Crear nueva sede</h2>
+                <input className="Rectangle015" type="text" placeholder="Nombre de la capacitación" onChange={handleInputChange} name="Nombre" value={formData.Nombre} />
+                <input className="ubi" type="text" placeholder="Ubicación" onChange={handleInputChange} name="Ubicacion" value={formData.Ubicacion} />
+                
+                <button onClick={handleCrearCapacitacion} className="Rectangle03">
+                    <div>Registrar nueva sede</div>
+                </button>
+            </div>
 
-      {mostrarVentanaUsuario && (
-        <div className="usuarioVentanaEmergente" onClick={handleCloseVentana}>
-          <div className="contenido">
-            <h3>Información del empleado</h3>
-            <p>Nombre de empleado: John Doe</p>
-            <p>Sede: Ciudad de México</p>
-            <p>Área: Recursos Humanos</p>
-            <p>Id: 123456</p>
-          </div>
-        </div>
-      )}
+            <div>
+                <select className="tipoArea" onChange={handleInputChange} name="Area" value={formData.Area}>
+                    <option value="" defaultValue="">Tipo de área</option>
+                    <option value="Administrativa">Administrativa</option>
+                    <option value="Operativa">Operativa</option>
+                </select>
 
-    <div className="Userid1">
-        <input
-          className="Userid1"
-          type="text"
-          placeholder="   Id del Empleado"
-          value={UserId1}
-          onChange={handleUserid1Change}
-        />
-    </div>
+                <select className="tipoSede" onChange={handleInputChange} name="Sede" value={formData.Sede}>
+                    <option value="" defaultValue="">Sede</option>
+                    <option value="León">León</option>
+                    <option value="Salamanca">Salamanca</option>
+                    <option value="Dolores Hidalgo">Dolores Hidalgo</option>
+                </select>
+            </div>
 
-    <div className="Area">
-        <input
-          className="Area"
-          type="text"
-          placeholder="Área"
-          value={Area}
-          onChange={handleAreaChange}
-        />
-    </div>
+            <div style={{ width: 540, height: 37, left: 98, top: 485, position: 'absolute', color: 'black', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
+                Fechas
+            </div>
 
-    <div className="CuadroTabla1">
-      <table className="tablaBonita">
-        <thead>
-          <tr>
-            <th colSpan="4">Empleados</th>
-          </tr>
-          <tr>
-            <th>Nombre</th>
-            <th>Área</th>
-            <th>ID</th>
-            <th>Fecha</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Juan Pérez</td>
-            <td>Ventas</td>
-            <td>001</td>
-            <td>20/02/2024</td>
-          </tr>
-          <tr>
-            <td>Maria Rodríguez</td>
-            <td>Recursos Humanos</td>
-            <td>002</td>
-            <td>20/02/2024</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+            <div style={{ width: 540, height: 37, left: 98, top: 529, position: 'absolute', color: 'black', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
+                Inicio
+            </div>
 
-      <div className="agregarCap2">
-          <div className="solicitarVacaciones" onClick={handleSolicitarVacaciones}>Agregar Capacitacion</div>
-          <input
-            className="primerDia"
-            type="text"
-            placeholder="   Día"
-            value={primerDia}
-            onChange={handlePrimerDiaChange}
-          />
-          <input
-            className="ultimoDia"
-            type="text"
-            placeholder="    Hora"
-            value={ultimoDia}
-            onChange={handleUltimoDiaChange}
-          />
-          <button className="solicitar" onClick={handleSolicitarVacaciones}>Agregar</button>
-        </div>
-      </div>
-   );
+            <div style={{ width: 540, height: 37, left: 300, top: 529, position: 'absolute', color: 'black', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
+                Fin
+            </div>
+
+            <input type="date" className='fechaIni' placeholder="Fecha de inicio" name="FechaInicio" value={formData.Actividad.FechaInicio} onChange={handleInputChange} />
+            <input type="date" className='fechaFin' placeholder="Fecha de fin" name="FechaFin" value={formData.Actividad.FechaFin} onChange={handleInputChange} />
+
+            <div className="AgregarEmpleado" style={{ width: 540, height: 37, left: 98, top: 151, position: 'absolute', color: 'black', fontSize: 30, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
+                Capacitaciones
+            </div>
+
+            <div className="AgregarEmp" style={{ width: 540, height: 37, left: 98, top: 210, position: 'absolute', color: 'black', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
+                Registro de Capacitaciones
+            </div>
+        </>
+    );
 };
 
 export default Sadmicapacitacion;

@@ -267,7 +267,6 @@ app.get("/contrato/:id", async (req, res) => {
 app.put("/update_contrato/:id", async (req, res) => {
     const id = req.params.id;
     const newData = req.body;
-
     try {
         const data = await contratoModel.findOneAndUpdate({ _id: id }, newData, { new: true, omitUndefined: true });
         res.json({ success: true, message: "Datos de contrato actualizados exitosamente", data: data });
@@ -289,6 +288,96 @@ app.delete("/delete_contrato/:id", async (req, res) => {
         res.status(500).json({ success: false, message: "Error del servidor" });
     }
 });
+
+// Esquema para capacitaciones 
+const capacitacionSchema = new mongoose.Schema({
+    Nombre: String,
+    Area: String,
+    Sede: String,
+    Ubicacion: String,
+    Actividad: [
+        {
+            NombreActividad: String,
+            FechaInicio: Date,
+            FechaFin: Date  
+        }
+    ]
+}, {
+    timestamps: true
+});
+
+const CapacitacionModel = mongoose.model("capacitaciones", capacitacionSchema);
+
+// CRUD para capacitaciones
+// Crear capacitación
+app.post("/crear_capacitacion", async (req, res) => {
+    try {
+        const data = new CapacitacionModel(req.body);
+        await data.save();
+        res.json({ success: true, message: "Capacitación guardada exitosamente", data: data });
+    } catch (error) {
+        console.error("Error al crear la capacitación:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
+
+// Leer todas las capacitaciones
+app.get("/capacitaciones", async (req, res) => {
+    try {
+        const data = await CapacitacionModel.find({});
+        res.json({ success: true, data: data });
+    } catch (error) {
+        console.error("Error al obtener las capacitaciones:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
+
+// Leer una capacitación por su ID
+app.get("/capacitacion/:id", async (req, res) => {
+    const capacitacionId = req.params.id;
+
+    try {
+        const capacitacion = await CapacitacionModel.findById(capacitacionId);
+        if (!capacitacion) {
+            return res.status(404).json({ success: false, message: "Capacitación no encontrada" });
+        }
+        res.json({ success: true, data: capacitacion });
+    } catch (error) {
+        console.error("Error al obtener la capacitación:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
+
+// Actualizar capacitación
+app.put("/actualizar_capacitacion/:id", async (req, res) => {
+    const id = req.params.id;
+    const newData = req.body;
+
+    try {
+        const data = await CapacitacionModel.findByIdAndUpdate(id, newData, { new: true });
+        res.json({ success: true, message: "Capacitación actualizada exitosamente", data: data });
+    } catch (error) {
+        console.error("Error al actualizar la capacitación:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
+
+// Eliminar capacitación
+app.delete("/eliminar_capacitacion/:nombre", async (req, res) => {
+    const nombre = req.params.nombre;
+
+    try {
+        const capacitacion = await CapacitacionModel.findOneAndDelete({ Nombre: nombre });
+        if (!capacitacion) {
+            return res.status(404).json({ success: false, message: "Capacitación no encontrada" });
+        }
+        res.json({ success: true, message: "Capacitación eliminada exitosamente", data: capacitacion });
+    } catch (error) {
+        console.error("Error al eliminar la capacitación:", error);
+        res.status(500).json({ success: false, message: "Error del servidor al eliminar la capacitación" });
+    }
+});
+
 
 mongoose.connect("mongodb://127.0.0.1:27017/intel")
     .then(() => {
