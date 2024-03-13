@@ -8,10 +8,13 @@ import Login from './Screens/Login/Loggin';
 import Capacitacion from './Screens/Capacitar/Capacitacion';
 import Sadmicapacitacion from './Screens/Capacitar/Sadmicapacitacion';
 import AgregarSede from './Screens/AgregarSede/AgregarSede';
-import EmpleadoVacaciones from './Screens/EmpleadoVacaciones/App';
-import EmpleadoHorario from './Screens/EmpleadoHorario/App'
+//import EmpleadoVacaciones from './Screens/EmpleadoVacaciones/App';
+
+import Horario from './Screens/Horario/Horario';
 import Contratos from './Screens/Contratos/contratos';
 import NarBar from './Screens/NarBar.js/NarBar';
+//import Empleado from './Screens/EmpleadoVacaciones/App'
+import Vacaciones from './Screens/Vacaciones/Vacaciones';
 
 
 
@@ -28,9 +31,8 @@ function App() {
           <Route path='/sa-Modificar/:id' element={<SAModificar/>} /> 
           <Route path="/capacitacion" element={<Capacitacion/>}></Route>
           <Route path="/sadmicapacitacion" element={<Sadmicapacitacion/>}/>
-          <Route path="/empleado-vacaciones" element={<EmpleadoVacaciones />} />
-          <Route path="/empleado-horario" element={<EmpleadoHorario/>} />
-          <Route path="/empleado-horario" element={<EmpleadoHorario/>} />
+          <Route path="/vacaciones" element={<Vacaciones />} />
+          <Route path="/empleado-horario" element={<Horario/>} />
           <Route path="/narbar" element={<NarBar/>} />
         </Routes>
       </Router>
