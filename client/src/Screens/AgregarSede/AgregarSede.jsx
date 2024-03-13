@@ -27,7 +27,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 import "./AgregarSede.css"
 
-// Agrega aquí el import del componente FormDialog
+
 import FormDialog from './sede'; 
 
 const AgregarSede = () => {
@@ -60,13 +60,13 @@ const AgregarSede = () => {
     };
 
     const handleCloseDialog = () => {
-        setOpenDialog(false); // Cambiado de setOpenDialog(true) a setOpenDialog(false)
+        setOpenDialog(false); 
     };
 
     const handleUpdateSedeArea = async () => {
         try {
             await Axios.put(`http://localhost:3000/update_sede_area/${selectedSedeArea._id}`, selectedSedeArea);
-            setOpenDialog(false); // Cambiado de setOpenDialog(true) a setOpenDialog(false)
+            setOpenDialog(false); 
             const response = await Axios.get("http://localhost:3000/sedes_areas");
             setSedesAreas(response.data.data);
         } catch (error) {
@@ -95,7 +95,7 @@ const AgregarSede = () => {
             setSedesAreas(updatedSedesAreas);
             setAreaNombre("");
             setAreaTipo("");
-            setOpenAddAreaDialog(false); // Cambiado de setOpenAddAreaDialog(true) a setOpenAddAreaDialog(false)
+            setOpenAddAreaDialog(false);
             window.location.reload();
         } catch (error) {
             console.error('Error al agregar el área:', error.message);
@@ -174,12 +174,7 @@ const AgregarSede = () => {
                                                                 Tipo: {area.Tipo}, Nombre: {area.NombreArea}
                                                             </div>
                                                         ))}
-                                                       {/* <Typography variant="subtitle1">Administradores:</Typography>
-                                                        {sedeArea.Administradores.map((admin, adminIndex) => (
-                                                            <div key={adminIndex}>
-                                                                {admin.Id_Admin}
-                                                            </div>
-                                                        ))}*/}
+                                                       
                                                     </Box>
                                                 </Collapse>
                                             </TableCell>
