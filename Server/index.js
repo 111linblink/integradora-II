@@ -295,8 +295,13 @@ const capacitacionSchema = new mongoose.Schema({
     Area: String,
     Sede: String,
     Ubicacion: String,
-    FechaInicio: Date,
-    FechaFin: Date
+    Actividad: [
+        {
+            NombreActividad: String,
+            FechaInicio: Date,
+            FechaFin: Date  
+        }
+    ]
 }, {
     timestamps: true
 });
@@ -358,17 +363,21 @@ app.put("/actualizar_capacitacion/:id", async (req, res) => {
 });
 
 // Eliminar capacitación
-app.delete("/eliminar_capacitacion/:id", async (req, res) => {
-    const id = req.params.id;
+app.delete("/eliminar_capacitacion/:nombre", async (req, res) => {
+    const nombre = req.params.nombre;
 
     try {
-        const data = await CapacitacionModel.findByIdAndDelete(id);
-        res.json({ success: true, message: "Capacitación eliminada exitosamente", data: data });
+        const capacitacion = await CapacitacionModel.findOneAndDelete({ Nombre: nombre });
+        if (!capacitacion) {
+            return res.status(404).json({ success: false, message: "Capacitación no encontrada" });
+        }
+        res.json({ success: true, message: "Capacitación eliminada exitosamente", data: capacitacion });
     } catch (error) {
         console.error("Error al eliminar la capacitación:", error);
-        res.status(500).json({ success: false, message: "Error del servidor" });
+        res.status(500).json({ success: false, message: "Error del servidor al eliminar la capacitación" });
     }
 });
+
 
 mongoose.connect("mongodb://127.0.0.1:27017/intel")
     .then(() => {
