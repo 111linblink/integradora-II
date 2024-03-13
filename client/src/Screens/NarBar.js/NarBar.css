@@ -51,6 +51,7 @@
     top: 15px;
     left: 1444px;
     overflow: hidden;
+    
   }
   .v141_12 {
     width: 52px;
@@ -103,5 +104,8 @@
     top: 15px;
     left: 1082px;
     overflow: hidden;
+  }
+  .tooltip-container {
+    position: relative;
   }
   
