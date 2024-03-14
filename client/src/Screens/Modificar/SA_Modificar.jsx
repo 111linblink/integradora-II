@@ -27,7 +27,7 @@ const SA_Modificar = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/user/${id}`);
+                const response = await axios.get(`http://localhost:3000/usuarios/user/${id}`);
                 setFormData(response.data.data);
             } catch (error) {
                 console.error("Error al obtener el usuario:", error);
@@ -47,7 +47,7 @@ const SA_Modificar = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:3000/update/${id}`, formData);
+            await axios.put(`http://localhost:3000/usuarios/update/${id}`, formData);
             setShowSuccessAlert(true);
             navigate('/sa-visualizar');
         } catch (error) {

@@ -29,7 +29,7 @@ const SA_visualizar = () => {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:3000/user')
+    axios.get('http://localhost:3000/usuarios/user')
       .then(response => {
         console.log(response.data);
         setData(response.data.data);

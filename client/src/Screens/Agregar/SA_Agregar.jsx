@@ -28,7 +28,7 @@ const SA_Agregar = () => {
             return;
         }
         try {
-            await Axios.post("http://localhost:3000/create", formData);
+            await Axios.post("http://localhost:3000/usuarios/create", formData);
             setShowSuccessAlert(true);
             setShowErrorAlert(false); // Asegurarse de que la alerta de error se oculte
             setFormData({ // Limpiar los datos del formulario
