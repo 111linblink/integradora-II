@@ -11,6 +11,7 @@ import AgregarSede from './Screens/AgregarSede/AgregarSede';
 import EmpleadoVacaciones from './Screens/EmpleadoVacaciones/App';
 import EmpleadoHorario from './Screens/EmpleadoHorario/App'
 import Contratos from './Screens/Contratos/contratos';
+import Capavisualizar from './Screens/Capacitar/Capavisualizar';
 import NarBar from './Screens/NarBar.js/NarBar';
 
 
@@ -31,6 +32,7 @@ function App() {
           <Route path="/empleado-vacaciones" element={<EmpleadoVacaciones />} />
           <Route path="/empleado-horario" element={<EmpleadoHorario/>} />
           <Route path="/empleado-horario" element={<EmpleadoHorario/>} />
+          <Route path="/capavisualizar" element={<Capavisualizar/>} />
           <Route path="/narbar" element={<NarBar/>} />
         </Routes>
       </Router>

@@ -378,6 +378,25 @@ app.delete("/eliminar_capacitacion/:nombre", async (req, res) => {
     }
 });
 
+///
+
+const empleadoCapacitadoSchema = new mongoose.Schema({
+    empleado: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'empleados' // Nombre del modelo existente del empleado
+    },
+    capacitaciones: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'capacitaciones' // Nombre del modelo de capacitaciones existente
+        }
+    ]
+});
+
+const EmpleadoCapacitado = mongoose.model('empleadoCapacitado', empleadoCapacitadoSchema);
+
+module.exports = EmpleadoCapacitado;
+
 
 mongoose.connect("mongodb://127.0.0.1:27017/intel")
     .then(() => {
