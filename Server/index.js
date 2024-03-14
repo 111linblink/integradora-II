@@ -379,6 +379,28 @@ app.delete("/eliminar_capacitacion/:nombre", async (req, res) => {
     }
 });
 
+// Esquema para TipoAreas
+const tipoAreasSchema = new mongoose.Schema({
+    Tipo: String,
+    Areas: [
+        { Nombre: String }
+    ]
+}, {
+    timestamps: true
+});
+
+const tipoAreasModel = mongoose.model("TipoAreas", tipoAreasSchema);
+
+app.get("/tipos", async (req, res) => {
+    try {
+        const data = await tipoAreasModel.find({});
+        res.json({ success: true, data: data });
+    } catch (error) {
+        console.error("Error al obtener los contratos:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+});
+
 
 mongoose.connect("mongodb://127.0.0.1:27017/intel")
     .then(() => {

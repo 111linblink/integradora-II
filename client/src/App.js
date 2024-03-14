@@ -8,11 +8,14 @@ import Login from './Screens/Login/Loggin';
 import Capacitacion from './Screens/Capacitar/Capacitacion';
 import Sadmicapacitacion from './Screens/Capacitar/Sadmicapacitacion';
 import AgregarSede from './Screens/AgregarSede/AgregarSede';
-import EmpleadoVacaciones from './Screens/EmpleadoVacaciones/App';
-import EmpleadoHorario from './Screens/EmpleadoHorario/App'
+//import EmpleadoVacaciones from './Screens/EmpleadoVacaciones/App';
+
+import Horario from './Screens/Horario/Horario';
 import Contratos from './Screens/Contratos/contratos';
 import Capavisualizar from './Screens/Capacitar/Capavisualizar';
 import NarBar from './Screens/NarBar.js/NarBar';
+//import Empleado from './Screens/EmpleadoVacaciones/App'
+import Vacaciones from './Screens/Vacaciones/Vacaciones';
 
 
 
