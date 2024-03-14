@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+// Sadmicapacitacion.jsx
+import React, { useState, useEffect, createContext } from 'react';
 import NarBar from '../NarBar.js/NarBar';
 import Axios from 'axios';
 import "./Sadmicapacitacion.css";
@@ -19,6 +20,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 
+export const CapacitacionesContext = createContext();
+
 const Sadmicapacitacion = () => {
     const [formData, setFormData] = useState({
         id: "",
@@ -26,6 +29,7 @@ const Sadmicapacitacion = () => {
         Area: "",
         Sede: "",
         Ubicacion: "",
+        Descripcion:"",
         Actividad: {
             NombreActividad: "",
             FechaInicio: "",
@@ -76,6 +80,7 @@ const Sadmicapacitacion = () => {
                 Area: "",
                 Sede: "",
                 Ubicacion: "",
+                Descripcion: "",
                 Actividad: {
                     NombreActividad: "",
                     FechaInicio: "",
@@ -133,6 +138,7 @@ const Sadmicapacitacion = () => {
                                         <TableCell>Área</TableCell>
                                         <TableCell>Sede</TableCell>
                                         <TableCell>Ubicación</TableCell>
+                                        <TableCell>Descripción</TableCell>
                                         <TableCell>Acciones</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -144,6 +150,7 @@ const Sadmicapacitacion = () => {
                                             <TableCell>{capacitacion.Area}</TableCell>
                                             <TableCell>{capacitacion.Sede}</TableCell>
                                             <TableCell>{capacitacion.Ubicacion}</TableCell>
+                                            <TableCell>{capacitacion.Descripcion}</TableCell>
                                             <TableCell>
                                                 <Button onClick={() => handleEliminarCapacitacion(capacitacion.Nombre)} variant="outlined" color="secondary" startIcon={<DeleteIcon />}>Eliminar</Button>
                                                 <Button onClick={() => {
@@ -153,6 +160,7 @@ const Sadmicapacitacion = () => {
                                                         Area: capacitacion.Area,
                                                         Sede: capacitacion.Sede,
                                                         Ubicacion: capacitacion.Ubicacion,
+                                                        Descripcion: capacitacion.Descripcion,
                                                         Actividad: {
                                                             NombreActividad: capacitacion.Actividad.NombreActividad,
                                                             FechaInicio: capacitacion.Actividad.FechaInicio,
@@ -196,6 +204,15 @@ const Sadmicapacitacion = () => {
                         value={formData.Ubicacion}
                         onChange={(e) => setFormData({ ...formData, Ubicacion: e.target.value })}
                     />
+                    <TextField
+                        margin="dense"
+                        id="descripcion"
+                        label="Descripción"
+                        type="text"
+                        fullWidth
+                        value={formData.Descripcion}
+                        onChange={(e) => setFormData({ ...formData, Descripcion: e.target.value })}
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={closeModal} color="primary">
@@ -211,6 +228,8 @@ const Sadmicapacitacion = () => {
                 <h2>Crear nueva capacitación</h2>
                 <input className="Rectangle015" type="text" placeholder="Nombre de la capacitación" onChange={handleInputChange} name="Nombre" value={formData.Nombre} />
                 <input className="ubi" type="text" placeholder="Ubicación" onChange={handleInputChange} name="Ubicacion" value={formData.Ubicacion} />
+                <input className="descripcion" type="text" placeholder="Descripción" onChange={handleInputChange} name="Descripcion" value={formData.Descripcion} />
+
 
                 <button onClick={handleCrearCapacitacion} className="Rectangle03">
                     <div>Registrar nueva capacitación</div>
@@ -234,16 +253,12 @@ const Sadmicapacitacion = () => {
                 </select>
             </div>
 
-            <div style={{ width: 540, height: 37, left: 98, top: 485, position: 'absolute', color: 'black', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
-                Fechas
-            </div>
-
             <div style={{ width: 540, height: 37, left: 98, top: 529, position: 'absolute', color: 'black', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
-                Inicio
+                 Fecha Inicio
             </div>
 
             <div style={{ width: 540, height: 37, left: 300, top: 529, position: 'absolute', color: 'black', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
-                Fin
+                Fecha Final
             </div>
 
             <input type="date" className='fechaIni' placeholder="Fecha de inicio" name="FechaInicio" value={formData.Actividad.FechaInicio} onChange={handleInputChange} />

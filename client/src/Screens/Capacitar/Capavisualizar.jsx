@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import NarBar from '../NarBar.js/NarBar';
 import axios from 'axios';
-import "./Capavisualizar.css";
 import { DataGrid } from '@mui/x-data-grid';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import CatalogoCapacitaciones from './CatalogoCapacitaciones'; // Importa la vista CatalogoCapacitaciones
 
 const Capavisualizar = () => {
   const [data, setData] = useState([]);
@@ -17,18 +21,9 @@ const Capavisualizar = () => {
   const [numeroEmpleadoBuscado, setNumeroEmpleadoBuscado] = useState('');
   const [openAlert, setOpenAlert] = useState(false);
   const [deletedUserName, setDeletedUserName] = useState('');
-
-  useEffect(() => {
-    axios.get('http://localhost:3000/user')
-      .then(response => {
-        // Asignar un id único a cada fila
-        const rowsWithIds = response.data.data.map((row, index) => ({ ...row, id: index }));
-        setData(rowsWithIds);
-      })
-      .catch(error => {
-        console.error('Error al obtener datos:', error);
-      });
-  }, []);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [capacitaciones, setCapacitaciones] = useState([]);
 
   const handleSedeChange = (event) => {
     setSedeSeleccionada(event.target.value);
@@ -50,15 +45,57 @@ const Capavisualizar = () => {
     setNumeroEmpleadoBuscado(event.target.value);
   };
 
-  const handleDelete = (id, userName) => {
-    axios.delete(`http://localhost:3000/delete/${id}`)
-      .then(res => {
-        setDeletedUserName(userName);
-        setOpenAlert(true);
-        const updatedData = data.filter(user => user._id !== id);
-        setData(updatedData);
+  useEffect(() => {
+    axios.get('http://localhost:3000/user')
+      .then(response => {
+        const usuariosConId = response.data.data.map((usuario, index) => ({
+          ...usuario,
+          id: usuario._id || index + 1, // Asigna un id único basado en el _id o en el índice
+        }));
+        setData(usuariosConId);
       })
-      .catch(err => console.log(err))
+      .catch(error => {
+        console.error('Error al obtener datos:', error);
+      });
+
+    // Cargar capacitaciones al montar el componente
+    axios.get('http://localhost:3000/capacitaciones')
+      .then(response => {
+        setCapacitaciones(response.data.data);
+      })
+      .catch(error => {
+        console.error('Error al obtener capacitaciones:', error);
+      });
+  }, []);
+
+  const handleRowSelection = (selection) => {
+    setSelectedUser(selection);
+  };
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleAssignCapacitaciones = (capacitacion) => {
+    // Lógica para asignar capacitaciones a los usuarios seleccionados
+    // Aquí puedes realizar la lógica para guardar la capacitación asignada a los usuarios seleccionados
+    // Puedes usar el estado 'selectedUser' para obtener los usuarios seleccionados
+    // y la capacitación pasada como argumento para asignarla a estos usuarios
+    handleCloseDialog();
+  };
+
+  const handleDelete = (id, nombre) => {
+    // Lógica para eliminar un usuario
+    setOpenAlert(true);
+    setDeletedUserName(nombre);
+  };
+
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
   };
 
   const columns = [
@@ -75,7 +112,7 @@ const Capavisualizar = () => {
       width: 500,
       renderCell: (params) => (
         <div>
-          <Button className="actions-button" variant="outlined" onClick={() => window.location.href=`/sa-Modificar/${params.row.id}`}>Modificar/Ver Datos</Button>
+          <Button className="actions-button" variant="outlined" onClick={handleOpenDialog}>Asignar Capacitación</Button>
           <Button onClick={() => handleDelete(params.row.id, params.row.Nombre)} variant="outlined" color="error" startIcon={<DeleteIcon />}>Eliminar</Button>
         </div>
       ),
@@ -92,13 +129,9 @@ const Capavisualizar = () => {
     );
   });
 
-  const usuarios = usuariosFiltrados.map((usuario, index) => {
-    return { ...usuario, id: usuario._id || index };
+  const usuariosConId = usuariosFiltrados.map((usuario, index) => {
+    return { ...usuario, id: usuario._id || index + 1 };
   });
-
-  const handleCloseAlert = () => {
-    setOpenAlert(false);
-  };
 
   return (
     <>
@@ -106,41 +139,32 @@ const Capavisualizar = () => {
       <div className="v141_16">
         <div style={{ height: 400, width: '100%', marginTop: 100 }}>
           <DataGrid
-            rows={usuarios}
+            rows={usuariosConId}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5, 10, 20]}
             checkboxSelection
+            onSelectionModelChange={handleRowSelection}
           />
         </div>
       </div>
 
-      <select className="v141_72 v141_73" value={sedeSeleccionada} onChange={handleSedeChange}>
-        <option value=''>Seleccione una Sede</option>
-        <option value="Leon">Leon</option>
-        <option value="Salamanca">Salamanca</option>
-      </select>
-           
-      <select className="v141_74 v141_75" value={areaSeleccionada} onChange={handleAreaChange}>
-        <option value=''>Seleccione una Area</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-      </select>
-      
-      <select className="v141_76 v141_77" value={estadoSeleccionado} onChange={handleEstadoChange}>
-        <option value=''>Seleccione un Estado</option>
-        <option value="Activo">Activo</option>
-        <option value="Inactivo">Inactivo</option>
-      </select>
-
-      <select className="v141_78 v141_79" value={generoSeleccionado} onChange={handleGeneroChange}>
-        <option value=''>Seleccione un Tipo</option>
-        <option value="Empleado">Empleado</option>
-        <option value="Admin">Admin</option>
-      </select>
-
-      <div className="v141_17"></div>
-      <input type="text" value={numeroEmpleadoBuscado} onChange={handleNumeroEmpleadoChange} placeholder="Buscar Num.Empleado" className='v141_18 ' />
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Asignar Capacitaciones</DialogTitle>
+        <DialogContent>
+          <div>
+            <h3>Capacitaciones Disponibles:</h3>
+            <CatalogoCapacitaciones
+              handleClose={handleCloseDialog}
+              handleAsignarCapacitacion={handleAssignCapacitaciones}
+              capacitaciones={capacitaciones} // Pasar capacitaciones como prop
+            />
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">Cancelar</Button>
+        </DialogActions>
+      </Dialog>
 
       <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
         <MuiAlert onClose={handleCloseAlert} severity="success" sx={{ width: '100%' }}>

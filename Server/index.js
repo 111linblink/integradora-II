@@ -295,6 +295,7 @@ const capacitacionSchema = new mongoose.Schema({
     Area: String,
     Sede: String,
     Ubicacion: String,
+    Descripcion: String,
     Actividad: [
         {
             NombreActividad: String,
@@ -377,25 +378,6 @@ app.delete("/eliminar_capacitacion/:nombre", async (req, res) => {
         res.status(500).json({ success: false, message: "Error del servidor al eliminar la capacitación" });
     }
 });
-
-///
-
-const empleadoCapacitadoSchema = new mongoose.Schema({
-    empleado: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'empleados' // Nombre del modelo existente del empleado
-    },
-    capacitaciones: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'capacitaciones' // Nombre del modelo de capacitaciones existente
-        }
-    ]
-});
-
-const EmpleadoCapacitado = mongoose.model('empleadoCapacitado', empleadoCapacitadoSchema);
-
-module.exports = EmpleadoCapacitado;
 
 
 mongoose.connect("mongodb://127.0.0.1:27017/intel")
