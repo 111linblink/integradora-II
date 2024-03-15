@@ -126,7 +126,7 @@ const Sadmicapacitacion = () => {
             <NarBar />
             <div className="SupAdmin">
                 <div className="Rectangle020" />
-                <div className="Rectangle016" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                <div className="Rectangle016" style={{ maxHeight: '550px', overflowY: 'auto' }}>
                     <div>
                         <h2>Listado de capacitaciones</h2>
                         <TableContainer component={Paper}>
@@ -234,7 +234,7 @@ const Sadmicapacitacion = () => {
                 <button onClick={handleCrearCapacitacion} className="Rectangle03">
                     <div>Registrar nueva capacitación</div>
                 </button>
-                <Button className="actions-button" style={{ width: 200, height: 40, left: 1184, top: 2}} variant="outlined"  onClick={() => window.location.href=`/capavisualizar/`}>Asignar Capacitación</Button>
+                <Button className="actions-button" style={{ width: 200, height: 40, left: 1255, top: 2}} variant="outlined"  onClick={() => window.location.href=`/capavisualizar/`}>Asignar Capacitación</Button>
 
             </div>
 

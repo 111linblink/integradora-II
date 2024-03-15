@@ -401,6 +401,20 @@ app.get("/tipos", async (req, res) => {
     }
 });
 
+app.post("/asignar_capacitaciones_empleado", async (req, res) => {
+    const { asignaciones } = req.body;
+  
+    try {
+      // Guardar las asignaciones en la base de datos
+      await AsignacionesModel.insertMany(asignaciones);
+  
+      res.json({ success: true, message: "Capacitaciones asignadas exitosamente a los empleados seleccionados" });
+    } catch (error) {
+      console.error("Error al asignar capacitaciones a empleados:", error);
+      res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+  });  
+  
 
 mongoose.connect("mongodb://127.0.0.1:27017/intel")
     .then(() => {
