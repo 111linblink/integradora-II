@@ -12,6 +12,10 @@ const sedeSchema = new Schema({
             Tipo: String,
             NombreArea: String
         }
+    ],
+    Empleados:
+    [
+        {id:Number}
     ]
 }, {
     timestamps: true
