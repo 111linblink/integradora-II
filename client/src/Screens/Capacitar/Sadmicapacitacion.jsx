@@ -44,7 +44,7 @@ const Sadmicapacitacion = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await Axios.get("http://localhost:3000/capacitaciones");
+                const response = await Axios.get("http://localhost:3000/capacitaciones/capacitaciones");
                 setCapacitaciones(response.data.data);
             } catch (error) {
                 console.error('Error al obtener las capacitaciones:', error.message);

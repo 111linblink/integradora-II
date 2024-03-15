@@ -16,7 +16,7 @@ const SA_visualizar = () => {
   const [sedeSeleccionada, setSedeSeleccionada] = useState('');
   const [areaSeleccionada, setAreaSeleccionada] = useState('');
   const [estadoSeleccionado, setEstadoSeleccionado] = useState('');
-  const [generoSeleccionado, setGeneroSeleccionado] = useState('');
+  const [tipoSeleccionado, setTipoSeleccionado] = useState('');
   const [numeroEmpleadoBuscado, setNumeroEmpleadoBuscado] = useState('');
   const [openAlert, setOpenAlert] = useState(false);
   const [deletedUserName, setDeletedUserName] = useState('');
@@ -29,7 +29,7 @@ const SA_visualizar = () => {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:3000/user')
+    axios.get('http://localhost:3000/usuarios/user')
       .then(response => {
         console.log(response.data);
         setData(response.data.data);
@@ -38,7 +38,7 @@ const SA_visualizar = () => {
         console.error('Error al obtener datos:', error);
       });
 
-    axios.get('http://localhost:3000/sedes_areas') // Obtener la lista de sedes disponibles
+    axios.get('http://localhost:3000/sedes/sedes_areas') // Obtener la lista de sedes disponibles
       .then(response => {
         console.log(response.data);
         setSedes(response.data.data.map(sede => sede.Nombre)); // Almacenar solo los nombres de sedes
@@ -47,14 +47,16 @@ const SA_visualizar = () => {
         console.error('Error al obtener las sedes:', error);
       });
 
-    axios.get('http://localhost:3000/tipos') // Obtener la lista de tipos de áreas disponibles
+    axios.get('http://localhost:3000/tipoUsuario/ver')
       .then(response => {
         console.log(response.data);
-        setAreas(response.data.data.map(area => area.Tipo)); // Almacenar solo los tipos de áreas
+        const tiposDeUsuario = response.data.data.map(tipo => tipo.Tipo);
+        setAreas(tiposDeUsuario);
       })
       .catch(error => {
-        console.error('Error al obtener los tipos de áreas:', error);
+        console.error('Error al obtener los tipos de usuario:', error);
       });
+
   }, []);
 
   const handleSedeChange = (event) => {
@@ -69,8 +71,8 @@ const SA_visualizar = () => {
     setEstadoSeleccionado(event.target.value);
   };
 
-  const handleGeneroChange = (event) => {
-    setGeneroSeleccionado(event.target.value);
+  const handleTipoChange = (event) => {
+    setTipoSeleccionado(event.target.value);
   };
 
   const handleNumeroEmpleadoChange = (event) => {
@@ -116,7 +118,7 @@ const SA_visualizar = () => {
     (sedeSeleccionada === '' || user.Sede === sedeSeleccionada) &&
     (areaSeleccionada === '' || user.Area === areaSeleccionada) &&
     (estadoSeleccionado === '' || user.Status === estadoSeleccionado) &&
-    (generoSeleccionado === '' || user.Tipo === generoSeleccionado) &&
+    (tipoSeleccionado === '' || user.Tipo === tipoSeleccionado) &&
     (numeroEmpleadoBuscado === '' || (user.Numero_Empleado && user.Numero_Empleado.toString().includes(numeroEmpleadoBuscado)))
   ));
 
@@ -146,24 +148,26 @@ const SA_visualizar = () => {
           <option key={index} value={sede}>{sede}</option>
         ))}
       </select>
-           
+
       <select className="v141_74 v141_75" value={areaSeleccionada} onChange={handleAreaChange}>
         <option value=''>Seleccione una Área</option>
         {areas.map((area, index) => (
           <option key={index} value={area}>{area}</option>
         ))}
       </select>
-      
+
       <select className="v141_76 v141_77" value={estadoSeleccionado} onChange={handleEstadoChange}>
         <option value=''>Seleccione un Estado</option>
         <option value="Activo">Activo</option>
         <option value="Inactivo">Inactivo</option>
       </select>
-      <select className="v141_78 v141_79" value={generoSeleccionado} onChange={handleGeneroChange}>
-        <option  value=''>Seleccione un Tipo</option>
-        <option value="Empleado">Empleado</option>
-        <option value="Admin">Admin</option>
-      </select>
+      
+      <select className="v141_78 v141_79" value={tipoSeleccionado} onChange={handleTipoChange}>
+  <option  value=''>Seleccione un Tipo</option>
+  {areas.map((tipo, index) => (
+    <option key={index} value={tipo}>{tipo}</option>
+  ))}
+</select>
 
       <div className="v141_17"></div>
       <input type="text" value={numeroEmpleadoBuscado} onChange={handleNumeroEmpleadoChange} placeholder="Buscar Num.Empleado" className='v141_18 ' />
