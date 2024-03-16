@@ -34,7 +34,7 @@ export default function FormDialog() {
     const handleFormSubmit = async (event) => {
         event.preventDefault();
         try {
-            await Axios.post("http://localhost:3000/create_sede_area", formData);
+            await Axios.post("http://localhost:3000/sedes/create_sede_area", formData);
             setFormData({
                 Nombre: "",
                 Ubicacion: ""

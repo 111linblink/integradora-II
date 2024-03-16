@@ -3,8 +3,10 @@ const Schema = mongoose.Schema
 
 const contratoSchema = new Schema({
     Tipo: Number,
-    Turno: Number,
-    Horario: String
+    Turno: [{
+        Numero: Number,
+        Horario: String
+    }]
 }, {
     timestamps: true
 });

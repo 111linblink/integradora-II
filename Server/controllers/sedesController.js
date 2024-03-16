@@ -65,3 +65,22 @@ export const deleteSede = async (req, res) => {
         res.status(500).json({ success: false, message: "Error del servidor" });
     }
 };
+export const deleteArea = async (req, res) => {
+    const sedeId = req.params.id;
+    const areaId = req.params.areaId;
+
+    try {
+        const sede = await sedeModel.findById(sedeId);
+        if (!sede) {
+            return res.status(404).json({ success: false, message: "Sede no encontrada" });
+        }
+
+        sede.Areas.pull({ _id: areaId });
+        await sede.save();
+
+        res.json({ success: true, message: "Área eliminada exitosamente" });
+    } catch (error) {
+        console.error("Error al eliminar el área:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+};

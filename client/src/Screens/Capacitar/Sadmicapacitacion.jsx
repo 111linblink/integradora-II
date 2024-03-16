@@ -73,9 +73,8 @@ const Sadmicapacitacion = () => {
 
     const handleCrearCapacitacion = async () => {
         try {
-            await Axios.post("http://localhost:3000/crear_capacitacion", formData);
+            await Axios.post("http://localhost:3000/capacitaciones/crear_capacitacion", formData);
             setFormData({
-                id: "",
                 Nombre: "",
                 Area: "",
                 Sede: "",
@@ -95,9 +94,9 @@ const Sadmicapacitacion = () => {
 
     const handleEliminarCapacitacion = async (id) => {
         try {
-            await Axios.delete(`http://localhost:3000/eliminar_capacitacion/${id}`);
+            await Axios.delete(`http://localhost:3000/capacitaciones/eliminar_capacitacion/${id}`);
             alert(`Capacitación eliminada correctamente.`);
-            const response = await Axios.get("http://localhost:3000/capacitaciones");
+            const response = await Axios.get("http://localhost:3000/capacitaciones/capacitaciones");
             setCapacitaciones(response.data.data);
         } catch (error) {
             console.error(`Error al eliminar la capacitación:`, error.message);
@@ -111,10 +110,10 @@ const Sadmicapacitacion = () => {
 
     const handleGuardarCambios = async () => {
         try {
-            await Axios.put(`http://localhost:3000/actualizar_capacitacion/${formData.id}`, formData);
+            await Axios.put(`http://localhost:3000/capacitaciones/actualizar_capacitacion/${formData.id}`, formData);
             alert(`Capacitación modificada correctamente.`);
             setOpenDialog(false);
-            const response = await Axios.get("http://localhost:3000/capacitaciones");
+            const response = await Axios.get("http://localhost:3000/capacitaciones/capacitaciones");
             setCapacitaciones(response.data.data);
         } catch (error) {
             console.error('Error al guardar los cambios:', error.message);
@@ -126,7 +125,7 @@ const Sadmicapacitacion = () => {
             <NarBar />
             <div className="SupAdmin">
                 <div className="Rectangle020" />
-                <div className="Rectangle016" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                <div className="Rectangle016" style={{ maxHeight: '550px', overflowY: 'auto' }}>
                     <div>
                         <h2>Listado de capacitaciones</h2>
                         <TableContainer component={Paper}>
@@ -234,7 +233,7 @@ const Sadmicapacitacion = () => {
                 <button onClick={handleCrearCapacitacion} className="Rectangle03">
                     <div>Registrar nueva capacitación</div>
                 </button>
-                <Button className="actions-button" style={{ width: 200, height: 40, left: 1184, top: 2}} variant="outlined"  onClick={() => window.location.href=`/capavisualizar/`}>Asignar Capacitación</Button>
+                <Button className="actions-button" style={{ width: 200, height: 40, left: 1255, top: 2}} variant="outlined"  onClick={() => window.location.href=`/capavisualizar/`}>Asignar Capacitación</Button>
 
             </div>
 

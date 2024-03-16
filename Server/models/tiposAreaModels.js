@@ -10,4 +10,4 @@ const tipoAreasSchema = new Schema({
     timestamps: true
 });
 
-export default mongoose.model("TipoAreas", tipoAreasSchema);
+export default mongoose.model("tipoAreas", tipoAreasSchema);

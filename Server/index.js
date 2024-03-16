@@ -1,11 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-
 import { routesUsuario } from './routes/routesUsuario.js'; // Importa las rutas de usuario
 import { routesCapacitaciones } from './routes/routerCapacitaciones.js';
 import { routesContrato } from './routes/routerContrato.js';
 import { routesSedes } from './routes/routesSedes.js';
+import { routesTipoAreas } from './routes/routerTipoArea.js';
+import { routesTipoUsuario } from './routes/routerTipoUsuarios.js';
 import { routesVacaciones } from './routes/routerVacaciones.js';
 
 const app = express();
@@ -22,7 +23,9 @@ app.use('/usuarios', routesUsuario);
 app.use('/capacitaciones', routesCapacitaciones); 
 app.use('/contrato', routesContrato); 
 app.use('/sedes', routesSedes); 
-app.use('/vacaciones',routesVacaciones)
+app.use ('/tipoArea',routesTipoAreas);
+app.use ('/tipoUsuario',routesTipoUsuario);
+app.use ('/vacaciones', routesVacaciones);
 
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
