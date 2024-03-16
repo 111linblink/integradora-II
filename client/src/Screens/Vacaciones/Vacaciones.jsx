@@ -1,58 +1,118 @@
-import React, { useState } from 'react';
-import './Vacaciones.css'; // Import del archivo CSS
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import './Vacaciones.css';
+import { DataGrid } from '@mui/x-data-grid';
+import TextField from '@mui/material/TextField';
+import { Alert, Button } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Axios from 'axios';
+import NavbarEmpleado from '../NavBar-Empleado/navbarEmpleado';
 
 const Vacaciones = () => {
-    const [tipoContrato, setTipoContrato] = useState('');
-    const [dias, setDias] = useState('');
-    const [primerDia, setPrimerDia] = useState('');
-    const [ultimoDia, setUltimoDia] = useState('');
-    const [date, setDate] = useState(new Date());
-    const [mostrarVentanaNotificaciones, setMostrarVentanaNotificaciones] = useState(false);
-    const [mostrarVentanaUsuario, setMostrarVentanaUsuario] = useState(false);
-  
-    const handleTipoContratoChange = (event) => {
-      setTipoContrato(event.target.value);
-    };
-  
-    const handleDiasChange = (event) => {
-      setDias(event.target.value);
-    };
-  
-    const handlePrimerDiaChange = (event) => {
-      setPrimerDia(event.target.value);
-    };
-  
-    const handleUltimoDiaChange = (event) => {
-      setUltimoDia(event.target.value);
-    };
-  
-    const handleDateChange = (date) => {
-      setDate(date);
-    };
-  
-    const handleSolicitarContrato = () => {
-      console.log('Contrato solicitado');
-    };
-  
-    const handleSolicitarVacaciones = () => {
-      console.log('Vacaciones solicitadas');
-    };
-  
-    const handleMostrarVentanaNotificaciones = () => {
-      setMostrarVentanaNotificaciones(true);
-    };
-  
-    const handleMostrarVentanaUsuario = () => {
-      setMostrarVentanaUsuario(true);
-    };
-  
-    const handleCloseVentana = () => {
-      setMostrarVentanaNotificaciones(false);
-      setMostrarVentanaUsuario(false);
-    };
-  
-    return (
+  const [formData, setFormData] = useState({
+    DiaIni: "",
+    DiaFin: ""
+  });
+
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const [vacaciones, setVacaciones] = useState([]);
+
+  useEffect(() => {
+    fetchVacaciones();
+  }, []);
+
+  const fetchVacaciones = async () => {
+    try {
+      const response = await Axios.get("http://localhost:3000/Vacaciones/solicitudes_vacaciones");
+      if (response.data && Array.isArray(response.data.data)) {
+        setVacaciones(response.data.data);
+      } else {
+        console.error('Error: El servidor no devolvió una matriz de vacaciones.');
+        setVacaciones([]);
+      }
+    } catch (error) {
+      console.error('Error al obtener las peticiones de vacaciones:', error.message);
+      setVacaciones([]);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await Axios.delete(`http://localhost:3000/Vacaciones/eliminar_solicitud_vacaciones/${id}`);
+      setShowSuccessAlert(true);
+      setShowErrorAlert(false);
+      fetchVacaciones(); // Actualiza la lista de solicitudes después de eliminar una
+      setTimeout(() => {
+        setShowSuccessAlert(false); // Oculta el mensaje después de 5 segundos
+      }, 5000);
+    } catch (error) {
+      console.error('Error al eliminar la solicitud de vacaciones:', error.message);
+      setShowErrorAlert(true);
+      setShowSuccessAlert(false);
+    }
+  };
+
+  const rows = vacaciones.map((vacacion, index) => ({
+    id: vacacion._id,
+    DiaIni: vacacion.DiaIni,
+    DiaFin: vacacion.DiaFin,
+    Estado: vacacion.Estado
+  }));
+
+  const columns = [
+    { field: 'DiaIni', headerName: 'Primer Día', width: 150 },
+    { field: 'DiaFin', headerName: 'Último Día', width: 150 },
+    { field: 'Estado', headerName: 'Estado', width: 150 },
+    {
+      field: 'actions',
+      headerName: 'Acciones',
+      width: 200,
+      renderCell: (params) => (
+        <div>
+          <Button onClick={() => handleDelete(params.row.id)} variant="outlined" color="error" startIcon={<DeleteIcon />}>Eliminar</Button>
+        </div>
+      ),
+    },
+  ];
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: value
+    });
+  };
+
+  const SolicitarVacaciones = async (event) => {
+    event.preventDefault();
+    const requiredFields = ['DiaIni', 'DiaFin'];
+    const fieldsAreFilled = requiredFields.every(field => formData[field] !== "");
+    if (!fieldsAreFilled) {
+      setShowErrorAlert(true);
+      setShowSuccessAlert(false);
+      return;
+    }
+    try {
+      await Axios.post("http://localhost:3000/Vacaciones/crear_solicitud_vacaciones", formData);
+      setShowSuccessAlert(true);
+      setShowErrorAlert(false);
+      setFormData({
+        DiaIni: "",
+        DiaFin: ""
+      });
+      fetchVacaciones(); // Actualiza la lista de solicitudes después de crear una nueva
+      setTimeout(() => {
+        setShowSuccessAlert(false); // Oculta el mensaje después de 5 segundos
+      }, 3000);
+    } catch (error) {
+      console.error('Error al crear la solicitud de vacaciones:', error.message);
+      setShowErrorAlert(true);
+      setShowSuccessAlert(false);
+    }
+  };
+
+  return (
+    <>
       <div style={{
         position: 'relative',
         width: '100%',
@@ -63,25 +123,7 @@ const Vacaciones = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }} className="root">
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          width: '100%',
-          height: 100,
-          backgroundColor: '#FFFFFF',
-        }} className="cabecera">
-          <img className="logo" src="../assets/Logo.png" alt="Logo" style={{ position: 'absolute', top: 0, left: 5, width: 100, height: 100 }} />
-          <Link to="/empleado-vacaciones">
-            <img className="calendario" src="../assets/Calendario.png" alt="Calendario" style={{ position: 'absolute', top: 32, left: 1180, width: 42, height: 42 }} />
-          </Link>
-          <Link to="/empleado-horario">
-            <img className="horarioEmpleado" src="../assets/Horario-empleado.png" alt="Horario empleado" style={{ position: 'absolute', top: 32, left: 1260, width: 42, height: 42 }} />
-          </Link>
-          <img className="notificaciones" src="../assets/Notificaciones.png" alt="Notificaciones" onClick={handleMostrarVentanaNotificaciones} style={{ position: 'absolute', top: 32, left: 1340, cursor: 'pointer', width: 42, height: 42 }} />
-          <img className="usuarioCabecera" src="../assets/Usuario.png" alt="Usuario" onClick={handleMostrarVentanaUsuario} style={{ position: 'absolute', top: 32, left: 1420, cursor: 'pointer', width: 42, height: 42 }} />
-        </div>
-  
+      <NavbarEmpleado />
         <div className="rectangulo1">
           <img className="usuario" src="../assets/Usuario.png" alt="Usuario"/>
           <div className="nombreEmpleado">Nombre de empleado</div>
@@ -89,69 +131,59 @@ const Vacaciones = () => {
             className="tipoContrato"
             type="text"
             placeholder="   Tipo de contrato"
-            value={tipoContrato}
-            onChange={handleTipoContratoChange}
           />
           <input
             className="dias"
             type="text"
             placeholder="   Días"
-            value={dias}
-            onChange={handleDiasChange}
           />
-          <button className="solicitarContrato" onClick={handleSolicitarContrato}>Solicitar contrato</button>
+          <button className="solicitarContrato">Solicitar contrato</button>
         </div>
-  
-        {mostrarVentanaNotificaciones && (
-          <div className="ventanaEmergente" onClick={handleCloseVentana}>
-            <div className="contenido">
-              <h3>Vacaciones aprobadas</h3>
-              <p>Día(s): 16/02/2024 - 18/02/2024</p>
-              <p>Comentario: Disfruta tus vacaciones</p>
-            </div>
-          </div>
-        )}
-  
-        {mostrarVentanaUsuario && (
-          <div className="usuarioVentanaEmergente" onClick={handleCloseVentana}>
-            <div className="contenido">
-              <h3>Información del empleado</h3>
-              <p>Nombre de empleado: John Doe</p>
-              <p>Sede: Ciudad de México</p>
-              <p>Área: Recursos Humanos</p>
-              <p>Id: 123456</p>
-            </div>
-          </div>
-        )}
-  
         <div className="rectangulo2">
-          <div className="calendarioInterior">
-            {/* Calendar Component Removed */}
-          </div>
-          <div className="textoCalendario">Calendario</div>
-  
+          <div className="textoCalendario">Solicitudes</div>
           <div className="rectanguloInterior">
-            <div className="solicitarVacaciones" onClick={handleSolicitarVacaciones}>Solicitar vacaciones</div>
-            <input
-              className="primerDia"
-              type="text"
-              placeholder="   Primer día"
-              value={primerDia}
-              onChange={handlePrimerDiaChange}
+            <div className="solicitarVacaciones">Solicitar vacaciones</div>
+            <TextField
+              id="DiaIni"
+              label="Primer día"
+              type="date"
+              value={formData.DiaIni}
+              onChange={handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              className="primerDia" // Nueva clase CSS para el primer día
             />
-            <input
-              className="ultimoDia"
-              type="text"
-              placeholder="   Último día"
-              value={ultimoDia}
-              onChange={handleUltimoDiaChange}
+            <TextField
+              id="DiaFin"
+              label="Último día"
+              type="date"
+              value={formData.DiaFin}
+              onChange={handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              className="ultimoDia" // Nueva clase CSS para el último día
             />
-            <button className="solicitar" onClick={handleSolicitarVacaciones}>Solicitar</button>
+
+            <button className="solicitar" onClick={SolicitarVacaciones}>Solicitar</button>
           </div>
+        </div>
+        <div style={{ height: '55%', 
+          width: '45%', 
+          position: 'absolute',
+          top: '35%',
+          left: '30%'
+           }}>
+          <DataGrid rows={rows} columns={columns} pageSize={5} />
+        </div>
+        <div className="alert-container">
+          {showSuccessAlert && <Alert variant="filled" severity="success">El cambio se ha hecho correctamente</Alert>}
+          {showErrorAlert && <Alert variant="filled" severity="error">Error</Alert>}
         </div>
       </div>
-    );
-  };
-  
+    </>
+  );
+};
 
 export default Vacaciones;

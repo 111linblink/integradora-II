@@ -32,9 +32,8 @@ function App() {
           <Route path='/sa-Modificar/:id' element={<SAModificar/>} /> 
           <Route path="/capacitacion" element={<Capacitacion/>}></Route>
           <Route path="/sadmicapacitacion" element={<Sadmicapacitacion/>}/>
-          <Route path="/empleado-vacaciones" element={<EmpleadoVacaciones />} />
-          <Route path="/empleado-horario" element={<EmpleadoHorario/>} />
-          <Route path="/empleado-horario" element={<EmpleadoHorario/>} />
+          <Route path="/vacaciones" element={<Vacaciones />} />
+          <Route path="/horario" element={<Horario/>} />
           <Route path="/capavisualizar" element={<Capavisualizar/>} />
           <Route path="/narbar" element={<NarBar/>} />
         </Routes>

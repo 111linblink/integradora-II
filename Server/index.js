@@ -6,6 +6,7 @@ import { routesUsuario } from './routes/routesUsuario.js'; // Importa las rutas 
 import { routesCapacitaciones } from './routes/routerCapacitaciones.js';
 import { routesContrato } from './routes/routerContrato.js';
 import { routesSedes } from './routes/routesSedes.js';
+import { routesVacaciones } from './routes/routerVacaciones.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,6 +22,7 @@ app.use('/usuarios', routesUsuario);
 app.use('/capacitaciones', routesCapacitaciones); 
 app.use('/contrato', routesContrato); 
 app.use('/sedes', routesSedes); 
+app.use('/vacaciones',routesVacaciones)
 
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
