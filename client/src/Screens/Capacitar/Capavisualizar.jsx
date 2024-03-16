@@ -21,7 +21,7 @@ const Capavisualizar = () => {
   const [selectedCapacitacion, setSelectedCapacitacion] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/user')
+    axios.get('http://localhost:3000/usuarios/user')
       .then(response => {
         const usuariosConId = response.data.data.map((usuario, index) => ({
           ...usuario,
@@ -34,7 +34,7 @@ const Capavisualizar = () => {
       });
   
     // Cargar capacitaciones al montar el componente
-    axios.get('http://localhost:3000/capacitaciones')
+    axios.get('http://localhost:3000/capacitaciones/capacitaciones')
       .then(response => {
         const capacitacionesConId = response.data.data.map((capacitacion, index) => ({
           ...capacitacion,
