@@ -10,43 +10,18 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import CatalogoCapacitaciones from './CatalogoCapacitaciones'; // Importa la vista CatalogoCapacitaciones
 
 const Capavisualizar = () => {
   const [data, setData] = useState([]);
-  const [sedeSeleccionada, setSedeSeleccionada] = useState('');
-  const [areaSeleccionada, setAreaSeleccionada] = useState('');
-  const [estadoSeleccionado, setEstadoSeleccionado] = useState('');
-  const [generoSeleccionado, setGeneroSeleccionado] = useState('');
-  const [numeroEmpleadoBuscado, setNumeroEmpleadoBuscado] = useState('');
+  const [selectedUser, setSelectedUser] = useState(null);
   const [openAlert, setOpenAlert] = useState(false);
   const [deletedUserName, setDeletedUserName] = useState('');
-  const [selectedUser, setSelectedUser] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [capacitaciones, setCapacitaciones] = useState([]);
-
-  const handleSedeChange = (event) => {
-    setSedeSeleccionada(event.target.value);
-  };
-
-  const handleAreaChange = (event) => {
-    setAreaSeleccionada(event.target.value);
-  };
-
-  const handleEstadoChange = (event) => {
-    setEstadoSeleccionado(event.target.value);
-  };
-
-  const handleGeneroChange = (event) => {
-    setGeneroSeleccionado(event.target.value);
-  };
-
-  const handleNumeroEmpleadoChange = (event) => {
-    setNumeroEmpleadoBuscado(event.target.value);
-  };
+  const [selectedCapacitacion, setSelectedCapacitacion] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/user')
+    axios.get('http://localhost:3000/usuarios/user')
       .then(response => {
         const usuariosConId = response.data.data.map((usuario, index) => ({
           ...usuario,
@@ -57,20 +32,32 @@ const Capavisualizar = () => {
       .catch(error => {
         console.error('Error al obtener datos:', error);
       });
-
+  
     // Cargar capacitaciones al montar el componente
-    axios.get('http://localhost:3000/capacitaciones')
+    axios.get('http://localhost:3000/capacitaciones/capacitaciones')
       .then(response => {
-        setCapacitaciones(response.data.data);
+        const capacitacionesConId = response.data.data.map((capacitacion, index) => ({
+          ...capacitacion,
+          id: capacitacion._id || index + 1, // Asigna un id único basado en el _id o en el índice
+        }));
+        setCapacitaciones(capacitacionesConId);
       })
       .catch(error => {
         console.error('Error al obtener capacitaciones:', error);
       });
   }, []);
+  
 
   const handleRowSelection = (selection) => {
     setSelectedUser(selection);
+    console.log(selection);
   };
+  
+  const handleCapacitacionSelection = (selection) => {
+    const capacitacionSeleccionada = capacitaciones.find(capacitacion => capacitacion.id === selection);
+    setSelectedCapacitacion(capacitacionSeleccionada);
+  };
+  
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -80,13 +67,40 @@ const Capavisualizar = () => {
     setOpenDialog(false);
   };
 
-  const handleAssignCapacitaciones = (capacitacion) => {
-    // Lógica para asignar capacitaciones a los usuarios seleccionados
-    // Aquí puedes realizar la lógica para guardar la capacitación asignada a los usuarios seleccionados
-    // Puedes usar el estado 'selectedUser' para obtener los usuarios seleccionados
-    // y la capacitación pasada como argumento para asignarla a estos usuarios
-    handleCloseDialog();
+  const handleAssignCapacitaciones = () => {
+    if (!selectedUser || !selectedCapacitacion || !selectedCapacitacion.Nombre) {
+      console.log(selectedCapacitacion, selectedCapacitacion.Nombre)
+      console.error('No se han seleccionado usuarios o capacitaciones');
+      return;
+    }
+  
+    const asignacion = {
+      Nombre: selectedUser.Nombre,
+      Numero_Empleado: selectedUser.Numero_Empleado,
+      Area: selectedUser.Area,
+      Sede: selectedUser.Sede,
+      Actividad: {
+        NombreCapacitacion: selectedCapacitacion.Nombre,
+        FechaInicio: selectedCapacitacion.FechaInicio,
+        FechaFin: selectedCapacitacion.FechaFin,
+        Descripcion: selectedCapacitacion.Descripcion
+      }
+    };
+  
+    axios.post('http://localhost:3000/asignar_capacitaciones_empleado', {
+      asignaciones: [asignacion]
+    })
+      .then(response => {
+        console.log(response.data);
+        handleCloseDialog();
+        setOpenAlert(true);
+      })
+      .catch(error => {
+        console.error('Error al asignar capacitaciones a empleado:', error);
+      });
   };
+  
+  
 
   const handleDelete = (id, nombre) => {
     // Lógica para eliminar un usuario
@@ -109,29 +123,15 @@ const Capavisualizar = () => {
     {
       field: 'actions',
       headerName: 'Acciones',
-      width: 500,
+      width: 300,
       renderCell: (params) => (
         <div>
           <Button className="actions-button" variant="outlined" onClick={handleOpenDialog}>Asignar Capacitación</Button>
           <Button onClick={() => handleDelete(params.row.id, params.row.Nombre)} variant="outlined" color="error" startIcon={<DeleteIcon />}>Eliminar</Button>
         </div>
-      ),
+      ),  
     },
   ];
-
-  const usuariosFiltrados = data.filter(user => {
-    return (
-      (sedeSeleccionada === '' || user.Sede === sedeSeleccionada) &&
-      (areaSeleccionada === '' || user.Area === areaSeleccionada) &&
-      (estadoSeleccionado === '' || user.Status === estadoSeleccionado) &&
-      (generoSeleccionado === '' || user.Tipo === generoSeleccionado) &&
-      (numeroEmpleadoBuscado === '' || (user.Numero_Empleado && user.Numero_Empleado.toString().includes(numeroEmpleadoBuscado)))
-    );
-  });
-
-  const usuariosConId = usuariosFiltrados.map((usuario, index) => {
-    return { ...usuario, id: usuario._id || index + 1 };
-  });
 
   return (
     <>
@@ -139,30 +139,32 @@ const Capavisualizar = () => {
       <div className="v141_16">
         <div style={{ height: 400, width: '100%', marginTop: 100 }}>
           <DataGrid
-            rows={usuariosConId}
+            rows={data}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5, 10, 20]}
             checkboxSelection
-            onSelectionModelChange={handleRowSelection}
+            onRowClick={handleRowSelection}
           />
         </div>
       </div>
 
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Asignar Capacitaciones</DialogTitle>
+        <DialogTitle>Asignar Capacitación</DialogTitle>
         <DialogContent>
           <div>
-            <h3>Capacitaciones Disponibles:</h3>
-            <CatalogoCapacitaciones
-              handleClose={handleCloseDialog}
-              handleAsignarCapacitacion={handleAssignCapacitaciones}
-              capacitaciones={capacitaciones} // Pasar capacitaciones como prop
-            />
+            <h3>Selecciona una capacitación:</h3>
+            <select value={selectedCapacitacion ? selectedCapacitacion.id : ''} onChange={(e) => handleCapacitacionSelection(e.target.value)}>
+              <option value="">Selecciona una capacitación</option>
+              {capacitaciones.map(capacitacion => (
+                <option key={capacitacion.id} value={capacitacion.id}>{capacitacion.Nombre}</option>
+              ))}
+            </select>
           </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="primary">Cancelar</Button>
+          <Button onClick={handleAssignCapacitaciones} color="primary">Asignar</Button>
         </DialogActions>
       </Dialog>
 

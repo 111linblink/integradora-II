@@ -3,12 +3,18 @@ import { DataGrid } from '@mui/x-data-grid';
 
 const CatalogoCapacitaciones = ({ handleClose, handleAsignarCapacitacion, capacitaciones }) => {
     const columns = [
-        { field: '_id', headerName: 'ID', width: 100 }, // Cambiado de 'id' a '_id' para que coincida con el campo en tu esquema de capacitaciones
-        { field: 'Nombre', headerName: 'Nombre', width: 200 }, // Utiliza el nombre de campo correcto de tu esquema de capacitaciones
-        { field: 'Area', headerName: 'Área', width: 200 }, // Utiliza el nombre de campo correcto de tu esquema de capacitaciones
-        { field: 'Ubicacion', headerName: 'Ubicación', width: 200 }, // Utiliza el nombre de campo correcto de tu esquema de capacitaciones
-        { field: 'Actividad', headerName: 'Actividad', width: 200 }, // Utiliza el nombre de campo correcto de tu esquema de capacitaciones
+        { field: '_id', headerName: 'ID', width: 100 },
+        { field: 'Nombre', headerName: 'Nombre', width: 200 },
+        { field: 'Area', headerName: 'Área', width: 200 },
+        { field: 'Ubicacion', headerName: 'Ubicación', width: 200 },
+        { field: 'Actividad', headerName: 'Actividad', width: 200 },
     ];
+
+    // Mapear los datos de capacitación para asegurarse de que cada fila tenga una propiedad `id` única
+    const rows = capacitaciones.map((capacitacion, index) => ({
+        ...capacitacion,
+        id: index + 1 // Se puede usar cualquier identificador único aquí
+    }));
 
     const handleAsignar = (capacitacion) => {
         handleAsignarCapacitacion(capacitacion);
@@ -20,7 +26,7 @@ const CatalogoCapacitaciones = ({ handleClose, handleAsignarCapacitacion, capaci
             <h2>Catálogo de Capacitaciones</h2>
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    rows={capacitaciones.map((capacitacion, index) => ({ ...capacitacion, id: index }))}
+                    rows={rows}
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5, 10, 20]}
