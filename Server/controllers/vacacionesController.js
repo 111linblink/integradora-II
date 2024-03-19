@@ -3,8 +3,8 @@ import Vacaciones from "../models/vacacionesModel.js";
 // Crear una solicitud de vacaciones
 export const crearSolicitudVacaciones = async (req, res) => {
     try {
-        const { DiaIni, DiaFin } = req.body;
-        const nuevaSolicitud = new Vacaciones({ DiaIni, DiaFin });
+        const { DiaIni, DiaFin, Estado } = req.body; // Asegúrate de recibir el campo Estado del cuerpo de la solicitud
+        const nuevaSolicitud = new Vacaciones({ DiaIni, DiaFin, Estado }); // Asegúrate de incluir el campo Estado al crear un nuevo documento
         console.log("Nueva solicitud de vacaciones:", nuevaSolicitud);
         await nuevaSolicitud.save();
         res.json({ success: true, message: "Solicitud de vacaciones guardada exitosamente", data: nuevaSolicitud });
@@ -13,6 +13,7 @@ export const crearSolicitudVacaciones = async (req, res) => {
         res.status(500).json({ success: false, message: "Error del servidor al crear la solicitud de vacaciones" });
     }
 };
+
 
 // Obtener todas las solicitudes de vacaciones
 export const obtenerTodasLasSolicitudesVacaciones = async (req, res) => {
