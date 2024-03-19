@@ -1,16 +1,21 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+const Schema = mongoose.Schema
 
-const asignacionSchema = new mongoose.Schema({
-  Nombre: String,
-  Numero_Empleado: Number,
-  Area: String,
-  Sede: String,
-  Actividad: {
-    NombreCapacitacion: String,
-    FechaInicio: Date,
-    FechaFin: Date,
-    Descripcion: String
-  }
+const capacitacionSchema = new Schema({
+    Nombre: String,
+    Area: String,
+    Sede: String,
+    Ubicacion: String,
+    Descripcion: String,
+    Actividad: [
+        {
+            NombreActividad: String,
+            FechaInicio: Date,
+            FechaFin: Date  
+        }
+    ]
+}, {
+    timestamps: true
 });
 
-export default mongoose.model('Asignacion', asignacionSchema);
+export default mongoose.model("capacitaciones", capacitacionSchema);
