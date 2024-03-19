@@ -12,7 +12,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 const SA_visualizar = () => {
   const [data, setData] = useState([]);
   const [sedes, setSedes] = useState([]);
-  const [areas, setAreas] = useState([]); // Nuevo estado para almacenar las áreas disponibles
+  const [areas, setAreas] = useState([]);
   const [sedeSeleccionada, setSedeSeleccionada] = useState('');
   const [areaSeleccionada, setAreaSeleccionada] = useState('');
   const [estadoSeleccionado, setEstadoSeleccionado] = useState('');
@@ -31,36 +31,36 @@ const SA_visualizar = () => {
   useEffect(() => {
     axios.get('http://localhost:3000/usuarios/user')
       .then(response => {
-        console.log(response.data);
         setData(response.data.data);
       })
       .catch(error => {
         console.error('Error al obtener datos:', error);
       });
 
-    axios.get('http://localhost:3000/sedes/sedes_areas') // Obtener la lista de sedes disponibles
+    axios.get('http://localhost:3000/sedes/sedes_areas')
       .then(response => {
-        console.log(response.data);
-        setSedes(response.data.data.map(sede => sede.Nombre)); // Almacenar solo los nombres de sedes
+        const sedesData = response.data.data;
+        setSedes(sedesData);
+
+        // Obtener las áreas de la sede seleccionada (si hay una sede seleccionada)
+        if (sedeSeleccionada !== '') {
+          const areasData = sedesData.find(sede => sede.Nombre === sedeSeleccionada)?.Areas || [];
+          setAreas(areasData.map(area => area.NombreArea));
+        }
       })
       .catch(error => {
-        console.error('Error al obtener las sedes:', error);
+        console.error('Error al obtener las sedes y áreas:', error);
       });
 
-    axios.get('http://localhost:3000/tipoUsuario/ver')
-      .then(response => {
-        console.log(response.data);
-        const tiposDeUsuario = response.data.data.map(tipo => tipo.Tipo);
-        setAreas(tiposDeUsuario);
-      })
-      .catch(error => {
-        console.error('Error al obtener los tipos de usuario:', error);
-      });
-
-  }, []);
+  }, [sedeSeleccionada]);
 
   const handleSedeChange = (event) => {
-    setSedeSeleccionada(event.target.value);
+    const selectedSede = event.target.value;
+    setSedeSeleccionada(selectedSede);
+
+    // Cuando se selecciona una sede, actualizamos las áreas disponibles
+    const areasData = sedes.find(sede => sede.Nombre === selectedSede)?.Areas || [];
+    setAreas(areasData.map(area => area.NombreArea));
   };
 
   const handleAreaChange = (event) => {
@@ -80,12 +80,10 @@ const SA_visualizar = () => {
   };
 
   const handleDelete = (id, userName) => {
-    axios.delete(`http://localhost:3000/delete/${id}`)
+    axios.delete(`http://localhost:3000/usuarios/delete/${id}`)
       .then(res => {
-        console.log(res);
         setDeletedUserName(userName);
         setOpenAlert(true);
-        // Actualizar los datos después de eliminar un usuario
         const updatedData = data.filter(user => user._id !== id);
         setData(updatedData);
       })
@@ -145,7 +143,7 @@ const SA_visualizar = () => {
       <select className="v141_72 v141_73" value={sedeSeleccionada} onChange={handleSedeChange}>
         <option value=''>Seleccione una Sede</option>
         {sedes.map((sede, index) => (
-          <option key={index} value={sede}>{sede}</option>
+          <option key={index} value={sede.Nombre}>{sede.Nombre}</option>
         ))}
       </select>
 
@@ -163,11 +161,11 @@ const SA_visualizar = () => {
       </select>
       
       <select className="v141_78 v141_79" value={tipoSeleccionado} onChange={handleTipoChange}>
-  <option  value=''>Seleccione un Tipo</option>
-  {areas.map((tipo, index) => (
-    <option key={index} value={tipo}>{tipo}</option>
-  ))}
-</select>
+        <option value=''>Seleccione un Tipo</option>
+        {areas.map((tipo, index) => (
+          <option key={index} value={tipo}>{tipo}</option>
+        ))}
+      </select>
 
       <div className="v141_17"></div>
       <input type="text" value={numeroEmpleadoBuscado} onChange={handleNumeroEmpleadoChange} placeholder="Buscar Num.Empleado" className='v141_18 ' />

@@ -153,12 +153,14 @@ const SA_Agregar = () => {
                         <option key={index} value={tipo}>{tipo}</option>
                     ))}
                 </select>
+
                 <select className="Rectangle163" onChange={CrearUsuario} name="Sede" value={formData.Sede}>
                     <option value="" defaultValue="">Sede</option>
                     {sedes.map((sede, index) => (
                         <option key={index} value={sede.nombre}>{sede.nombre}</option>
                     ))}
                 </select>
+                
                 <select className="Rectangle164" onChange={CrearUsuario} name="Area" value={formData.Area}>
                     <option value="" defaultValue="">Area</option>
                     {formData.Sede && sedes.find(sede => sede.nombre === formData.Sede)?.areas.map((area, index) => (

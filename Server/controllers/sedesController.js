@@ -83,4 +83,27 @@ export const deleteArea = async (req, res) => {
         console.error("Error al eliminar el área:", error);
         res.status(500).json({ success: false, message: "Error del servidor" });
     }
+    
+};
+
+export const addAreaToSede = async (req, res) => {
+    const sedeId = req.params.id;
+    const newAreaData = req.body;
+
+    try {
+        // Encontrar la sede por su ID
+        const sede = await sedeModel.findById(sedeId);
+        if (!sede) {
+            return res.status(404).json({ success: false, message: "Sede no encontrada" });
+        }
+
+        // Agregar el área al arreglo de áreas de la sede
+        sede.Areas.push(newAreaData);
+        await sede.save();
+
+        res.json({ success: true, message: "Área agregada exitosamente a la sede", data: newAreaData });
+    } catch (error) {
+        console.error("Error al agregar el área a la sede:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
 };

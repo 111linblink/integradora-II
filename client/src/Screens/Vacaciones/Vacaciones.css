@@ -1,37 +1,37 @@
 .rectangulo1 {
     position: absolute;
-    width: 330px;
-    height: 570px;
-    left: 55px;
-    top: 130px;
+    width: 23%;
+    height: 80%;
+    left: 2%;
+    top: 17%;
     background-color: #FFFFFF;
     border-radius: 20px;
   }
   
   .usuario {
     position: absolute;
-    width: 160px;
-    height: 160px;
-    left: 90px;
-    top: 39px;
+    width: 50%;
+    height: 30%;
+    left: 25%;
+    top: 5%;
   }
   
   .nombreEmpleado {
     position: absolute;
-    width: 274px;
-    height: 32px;
-    left: 80px;
-    top: 220px;
+    width: 80%;
+    height: 30%;
+    left: 25%;
+    top: 40%;
     font-family: Roboto;
-    font-size: 18px;
+    font-size: 125%;
   }
   
   .tipoContrato {
     position: absolute;
-    width: 230px;
-    height: 33px;
-    left: 52px;
-    top: 318px;
+    width: 67%;
+    height: 7%;
+    left: 15%;
+    top: 52%;
     background-color: #E1F6FF;
     border-radius: 10px;
     font-family: Roboto;
@@ -42,10 +42,10 @@
   
   .dias {
     position: absolute;
-    width: 230px;
-    height: 33px;
-    left: 52px;
-    top: 378px;
+    width: 67%;
+    height: 7%;
+    left: 15%;
+    top: 65%;
     background-color: #E1F6FF;
     border-radius: 10px;
     font-family: Roboto;
@@ -57,10 +57,10 @@
   .solicitarContrato,
   .solicitar {
     position: absolute;
-    width: 154px;
-    height: 40px;
-    left: 90px;
-    top: 480px;
+    width: 50%;
+    height: 7%;
+    left: 24%;
+    top: 85%;
     background-color: #047393;
     border-radius: 30px;
     color: #FFFFFF;
@@ -78,30 +78,12 @@
   
   .rectangulo2 {
     position: absolute;
-    width: 1020px;
-    height: 570px;
-    left: 450px;
-    top: 130px;
+    width: 70%;
+    height: 80%;
+    left: 28%;
+    top: 17%;
     background-color: #FFFFFF;
     border-radius: 20px;
-  }
-  
-  .calendarioInterior {
-    position: absolute;
-    width: 600px;
-    height: 350px;
-    left: 70px;
-    top: 168px;
-    background-color: #E1F6FF;
-    border-radius: 20px;
-  }
-  
-  .my-calendar {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
-    font-size: 20px;
   }
   
   .textoCalendario {
@@ -114,10 +96,10 @@
   
   .rectanguloInterior {
     position: absolute;
-    width: 280px;
-    height: 465px;
-    left: 710px;
-    top: 55px;
+    width: 28%;
+    height: 85%;
+    left: 70%;
+    top: 7%;
     background-color: #D9EBF3;
     border-radius: 20px;
   }
@@ -134,12 +116,12 @@
   
   .primerDia {
     position: absolute;
-    width: 180px;
-    height: 33px;
-    left: 50px;
-    top: 248px;
+    width: 70%;
+    height: 11%;
+    left: 17%;
+    top: 40%;
     background-color: #E1F6FF;
-    border-radius: 10px;
+    border-radius: 5px;
     font-family: Roboto;
     font-size: 14px;
     border: none;
@@ -148,12 +130,12 @@
   
   .ultimoDia {
     position: absolute;
-    width: 180px;
-    height: 33px;
-    left: 50px;
-    top: 310px;
+    width: 70%;
+    height: 11%;
+    left: 17%;
+    top: 50%;
     background-color: #E1F6FF;
-    border-radius: 10px;
+    border-radius: 5px;
     font-family: Roboto;
     font-size: 14px;
     border: none;
@@ -162,10 +144,10 @@
   
   .solicitar {
     position: absolute;
-    width: 154px;
-    height: 40px;
-    left: 70px;
-    top: 400px;
+    width: 50%;
+    height: 7%;
+    left: 28%;
+    top: 82%;
     background-color: #047393;
     border-radius: 30px;
     color: #FFFFFF;
