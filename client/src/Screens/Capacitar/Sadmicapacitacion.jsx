@@ -1,3 +1,4 @@
+// Sadmicapacitacion.jsx
 import React, { useState, useEffect, createContext } from 'react';
 import NarBar from '../NarBar.js/NarBar';
 import Axios from 'axios';
@@ -54,24 +55,6 @@ const Sadmicapacitacion = () => {
             }
         }
         fetchData();
-    }, []);
-
-    useEffect(() => {
-        // Obtener la lista de sedes disponibles al cargar el componente
-        Axios.get('http://localhost:3000/sedes/sedes_areas')
-            .then(response => {
-                console.log(response.data);
-                const fetchedSedes = response.data.data;
-                setSedes(fetchedSedes.map(sede => sede.Nombre));
-                const areasMap = {};
-                fetchedSedes.forEach(sede => {
-                    areasMap[sede.Nombre] = sede.Areas.map(area => area.NombreArea);
-                });
-                setAreasPorSede(areasMap);
-            })
-            .catch(error => {
-                console.error('Error al obtener las sedes:', error);
-            });
     }, []);
 
     const handleInputChange = (event) => {
@@ -180,7 +163,7 @@ const Sadmicapacitacion = () => {
                                             <TableCell>
                                                 <Button onClick={() => {
                                                     setFormData({
-                                                        id: capacitacion.id,
+                                                        id: capacitacion._id,
                                                         Nombre: capacitacion.Nombre,
                                                         Area: capacitacion.Area,
                                                         Sede: capacitacion.Sede,
@@ -260,7 +243,7 @@ const Sadmicapacitacion = () => {
                 <button onClick={handleCrearCapacitacion} className="Rectangle03">
                     <div>Registrar nueva capacitación</div>
                 </button>
-                <Button className="actions-button" style={{ width: 200, height: 40, left: 1255, top: 2}} variant="outlined"  onClick={() => window.location.href=`/capavisualizar/`}>Asignar Capacitación</Button>
+                <Button className="actions-button" style={{ width: 200, height: 40, left: 1255, top: 2}} variant="outlined"  onClick={() => window.location.href=/capavisualizar/}>Asignar Capacitación</Button>
 
             </div>
 
@@ -273,9 +256,9 @@ const Sadmicapacitacion = () => {
 
                 <select className="tipoSede" onChange={handleInputChange} name="Sede" value={formData.Sede}>
                     <option value="" defaultValue="">Sede</option>
-                    {sedes.map((sede, index) => (
-                        <option key={index} value={sede}>{sede}</option>
-                    ))}
+                    <option value="León">León</option>
+                    <option value="Salamanca">Salamanca</option>
+                    <option value="Dolores Hidalgo">Dolores Hidalgo</option>
                 </select>
             </div>
 
