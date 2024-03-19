@@ -52,7 +52,6 @@ const Sadmicapacitacion = () => {
         }
         fetchData();
     }, []);
-    
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
