@@ -69,7 +69,7 @@ const SA_Modificar = () => {
         axios.get('http://localhost:3000/contrato/contratos')
             .then(response => {
                 console.log(response.data);
-                setContratos(response.data.data.map(contrato => contrato.Tipo));
+                setContratos(response.data.data.map(contrato => contrato.Nombre));
             })
             .catch(error => {
                 console.error('Error al obtener los contratos:', error);

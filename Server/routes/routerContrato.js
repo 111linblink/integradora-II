@@ -7,5 +7,6 @@ router.get('/contratos', contratoController.getAllContratos);
 router.get('/contratos/:id', contratoController.getContratoById);
 router.put('/update_contrato/:id', contratoController.updateContrato);
 router.delete('/delete_contrato/:id', contratoController.deleteContrato);
+router.post('/add_horario/:id', contratoController.addHorarioToContrato);
 
 export { router as routesContrato };

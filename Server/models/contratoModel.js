@@ -3,9 +3,11 @@ const Schema = mongoose.Schema
 
 const contratoSchema = new Schema({
     Tipo: Number,
+    Nombre:String,
     Turno: [{
         Numero: Number,
-        Horario: String
+        HoraInicial: String,
+        HoraFinal: String
     }]
 }, {
     timestamps: true
