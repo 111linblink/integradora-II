@@ -1,15 +1,16 @@
 import Asignacion from '../models/asignarCapacitacionesModel.js';
 
-const obtenerCapacitacionesEmpleado = async (req, res) => {
+export const obtenerCapacitacionesAsignadasPorUsuarioId = async (req, res) => {
   try {
-    const { Numero_Empleado } = req.params; // Suponiendo que obtienes el número de empleado como parámetro en la URL
-    const asignaciones = await Asignacion.find({ Numero_Empleado }); // Consulta las asignaciones del empleado en la base de datos
-    res.status(200).json({ success: true, data: asignaciones });
+    const userId = req.params.userId; // Cambia el nombre del parámetro a userId
+    const asignaciones = await Asignacion.find({ Numero_Empleado: userId }); // Usa el campo Numero_Empleado para buscar las asignaciones
+    res.status(200).json(asignaciones);
   } catch (error) {
-    console.error('Error al obtener las capacitaciones del empleado:', error);
-    res.status(500).json({ success: false, message: 'Error al obtener las capacitaciones del empleado' });
+    console.error('Error al obtener las capacitaciones asignadas:', error);
+    res.status(500).json({ message: 'Error al obtener las capacitaciones asignadas', error: error.message });
   }
 };
+
 
 export const crearAsignacion = async (req, res) => {
   try {

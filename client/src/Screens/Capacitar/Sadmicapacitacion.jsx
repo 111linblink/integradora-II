@@ -40,6 +40,10 @@ const Sadmicapacitacion = () => {
     const [capacitaciones, setCapacitaciones] = useState([]);
     const [selectedCapacitacionIndex, setSelectedCapacitacionIndex] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
+    const [sedes, setSedes] = useState([]); // Estado para almacenar las sedes disponibles
+    const [areasPorSede, setAreasPorSede] = useState({}); // Estado para almacenar las áreas disponibles asociadas a cada sede
+    const [nombreCapaBuscado, setNombreCapaBuscado] = useState("");
+
 
     useEffect(() => {
         async function fetchData() {
@@ -108,6 +112,11 @@ const Sadmicapacitacion = () => {
         setOpenDialog(false);
     };
 
+    
+  const handleNombreCapaChange = (event) => {
+    setNombreCapaBuscado(event.target.value);
+    };
+
     const handleGuardarCambios = async () => {
         try {
             await Axios.put(`http://localhost:3000/capacitaciones/actualizar_capacitacion/${formData.id}`, formData);
@@ -126,6 +135,7 @@ const Sadmicapacitacion = () => {
             <div className="SupAdmin">
                 <div className="Rectangle020" />
                 <div className="Rectangle016" style={{ maxHeight: '550px', overflowY: 'auto' }}>
+                <input type="text" value={nombreCapaBuscado} onChange={handleNombreCapaChange} placeholder="Buscar Nombre de Capacitación" className='v141_18 ' style={{ left: 910, top: -67 }} />
                     <div>
                         <h2>Listado de capacitaciones</h2>
                         <TableContainer component={Paper}>
@@ -151,7 +161,6 @@ const Sadmicapacitacion = () => {
                                             <TableCell>{capacitacion.Ubicacion}</TableCell>
                                             <TableCell>{capacitacion.Descripcion}</TableCell>
                                             <TableCell>
-                                                <Button onClick={() => handleEliminarCapacitacion(capacitacion.Nombre)} variant="outlined" color="secondary" startIcon={<DeleteIcon />}>Eliminar</Button>
                                                 <Button onClick={() => {
                                                     setFormData({
                                                         id: capacitacion._id,
@@ -168,6 +177,7 @@ const Sadmicapacitacion = () => {
                                                     });
                                                     setOpenDialog(true);
                                                 }} variant="outlined" color="primary" startIcon={<EditIcon />}>Modificar</Button>
+                                                <Button onClick={() => handleEliminarCapacitacion(capacitacion.id)} style= {{width: 120}}variant="outlined" color="error" startIcon={<DeleteIcon />}>Eliminar</Button>
                                             </TableCell>
                                         </TableRow>
                                     ))}

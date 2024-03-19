@@ -26,18 +26,18 @@ const NavbarEmpleado = () => {
         top: 0,
         right: 0,
         width: '100%',
-        height: 100,
+        height: '14%',
         backgroundColor: '#FFFFFF',
       }} className="cabecera">
-        <img className="logo" src="../assets/Logo.png" alt="Logo" style={{ position: 'absolute', top: 0, left: 5, width: 100, height: 100 }} />
+        <img className="logo" src="../assets/Logo.png" alt="Logo" style={{ position: 'absolute', top: '0%', left: '1%', width: '8%', height: '100%' }} />
         <Link to="/empleado-vacaciones">
-          <img className="calendario" src="../assets/Calendario.png" alt="Calendario" style={{ position: 'absolute', top: 32, left: 1180, width: 42, height: 42 }} />
+          <img className="calendario" src="../assets/Calendario.png" alt="Calendario" style={{ position: 'absolute', top: '30%', left: '78%', width: '3%', height: '42%' }} />
         </Link>
         <Link to="/empleado-horario">
-          <img className="horarioEmpleado" src="../assets/Horario-empleado.png" alt="Horario empleado" style={{ position: 'absolute', top: 32, left: 1260, width: 42, height: 42 }} />
+          <img className="horarioEmpleado" src="../assets/Horario-empleado.png" alt="Horario empleado" style={{ position: 'absolute', top: '30%', left: '83%', width: '3%', height: '42%' }} />
         </Link>
-        <img className="notificaciones" src="../assets/Notificaciones.png" alt="Notificaciones" onClick={handleMostrarVentanaNotificaciones} style={{ position: 'absolute', top: 32, left: 1340, cursor: 'pointer', width: 42, height: 42 }} />
-        <img className="usuarioCabecera" src="../assets/Usuario.png" alt="Usuario" onClick={handleMostrarVentanaUsuario} style={{ position: 'absolute', top: 32, left: 1420, cursor: 'pointer', width: 42, height: 42 }} />
+        <img className="notificaciones" src="../assets/Notificaciones.png" alt="Notificaciones" onClick={handleMostrarVentanaNotificaciones} style={{ position: 'absolute', top: '30%', left: '88%', cursor: 'pointer', width: '3%', height: '42%' }} />
+        <img className="usuarioCabecera" src="../assets/Usuario.png" alt="Usuario" onClick={handleMostrarVentanaUsuario} style={{ position: 'absolute', top: '30%', left: '93%', cursor: 'pointer', width: '3%', height: '42%' }} />
       </div>
 
       {mostrarVentanaNotificaciones && (

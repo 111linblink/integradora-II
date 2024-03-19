@@ -13,6 +13,7 @@ import Capavisualizar from './Screens/Capacitar/Capavisualizar';
 import NarBar from './Screens/NarBar.js/NarBar';
 import Vacaciones from './Screens/Vacaciones/Vacaciones';
 import Horario from './Screens/Horario/Horario';
+import AsignacionesUsuario from './Screens/Capacitar/AsignacionesUsuario';
 
 
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="/horario" element={<Horario/>}/>
           <Route path="/capavisualizar" element={<Capavisualizar/>} />
           <Route path="/narbar" element={<NarBar/>} />
+          <Route path="/asignaciones/:userId" element={<AsignacionesUsuario/>} />
         </Routes>
       </Router>
     </div>
