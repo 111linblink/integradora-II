@@ -20,6 +20,8 @@ const Capavisualizar = () => {
   const [capacitaciones, setCapacitaciones] = useState([]);
   const [selectedCapacitacion, setSelectedCapacitacion] = useState(null);
   const [assignedCapacitaciones, setAssignedCapacitaciones] = useState([]);
+  const [assignmentAlert, setAssignmentAlert] = useState(false);
+  const [assignedCapacitacionName, setAssignedCapacitacionName] = useState('');
 
   useEffect(() => {
     axios.get('http://localhost:3000/usuarios/user')
@@ -102,6 +104,8 @@ const Capavisualizar = () => {
     axios.post('http://localhost:3000/asignacion/asignacion', asignacionData)
       .then(response => {
         console.log('Asignación guardada:', response.data);
+        setAssignedCapacitacionName(selectedCapacitacion.Nombre);
+        setAssignmentAlert(true);
         // Aquí puedes manejar la lógica después de guardar la asignación
       })
       .catch(error => {
@@ -120,18 +124,10 @@ const Capavisualizar = () => {
   const handleCloseAlert = () => {
     setOpenAlert(false);
   };
-  
+
   const handleViewAssignedCapacitaciones = () => {
-    if (selectedUser) {
-      axios.get(`http://localhost:3000/asignacion/capacitaciones/${selectedUser.id}`)
-        .then(response => {
-          setAssignedCapacitaciones(response.data.data);
-          setOpenDialog(true); // Abre la ventana emergente para mostrar las capacitaciones asignadas
-        })
-        .catch(error => {
-          console.error('Error al obtener las capacitaciones asignadas:', error);
-        });
-    }
+    // Aquí puedes implementar la lógica para visualizar las capacitaciones asignadas
+    console.log('Visualizar capacitaciones asignadas');
   };
 
   const columns = [
@@ -145,11 +141,11 @@ const Capavisualizar = () => {
     {
       field: 'actions',
       headerName: 'Acciones',
-      width: 300,
+      width: 340,
       renderCell: (params) => (
         <div>
           <Button className="actions-button" variant="outlined" onClick={() => handleRowSelection(params.row)}>Seleccionar</Button>
-          <Button className="actions-button" variant="outlined" onClick={handleViewAssignedCapacitaciones}>Ver Capacitaciones Asignadas</Button>
+          <Button className="actions-button" variant="outlined" onClick={handleViewAssignedCapacitaciones}>Ver Capacitaciones</Button>
           <Button onClick={() => handleDelete(params.row.id, params.row.Nombre)} variant="outlined" color="error" startIcon={<DeleteIcon />}>Eliminar</Button>
         </div>
       ),  
@@ -197,6 +193,12 @@ const Capavisualizar = () => {
         </MuiAlert>
       </Snackbar>
 
+      <Snackbar open={assignmentAlert} autoHideDuration={6000} onClose={() => setAssignmentAlert(false)}>
+        <MuiAlert onClose={() => setAssignmentAlert(false)} severity="success" sx={{ width: '100%' }}>
+          Se le ha asignado la capacitación "{assignedCapacitacionName}" al empleado seleccionado.
+        </MuiAlert>
+      </Snackbar>
+
       {/* Lista o tabla de capacitaciones asignadas */}
       {assignedCapacitaciones.length > 0 && (
         <div>
@@ -213,4 +215,3 @@ const Capavisualizar = () => {
 };
 
 export default Capavisualizar;
-    
