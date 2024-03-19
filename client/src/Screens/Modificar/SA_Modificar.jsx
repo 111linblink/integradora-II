@@ -23,19 +23,58 @@ const SA_Modificar = () => {
 
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [showErrorAlert, setShowErrorAlert] = useState(false);
+    const [sedes, setSedes] = useState([]); // Estado para almacenar las sedes y sus áreas disponibles
+    const [tiposDeUsuario, setTiposDeUsuario] = useState([]); // Estado para almacenar los tipos de usuario disponibles
+    const [contratos, setContratos] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:3000/usuarios/user/${id}`);
                 setFormData(response.data.data);
+
+              
             } catch (error) {
-                console.error("Error al obtener el usuario:", error);
+                console.error("Error al obtener los datos:", error);
             }
         };
         fetchData();
     }, [id]);
 
+    useEffect(() => {
+        // Obtener la lista de sedes disponibles al cargar el componente
+        axios.get('http://localhost:3000/sedes/sedes_areas')
+            .then(response => {
+                console.log(response.data);
+                setSedes(response.data.data.map(sede => ({
+                    nombre: sede.Nombre,
+                    areas: sede.Areas.map(area => area.NombreArea) // Almacenar solo los nombres de las áreas
+                })));
+            })
+            .catch(error => {
+                console.error('Error al obtener las sedes:', error);
+            });
+
+        // Obtener la lista de tipos de usuario disponibles al cargar el componente
+        axios.get('http://localhost:3000/tipoUsuario/ver')
+            .then(response => {
+                console.log(response.data);
+                setTiposDeUsuario(response.data.data.map(tipo => tipo.Tipo));
+            })
+            .catch(error => {
+                console.error('Error al obtener los tipos de usuario:', error);
+            });
+
+        // Obtener la lista de contratos disponibles al cargar el componente
+        axios.get('http://localhost:3000/contrato/contratos')
+            .then(response => {
+                console.log(response.data);
+                setContratos(response.data.data.map(contrato => contrato.Nombre));
+            })
+            .catch(error => {
+                console.error('Error al obtener los contratos:', error);
+            });
+    }, []);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -56,6 +95,7 @@ const SA_Modificar = () => {
         }
     };
 
+    
   return (
     <>
     <NarBar/>
@@ -109,8 +149,10 @@ const SA_Modificar = () => {
     
         <select className="Rectangle168" style={{ width: 365, height: 37, left: 1085, top: 239, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400' }} 
         value={formData.Tipo} name="Tipo" onChange={handleInputChange}>
-                    <option value="Empleado">Empleado</option>
-                    <option value="Admin">Admin</option>
+                    <option value={formData.Tipo} disabled >{formData.Tipo}</option>
+                    {tiposDeUsuario.map((tipo, index) => (
+                        <option key={index} value={tipo}>{tipo}</option>
+                    ))}
                 </select>
     
     
@@ -118,16 +160,20 @@ const SA_Modificar = () => {
             background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10,
             color: 'rgba(0, 0, 0, 0.70)' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
             }} name="Sede" value={formData.Sede} onChange={handleInputChange}>
-            <option value="Leon">Leon</option>
-            <option value="Salamanca">Salamanca</option>
+                 <option value={formData.Sede} disabled >{formData.Sede}</option>
+            {sedes.map((sede, index) => (
+                        <option key={index} value={sede.nombre}>{sede.nombre}</option>
+                    ))}
         </select>
     
         <select className="Rectangle164" style={{ width: 365, height: 37, left: 609, top: 352, position: 'absolute' ,
             background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10,
             color: 'rgba(0, 0, 0, 0.70)' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
             }} name="Area" value={formData.Area} onChange={handleInputChange}>
-                <option value="1">1</option>
-                <option value="1">2</option>
+                 <option value={formData.Area} disabled >{formData.Area}</option>
+                 {formData.Sede && sedes.find(sede => sede.nombre === formData.Sede)?.areas.map((area, index) => (
+                        <option key={index} value={area}>{area}</option>
+                    ))}
         </select>
     
         <input className="Rectangle165" style={{ width: 365, height: 36, left: 609, top: 409, position: 'absolute' ,
@@ -137,7 +183,7 @@ const SA_Modificar = () => {
         <select className="Rectangle166" style={{ width: 365, height: 37, left: 609, top: 466, position: 'absolute' ,
             background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10,
             color: 'rgba(0, 0, 0, 0.70)' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
-            }} name="Status" value={formData.Status} onChange={handleInputChange}>
+            }} name="Status" value={formData.Status} onChange={handleInputChange} >
             <option value="Activo">Activo</option>
             <option value="Inactivo">Inactivo</option>
         </select>
@@ -145,9 +191,11 @@ const SA_Modificar = () => {
         <select className="Rectangle166" style={{ width: 365, height: 37, left: 1092, top: 320, position: 'absolute' ,
             background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10,
             color: 'rgba(0, 0, 0, 0.70)' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
-            }} name="Contrato" value={formData.Contrato} onChange={handleInputChange}>
-            <option value="Contrato ">5/8</option>/
-            <option value="Contrato">1/2</option>
+            }} name="Contrato" value={formData.Contrato} onChange={handleInputChange} placeholder={formData.Contrato} >
+                <option value={formData.Contrato} disabled>{formData.Contrato}</option>
+            {contratos.map((contrato, index) => (
+                        <option key={index} value={contrato}>{contrato}</option>
+                    ))}
         </select>
     
         <div className="AgregarNuevoEmpleado" style={{ width: 540, height: 37, left: 98, top: 161, position: 'absolute' ,

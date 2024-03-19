@@ -19,6 +19,9 @@ const Capavisualizar = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [capacitaciones, setCapacitaciones] = useState([]);
   const [selectedCapacitacion, setSelectedCapacitacion] = useState(null);
+  const [assignedCapacitaciones, setAssignedCapacitaciones] = useState([]);
+  const [assignmentAlert, setAssignmentAlert] = useState(false);
+  const [assignedCapacitacionName, setAssignedCapacitacionName] = useState('');
 
   useEffect(() => {
     axios.get('http://localhost:3000/usuarios/user')
@@ -46,7 +49,19 @@ const Capavisualizar = () => {
         console.error('Error al obtener capacitaciones:', error);
       });
   }, []);
-  
+
+  useEffect(() => {
+    // Lógica para cargar las capacitaciones asignadas al usuario seleccionado
+    if (selectedUser) {
+      axios.get(`http://localhost:3000/asignacion/capacitaciones/${selectedUser.id}`)
+        .then(response => {
+          setAssignedCapacitaciones(response.data.data);
+        })
+        .catch(error => {
+          console.error('Error al obtener las capacitaciones asignadas:', error);
+        });
+    }
+  }, [selectedUser]);
 
   const handleRowSelection = (selection) => {
     setSelectedUser(selection);
@@ -68,13 +83,12 @@ const Capavisualizar = () => {
   };
 
   const handleAssignCapacitaciones = () => {
-    if (!selectedUser || !selectedCapacitacion || !selectedCapacitacion.Nombre) {
-      console.log(selectedCapacitacion, selectedCapacitacion.Nombre)
+    if (!selectedUser || !selectedCapacitacion) {
       console.error('No se han seleccionado usuarios o capacitaciones');
       return;
     }
-  
-    const asignacion = {
+
+    const asignacionData = {
       Nombre: selectedUser.Nombre,
       Numero_Empleado: selectedUser.Numero_Empleado,
       Area: selectedUser.Area,
@@ -86,17 +100,16 @@ const Capavisualizar = () => {
         Descripcion: selectedCapacitacion.Descripcion
       }
     };
-  
-    axios.post('http://localhost:3000/asignar_capacitaciones_empleado', {
-      asignaciones: [asignacion]
-    })
+
+    axios.post('http://localhost:3000/asignacion/asignacion', asignacionData)
       .then(response => {
-        console.log(response.data);
-        handleCloseDialog();
-        setOpenAlert(true);
+        console.log('Asignación guardada:', response.data);
+        setAssignedCapacitacionName(selectedCapacitacion.Nombre);
+        setAssignmentAlert(true);
+        // Aquí puedes manejar la lógica después de guardar la asignación
       })
       .catch(error => {
-        console.error('Error al asignar capacitaciones a empleado:', error);
+        console.error('Error al guardar la asignación:', error);
       });
   };
   
@@ -112,6 +125,11 @@ const Capavisualizar = () => {
     setOpenAlert(false);
   };
 
+  const handleViewAssignedCapacitaciones = () => {
+    // Aquí puedes implementar la lógica para visualizar las capacitaciones asignadas
+    console.log('Visualizar capacitaciones asignadas');
+  };
+
   const columns = [
     { field: 'Nombre', headerName: 'Nombre', width: 150 },
     { field: 'Area', headerName: 'Área', width: 100 },
@@ -123,10 +141,11 @@ const Capavisualizar = () => {
     {
       field: 'actions',
       headerName: 'Acciones',
-      width: 300,
+      width: 340,
       renderCell: (params) => (
         <div>
-          <Button className="actions-button" variant="outlined" onClick={handleOpenDialog}>Asignar Capacitación</Button>
+          <Button className="actions-button" variant="outlined" onClick={() => handleRowSelection(params.row)}>Seleccionar</Button>
+          <Button className="actions-button" variant="outlined" onClick={handleViewAssignedCapacitaciones}>Ver Capacitaciones</Button>
           <Button onClick={() => handleDelete(params.row.id, params.row.Nombre)} variant="outlined" color="error" startIcon={<DeleteIcon />}>Eliminar</Button>
         </div>
       ),  
@@ -144,9 +163,9 @@ const Capavisualizar = () => {
             pageSize={5}
             rowsPerPageOptions={[5, 10, 20]}
             checkboxSelection
-            onRowClick={handleRowSelection}
           />
         </div>
+        <Button className="actions-button" variant="outlined" style={{left: 1200, top: -465}} onClick={handleOpenDialog} disabled={!selectedUser}>Asignar Capacitación</Button>
       </div>
 
       <Dialog open={openDialog} onClose={handleCloseDialog}>
@@ -173,6 +192,24 @@ const Capavisualizar = () => {
           Usuario {deletedUserName} eliminado con éxito
         </MuiAlert>
       </Snackbar>
+
+      <Snackbar open={assignmentAlert} autoHideDuration={6000} onClose={() => setAssignmentAlert(false)}>
+        <MuiAlert onClose={() => setAssignmentAlert(false)} severity="success" sx={{ width: '100%' }}>
+          Se le ha asignado la capacitación "{assignedCapacitacionName}" al empleado seleccionado.
+        </MuiAlert>
+      </Snackbar>
+
+      {/* Lista o tabla de capacitaciones asignadas */}
+      {assignedCapacitaciones.length > 0 && (
+        <div>
+          <h2>Capacitaciones Asignadas</h2>
+          <ul>
+            {assignedCapacitaciones.map(capacitacion => (
+              <li key={capacitacion._id}>{capacitacion.Nombre}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </>
   );
 };

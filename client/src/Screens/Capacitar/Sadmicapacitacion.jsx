@@ -1,4 +1,3 @@
-// Sadmicapacitacion.jsx
 import React, { useState, useEffect, createContext } from 'react';
 import NarBar from '../NarBar.js/NarBar';
 import Axios from 'axios';
@@ -40,6 +39,10 @@ const Sadmicapacitacion = () => {
     const [capacitaciones, setCapacitaciones] = useState([]);
     const [selectedCapacitacionIndex, setSelectedCapacitacionIndex] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
+    const [sedes, setSedes] = useState([]); // Estado para almacenar las sedes disponibles
+    const [areasPorSede, setAreasPorSede] = useState({}); // Estado para almacenar las áreas disponibles asociadas a cada sede
+    const [nombreCapaBuscado, setNombreCapaBuscado] = useState("");
+
 
     useEffect(() => {
         async function fetchData() {
@@ -51,6 +54,24 @@ const Sadmicapacitacion = () => {
             }
         }
         fetchData();
+    }, []);
+
+    useEffect(() => {
+        // Obtener la lista de sedes disponibles al cargar el componente
+        Axios.get('http://localhost:3000/sedes/sedes_areas')
+            .then(response => {
+                console.log(response.data);
+                const fetchedSedes = response.data.data;
+                setSedes(fetchedSedes.map(sede => sede.Nombre));
+                const areasMap = {};
+                fetchedSedes.forEach(sede => {
+                    areasMap[sede.Nombre] = sede.Areas.map(area => area.NombreArea);
+                });
+                setAreasPorSede(areasMap);
+            })
+            .catch(error => {
+                console.error('Error al obtener las sedes:', error);
+            });
     }, []);
 
     const handleInputChange = (event) => {
@@ -108,6 +129,11 @@ const Sadmicapacitacion = () => {
         setOpenDialog(false);
     };
 
+    
+  const handleNombreCapaChange = (event) => {
+    setNombreCapaBuscado(event.target.value);
+    };
+
     const handleGuardarCambios = async () => {
         try {
             await Axios.put(`http://localhost:3000/capacitaciones/actualizar_capacitacion/${formData.id}`, formData);
@@ -126,6 +152,7 @@ const Sadmicapacitacion = () => {
             <div className="SupAdmin">
                 <div className="Rectangle020" />
                 <div className="Rectangle016" style={{ maxHeight: '550px', overflowY: 'auto' }}>
+                <input type="text" value={nombreCapaBuscado} onChange={handleNombreCapaChange} placeholder="Buscar Nombre de Capacitación" className='v141_18 ' style={{ left: 910, top: -67 }} />
                     <div>
                         <h2>Listado de capacitaciones</h2>
                         <TableContainer component={Paper}>
@@ -151,10 +178,9 @@ const Sadmicapacitacion = () => {
                                             <TableCell>{capacitacion.Ubicacion}</TableCell>
                                             <TableCell>{capacitacion.Descripcion}</TableCell>
                                             <TableCell>
-                                                <Button onClick={() => handleEliminarCapacitacion(capacitacion.Nombre)} variant="outlined" color="secondary" startIcon={<DeleteIcon />}>Eliminar</Button>
                                                 <Button onClick={() => {
                                                     setFormData({
-                                                        id: capacitacion._id,
+                                                        id: capacitacion.id,
                                                         Nombre: capacitacion.Nombre,
                                                         Area: capacitacion.Area,
                                                         Sede: capacitacion.Sede,
@@ -168,6 +194,7 @@ const Sadmicapacitacion = () => {
                                                     });
                                                     setOpenDialog(true);
                                                 }} variant="outlined" color="primary" startIcon={<EditIcon />}>Modificar</Button>
+                                                <Button onClick={() => handleEliminarCapacitacion(capacitacion.id)} style= {{width: 120}}variant="outlined" color="error" startIcon={<DeleteIcon />}>Eliminar</Button>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -246,9 +273,9 @@ const Sadmicapacitacion = () => {
 
                 <select className="tipoSede" onChange={handleInputChange} name="Sede" value={formData.Sede}>
                     <option value="" defaultValue="">Sede</option>
-                    <option value="León">León</option>
-                    <option value="Salamanca">Salamanca</option>
-                    <option value="Dolores Hidalgo">Dolores Hidalgo</option>
+                    {sedes.map((sede, index) => (
+                        <option key={index} value={sede}>{sede}</option>
+                    ))}
                 </select>
             </div>
 
