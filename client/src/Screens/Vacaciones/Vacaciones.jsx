@@ -75,6 +75,7 @@ const Vacaciones = () => {
       return;
     }
     try {
+
       await Axios.post("http://localhost:3000/Vacaciones/crear_contrato");
       setShowSuccessAlert(true);
       setShowErrorAlert(false);
