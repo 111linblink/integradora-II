@@ -90,11 +90,10 @@ const Capavisualizar = () => {
 
     const asignacionData = {
       Nombre: selectedUser.Nombre,
-      Numero_Empleado: selectedUser.Numero_Empleado,
       Area: selectedUser.Area,
       Sede: selectedUser.Sede,
       Actividad: {
-        NombreCapacitacion: selectedCapacitacion.Nombre,
+        NombreActividad: selectedCapacitacion.NombreCapacitacion,
         FechaInicio: selectedCapacitacion.FechaInicio,
         FechaFin: selectedCapacitacion.FechaFin,
         Descripcion: selectedCapacitacion.Descripcion
