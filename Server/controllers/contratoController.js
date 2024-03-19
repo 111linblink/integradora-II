@@ -64,3 +64,25 @@ export const deleteContrato = async (req, res) => {
         res.status(500).json({ success: false, message: "Error del servidor" });
     }
 };
+// Agregar un horario a un contrato por su ID
+export const addHorarioToContrato = async (req, res) => {
+    const contratoId = req.params.id;
+    const { Numero, HoraInicial, HoraFinal } = req.body;
+
+    try {
+        const contrato = await contratoModel.findById(contratoId);
+        if (!contrato) {
+            return res.status(404).json({ success: false, message: "Contrato no encontrado" });
+        }
+
+        // Agregar el nuevo horario al arreglo de turnos del contrato
+        contrato.Turno.push({ Numero, HoraInicial, HoraFinal });
+        await contrato.save();
+
+        res.json({ success: true, message: "Horario agregado al contrato exitosamente", data: contrato });
+    } catch (error) {
+        console.error("Error al agregar el horario al contrato:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+};
+
