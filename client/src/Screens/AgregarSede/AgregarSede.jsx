@@ -84,46 +84,46 @@ const AgregarSede = () => {
             console.error('Error: No hay una sede seleccionada.');
             return;
         }
-
+    
         try {
             // Validar que se haya seleccionado al menos un área
             if (areasSeleccionadas.length === 0) {
                 console.error('Error: Debes seleccionar al menos un área.');
                 return;
             }
-
+    
             // Validar que se haya seleccionado un tipo de área
             if (!areaTipo) {
                 console.error('Error: Debes seleccionar un tipo de área.');
                 return;
             }
-
-            // Filtrar las áreas disponibles para excluir las áreas previamente seleccionadas
-            const areasDisponibles = tipoAreas
+    
+            // Verificar si las áreas seleccionadas ya están presentes en las áreas de la sede actualmente seleccionada
+            const existingAreasNames = selectedSedeArea.Areas.map(area => area.NombreArea);
+            const areasToAdd = areasSeleccionadas.filter(areaId => !existingAreasNames.includes(areaId));
+    
+            if (areasToAdd.length === 0) {
+                console.error('Error: Las áreas seleccionadas ya están presentes en la sede.');
+                return;
+            }
+    
+            // Obtener los datos completos de las áreas seleccionadas
+            const selectedAreas = tipoAreas
+                .filter(typeArea => typeArea.Tipo === areaTipo)
                 .flatMap(typeArea => typeArea.Areas)
-                .filter(area => !areasSeleccionadasPrevias.includes(area._id));
-
-            // Restringir las áreas seleccionables a aquellas que no han sido seleccionadas previamente
-            setTipoAreas(tipoAreas.map(typeArea => ({
-                ...typeArea,
-                Areas: areasDisponibles.filter(area => area.Tipo === typeArea.Tipo)
-            })));
-
+                .filter(area => areasToAdd.includes(area._id));
+    
             // Iterar sobre cada área seleccionada y enviarla al servidor
-            for (const areaId of areasSeleccionadas) {
-                const selectedArea = tipoAreas
-                    .find(typeArea => typeArea.Tipo === areaTipo)
-                    .Areas.find(area => area._id === areaId);
-
+            for (const area of selectedAreas) {
                 const newAreaData = {
-                    NombreArea: selectedArea.Nombre,
+                    NombreArea: area.Nombre,
                     Tipo: areaTipo
                 };
-
+    
                 // Envía una solicitud POST al servidor para agregar el área a la sede seleccionada
                 const response = await Axios.post(`http://localhost:3000/sedes/add_area_to_sede/${selectedSedeArea._id}`, newAreaData);
                 const updatedSedeArea = response.data.data;
-
+    
                 // Actualiza las áreas de la sede en el estado local
                 const updatedSedesAreas = sedesAreas.map(sedeArea => {
                     if (sedeArea._id === selectedSedeArea._id) {
@@ -131,17 +131,17 @@ const AgregarSede = () => {
                     }
                     return sedeArea;
                 });
-
+    
                 setSedesAreas(updatedSedesAreas);
             }
-
+    
             setOpenAddAreaDialog(false);
             window.location.reload();
         } catch (error) {
             console.error('Error al agregar el área:', error.message);
         }
     };
-
+    
     const handleDeleteArea = async (sedeId, areaId) => {
         try {
             await Axios.delete(`http://localhost:3000/sedes/delete_area/${sedeId}/${areaId}`);
@@ -153,7 +153,7 @@ const AgregarSede = () => {
                 return sedeArea;
             });
             setSedesAreas(updatedSedesAreas);
-           
+
         } catch (error) {
             console.error('Error al eliminar el área:', error.message);
         }
@@ -180,14 +180,24 @@ const AgregarSede = () => {
 
     const handleAreaCheckboxChange = (event, areaId) => {
         const checked = event.target.checked;
-        setAreasSeleccionadas(prevState => {
-            if (checked) {
-                return [...prevState, areaId];
-            } else {
-                return prevState.filter(id => id !== areaId);
-            }
-        });
+        const selectedArea = tipoAreas
+            .flatMap(typeArea => typeArea.Areas)
+            .find(area => area._id === areaId);
+    
+        const alreadyAdded = selectedSedeArea && selectedSedeArea.Areas.some(existingArea => existingArea.NombreArea === selectedArea.Nombre);
+    
+        if (!alreadyAdded || !checked) {
+            setAreasSeleccionadas(prevState => {
+                if (checked) {
+                    return [...prevState, areaId];
+                } else {
+                    return prevState.filter(id => id !== areaId);
+                }
+            });
+        }
     };
+    
+    
 
     return (
         <>
@@ -258,46 +268,46 @@ const AgregarSede = () => {
                 </div>
             </div>
             <Dialog open={openDialog} onClose={handleCloseDialog}>
-    <DialogTitle>Actualizar Sede o Área</DialogTitle>
-    <DialogContent>
-        {selectedSedeArea && (
-            <>
-                <DialogContentText>
-                    Aquí puedes actualizar los datos de la sede o área.
-                </DialogContentText>
+                <DialogTitle>Actualizar Sede o Área</DialogTitle>
+                <DialogContent>
+                    {selectedSedeArea && (
+                        <>
+                            <DialogContentText>
+                                Aquí puedes actualizar los datos de la sede o área.
+                            </DialogContentText>
 
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="nombre"
-                    label="Nombre"
-                    type="text"
-                    fullWidth
-                    value={selectedSedeArea.Nombre}
-                    onChange={(e) => setSelectedSedeArea({ ...selectedSedeArea, Nombre: e.target.value })}
-                />
-                <TextField
-                    margin="dense"
-                    id="ubicacion"
-                    label="Ubicación"
-                    type="text"
-                    fullWidth
-                    value={selectedSedeArea.Ubicacion}
-                    onChange={(e) => setSelectedSedeArea({ ...selectedSedeArea, Ubicacion: e.target.value })}
-                />
-            </>
-        )}
-    </DialogContent>
-    <DialogActions>
-        <Button onClick={handleCloseDialog} color="primary">
-            Cancelar
-        </Button>
-        <Button onClick={handleUpdateSedeArea} color="primary">
-            Actualizar
-        </Button>
-    </DialogActions>
-</Dialog>
-<Dialog open={openAddAreaDialog} onClose={() => setOpenAddAreaDialog(false)}>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="nombre"
+                                label="Nombre"
+                                type="text"
+                                fullWidth
+                                value={selectedSedeArea.Nombre}
+                                onChange={(e) => setSelectedSedeArea({ ...selectedSedeArea, Nombre: e.target.value })}
+                            />
+                            <TextField
+                                margin="dense"
+                                id="ubicacion"
+                                label="Ubicación"
+                                type="text"
+                                fullWidth
+                                value={selectedSedeArea.Ubicacion}
+                                onChange={(e) => setSelectedSedeArea({ ...selectedSedeArea, Ubicacion: e.target.value })}
+                            />
+                        </>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDialog} color="primary">
+                        Cancelar
+                    </Button>
+                    <Button onClick={handleUpdateSedeArea} color="primary">
+                        Actualizar
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={openAddAreaDialog} onClose={() => setOpenAddAreaDialog(false)}>
     <DialogTitle>Agregar Área</DialogTitle>
     <DialogContent>
         <DialogContentText>
@@ -317,7 +327,7 @@ const AgregarSede = () => {
                 const selectedTypeAreas = tipoAreas.find(item => item.Tipo === e.target.value);
                 if (selectedTypeAreas) {
                     // Filtrar las áreas disponibles basadas en las áreas que ya tiene la sede
-                    const availableAreas = selectedTypeAreas.Areas.filter(area => !selectedSedeArea || !selectedSedeArea.Areas.some(existingArea => existingArea._id === area._id));
+                    const availableAreas = selectedTypeAreas.Areas.filter(area => !selectedSedeArea || !selectedSedeArea.Areas.some(existingArea => existingArea.NombreArea === area.Nombre));
                     setAreasSeleccionadas(availableAreas.map(area => area._id));
                 }
             }}
@@ -338,29 +348,23 @@ const AgregarSede = () => {
             value={areaNombre}
             onChange={(e) => setAreaNombre(e.target.value)}
         />
-<List>
-    {tipoAreas
-        .filter(typeArea => typeArea.Tipo === areaTipo)
-        .flatMap(typeArea => typeArea.Areas)
-        .map((area) => {
-            // Verificar si el área ya está agregada a la sede seleccionada
-            const areaAlreadyAdded = selectedSedeArea && selectedSedeArea.Areas.some(existingArea => existingArea._id === area._id);
-            return (
-                <ListItem key={area._id} button onClick={() => !areaAlreadyAdded && handleAreaCheckboxChange(area._id)} disabled={areaAlreadyAdded}>
-                    <Checkbox
-                        disabled={areaAlreadyAdded}
-                        checked={areasSeleccionadas.includes(area._id)}
-                        onChange={(e) => handleAreaCheckboxChange(e, area._id)}
-                    />
-                    <ListItemText primary={area.Nombre} />
-                </ListItem>
-            );
-        })}
-</List>
-
-
-
-
+        <List>
+            {tipoAreas
+                .filter(typeArea => typeArea.Tipo === areaTipo)
+                .flatMap(typeArea => typeArea.Areas)
+                .filter(area => !selectedSedeArea || !selectedSedeArea.Areas.some(existingArea => existingArea.NombreArea === area.Nombre))
+                .map((area) => {
+                    return (
+                        <ListItem key={area._id}>
+                            <Checkbox
+                                checked={areasSeleccionadas.includes(area._id)}
+                                onChange={(e) => handleAreaCheckboxChange(e, area._id)}
+                            />
+                            <ListItemText primary={area.Nombre} />
+                        </ListItem>
+                    );
+                })}
+        </List>
     </DialogContent>
     <DialogActions>
         <Button onClick={() => setOpenAddAreaDialog(false)} color="primary">
@@ -371,7 +375,7 @@ const AgregarSede = () => {
         </Button>
     </DialogActions>
 </Dialog>
-            <div className="AgregarNuevoEmpleado" style={{ width: 540, height: 37, left: 98, top: 161, position: 'absolute', color: 'black', fontSize: 30, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
+<div className="AgregarNuevoEmpleado" style={{ width: 540, height: 37, left: 98, top: 161, position: 'absolute', color: 'black', fontSize: 30, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
                 Administracion de Sedes
             </div>
             <Button color="primary" style={{ left: 1305, top: 87 }}><FormDialog /> </Button>

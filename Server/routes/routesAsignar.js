@@ -1,6 +1,6 @@
     import express from 'express';
-    import * as asignarCapacitacionesController from '../controllers/asignarCapacitacionesController.js';
-    import Asignacion from '../models/asignarCapacitacionesModel.js';
+    import * as asignarCapacitacionesController from '../controllers/asignarController.js';
+  
 
     const router = express.Router();
 

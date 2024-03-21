@@ -14,44 +14,38 @@ const SA_Agregar = () => {
         Contrato: "",
         Contrasena: "",
         ConfirmarContraseña: "",
-        Sede: "", // Agrega el estado para almacenar la sede seleccionada
-        Area: ""  // Agrega el estado para almacenar el área seleccionada
+        Sede: "",
+        Area: ""
     });
 
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [showErrorAlert, setShowErrorAlert] = useState(false);
-    const [sedes, setSedes] = useState([]); // Estado para almacenar las sedes y sus áreas disponibles
-    const [tiposDeUsuario, setTiposDeUsuario] = useState([]); // Estado para almacenar los tipos de usuario disponibles
+    const [sedes, setSedes] = useState([]);
+    const [tiposDeUsuario, setTiposDeUsuario] = useState([]);
     const [contratos, setContratos] = useState([]);
 
     useEffect(() => {
-        // Obtener la lista de sedes disponibles al cargar el componente
         Axios.get('http://localhost:3000/sedes/sedes_areas')
             .then(response => {
-                console.log(response.data);
                 setSedes(response.data.data.map(sede => ({
                     nombre: sede.Nombre,
-                    areas: sede.Areas.map(area => area.NombreArea) // Almacenar solo los nombres de las áreas
+                    areas: sede.Areas.map(area => area.NombreArea)
                 })));
             })
             .catch(error => {
                 console.error('Error al obtener las sedes:', error);
             });
 
-        // Obtener la lista de tipos de usuario disponibles al cargar el componente
         Axios.get('http://localhost:3000/tipoUsuario/ver')
             .then(response => {
-                console.log(response.data);
                 setTiposDeUsuario(response.data.data.map(tipo => tipo.Tipo));
             })
             .catch(error => {
                 console.error('Error al obtener los tipos de usuario:', error);
             });
 
-        // Obtener la lista de contratos disponibles al cargar el componente
         Axios.get('http://localhost:3000/contrato/contratos')
             .then(response => {
-                console.log(response.data);
                 setContratos(response.data.data.map(contrato => contrato.Nombre));
             })
             .catch(error => {
@@ -61,33 +55,60 @@ const SA_Agregar = () => {
 
     const Creacion = async (event) => {
         event.preventDefault();
-
-        // Validar que los campos requeridos estén llenos
-        const requiredFields = ['Nombre', 'Numero_Empleado', 'CorreoElectronico', 'Sexo', 'Tipo', 'Contrato', 'Contrasena', 'ConfirmarContraseña'];
+    
+        const requiredFields = ['Nombre', 'Numero_Empleado', 'CorreoElectronico', 'Sexo', 'Tipo', 'Contrato', 'Contrasena', 'Sede', 'Area'];
         const fieldsAreFilled = requiredFields.every(field => formData[field] !== "");
         if (!fieldsAreFilled) {
             setShowErrorAlert(true);
             setShowSuccessAlert(false);
             return;
         }
-
-        // Validar que las contraseñas sean iguales
+    
         if (formData.Contrasena !== formData.ConfirmarContraseña) {
             setShowErrorAlert(true);
             setShowSuccessAlert(false);
             return;
         }
-
+    
         try {
-            // Validar que el correo sea válido
             if (!isValidEmail(formData.CorreoElectronico)) {
                 setShowErrorAlert(true);
                 setShowSuccessAlert(false);
                 return;
             }
+    
+            // Enviar la solicitud para crear el usuario
+            const response = await Axios.post("http://localhost:3000/usuarios/create", formData);
+            const usuarioCreado = response.data.data;
+            console.log('Usuario creado:', usuarioCreado);
+    
+            // Obtener la lista de sedes con sus IDs
+            const sedesResponse = await Axios.get("http://localhost:3000/sedes/sedes_areas");
+            const sedes = sedesResponse.data.data;
+    
+            // Buscar el ID de la sede seleccionada
+            let sedeId;
+            sedes.forEach(sede => {
+                if (sede.Nombre === formData.Sede) {
+                    sedeId = sede._id;
+                }
+            });
+    
+            // Verificar si la sede fue encontrada
+            if (!sedeId) {
+                console.error('La sede seleccionada no se encontró en la lista de sedes:', formData.Sede);
+                setShowErrorAlert(true);
+                setShowSuccessAlert(false);
+                return;
+            }
+    
+            console.log('ID de la sede seleccionada:', sedeId);
+    
+            // Agregar al nuevo usuario a la sede correspondiente
+            const addEmployeeResponse = await Axios.post(`http://localhost:3000/sedes/add_empleado_to_sede/${sedeId}`, { numeroControl: formData.Numero_Empleado });
 
-            // Realizar la petición POST para crear el usuario
-            await Axios.post("http://localhost:3000/usuarios/create", formData);
+            console.log('Respuesta de agregar empleado a la sede:', addEmployeeResponse.data);
+    
             setShowSuccessAlert(true);
             setShowErrorAlert(false);
             setFormData({
@@ -102,14 +123,13 @@ const SA_Agregar = () => {
                 Sede: "",
                 Area: ""
             });
-            window.location.reload();
         } catch (error) {
             console.error('Error al crear el usuario:', error.message);
             setShowErrorAlert(true);
             setShowSuccessAlert(false);
         }
     };
-
+    
     const CrearUsuario = (event) => {
         setFormData({
             ...formData,
@@ -117,9 +137,7 @@ const SA_Agregar = () => {
         });
     };
 
-    // Función para validar un correo electrónico
     const isValidEmail = (email) => {
-        // Utiliza una expresión regular para validar el correo electrónico
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
@@ -192,3 +210,4 @@ const SA_Agregar = () => {
 };
 
 export default SA_Agregar;
+

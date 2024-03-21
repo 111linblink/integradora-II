@@ -107,3 +107,53 @@ export const addAreaToSede = async (req, res) => {
         res.status(500).json({ success: false, message: "Error del servidor" });
     }
 };
+// Agregar un administrador a una sede
+export const addAdministradorToSede = async (req, res) => {
+    const sedeId = req.params.id;
+    const newAdminData = req.body;
+
+    try {
+        // Encontrar la sede por su ID
+        const sede = await sedeModel.findById(sedeId);
+        if (!sede) {
+            return res.status(404).json({ success: false, message: "Sede no encontrada" });
+        }
+
+        // Agregar el administrador al arreglo de administradores de la sede
+        sede.Administradores.push(newAdminData);
+        await sede.save();
+
+        res.json({ success: true, message: "Administrador agregado exitosamente a la sede", data: newAdminData });
+    } catch (error) {
+        console.error("Error al agregar el administrador a la sede:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+};
+
+export const addEmpleadoToSede = async (req, res) => {
+    const sedeId = req.params.id;
+    const { numeroControl } = req.body;
+
+    try {
+        const sede = await sedeModel.findById(sedeId);
+        if (!sede) {
+            return res.status(404).json({ success: false, message: "Sede no encontrada" });
+        }
+
+        // Aquí debes agregar lógica para obtener los datos completos del empleado
+        // Esto es solo un ejemplo, debes reemplazarlo con tu lógica real para obtener los datos del empleado
+        const empleado = await obtenerEmpleadoPorNumeroControl(numeroControl);
+
+        if (!empleado) {
+            return res.status(404).json({ success: false, message: "Empleado no encontrado" });
+        }
+
+        sede.Empleados.push(empleado); // Guardar los datos completos del empleado
+        await sede.save();
+
+        res.json({ success: true, message: "Empleado agregado exitosamente a la sede", data: sede });
+    } catch (error) {
+        console.error("Error al agregar el empleado a la sede:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+};

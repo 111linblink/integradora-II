@@ -8,7 +8,7 @@ import { routesSedes } from './routes/routesSedes.js';
 import { routesTipoAreas } from './routes/routerTipoArea.js';
 import { routesTipoUsuario } from './routes/routerTipoUsuarios.js';
 import { routesVacaciones } from './routes/routerVacaciones.js';
-import routesAsignarCapacitaciones from './routes/routesAsignarCapacitaciones.js';
+import routesAsignarCapacitaciones from './routes/routesAsignar.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
