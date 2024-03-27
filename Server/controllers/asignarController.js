@@ -1,4 +1,4 @@
-import Asignacion from '../models/asignarCapacitacionesModel.js';
+import Asignacion from '../models/asignarModel.js';
 
 export const obtenerCapacitacionesAsignadasPorUsuarioId = async (req, res) => {
   try {

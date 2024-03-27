@@ -20,6 +20,7 @@ const SA_visualizar = () => {
   const [numeroEmpleadoBuscado, setNumeroEmpleadoBuscado] = useState('');
   const [openAlert, setOpenAlert] = useState(false);
   const [deletedUserName, setDeletedUserName] = useState('');
+  const [tiposDeUsuario, setTiposDeUsuario] = useState([]);
 
   const handleCloseAlert = (event, reason) => {
     if (reason === 'clickaway') {
@@ -35,6 +36,14 @@ const SA_visualizar = () => {
       })
       .catch(error => {
         console.error('Error al obtener datos:', error);
+      });
+
+      axios.get('http://localhost:3000/tipoUsuario/ver')
+      .then(response => {
+          setTiposDeUsuario(response.data.data.map(tipo => tipo.Tipo));
+      })
+      .catch(error => {
+          console.error('Error al obtener los tipos de usuario:', error);
       });
 
     axios.get('http://localhost:3000/sedes/sedes_areas')
@@ -162,9 +171,9 @@ const SA_visualizar = () => {
       
       <select className="v141_78 v141_79" value={tipoSeleccionado} onChange={handleTipoChange}>
         <option value=''>Seleccione un Tipo</option>
-        {areas.map((tipo, index) => (
-          <option key={index} value={tipo}>{tipo}</option>
-        ))}
+        {tiposDeUsuario.map((tipo, index) => (
+                        <option key={index} value={tipo}>{tipo}</option>
+                    ))}
       </select>
 
       <div className="v141_17"></div>
