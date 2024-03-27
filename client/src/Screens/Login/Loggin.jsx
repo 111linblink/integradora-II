@@ -28,7 +28,15 @@ function Login() {
 
       if (response.ok) {
         console.log('Inicio de sesión exitoso:', data);
-        navigate('/sa-agregar');
+        // Guardar el correo y el nombre en localStorage
+        localStorage.setItem('correoElectronico', correoElectronico);
+        localStorage.setItem('nombre', data.nombre);
+        // Redirige según el rol del usuario
+        if (data.role === 'admin') {
+          navigate('/admin');
+        } else if (data.role === 'empleado') {
+          navigate('/empleado');
+        }
       } else {
         setMensaje(data.message || 'Error al iniciar sesión');
       }
@@ -37,6 +45,11 @@ function Login() {
       setMensaje('Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.');
     }
   };
+
+  // Verificar si hay sesión iniciada al cargar la página
+  if (localStorage.getItem('correoElectronico')) {
+    navigate('/ruta-de-inicio'); // Redirigir a la página de inicio si hay sesión iniciada
+  }
 
   return (
     <div style={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#0C789C' }}>
