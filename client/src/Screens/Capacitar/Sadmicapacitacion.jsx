@@ -40,6 +40,10 @@ const Sadmicapacitacion = () => {
     const [capacitaciones, setCapacitaciones] = useState([]);
     const [selectedCapacitacionIndex, setSelectedCapacitacionIndex] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
+    const [sedes, setSedes] = useState([]); // Estado para almacenar las sedes y sus áreas disponibles
+
+
+   
 
     useEffect(() => {
         async function fetchData() {
@@ -51,6 +55,18 @@ const Sadmicapacitacion = () => {
             }
         }
         fetchData();
+            // Obtener la lista de sedes disponibles al cargar el componente
+            Axios.get('http://localhost:3000/sedes/sedes_areas')
+            .then(response => {
+                console.log(response.data);
+                setSedes(response.data.data.map(sede => ({
+                    nombre: sede.Nombre,
+                    areas: sede.Areas.map(area => area.NombreArea) // Almacenar solo los nombres de las áreas
+                })));
+            })
+            .catch(error => {
+                console.error('Error al obtener las sedes:', error);
+            });
     }, []);
 
     const handleInputChange = (event) => {
@@ -239,18 +255,21 @@ const Sadmicapacitacion = () => {
             </div>
 
             <div>
-                <select className="tipoArea" onChange={handleInputChange} name="Area" value={formData.Area}>
-                    <option value="" defaultValue="">Tipo de área</option>
-                    <option value="Administrativa">Administrativa</option>
-                    <option value="Operativa">Operativa</option>
+
+            <select className="tipoArea" onChange={handleInputChange} name="Sede" value={formData.Sede}>
+                    <option value="" defaultValue="">Sede</option>
+                    {sedes.map((sede, index) => (
+                        <option key={index} value={sede.nombre}>{sede.nombre}</option>
+                    ))}
                 </select>
 
-                <select className="tipoSede" onChange={handleInputChange} name="Sede" value={formData.Sede}>
-                    <option value="" defaultValue="">Sede</option>
-                    <option value="León">León</option>
-                    <option value="Salamanca">Salamanca</option>
-                    <option value="Dolores Hidalgo">Dolores Hidalgo</option>
+                <select className="tipoSede" onChange={handleInputChange} name="Area" value={formData.Area}>
+                    <option value="" defaultValue="">Area</option>
+                    {formData.Sede && sedes.find(sede => sede.nombre === formData.Sede)?.areas.map((area, index) => (
+                        <option key={index} value={area}>{area}</option>
+                    ))}
                 </select>
+
             </div>
 
             <div style={{ width: 540, height: 37, left: 98, top: 529, position: 'absolute', color: 'black', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>

@@ -3,6 +3,7 @@ import UsuarioModel from '../models/usuarioModel.js'; // Importa el modelo de us
 
 // Login
 export const login = async (req, res) => {
+    
     const { CorreoElectronico, Contrasena } = req.body;
 
     try {

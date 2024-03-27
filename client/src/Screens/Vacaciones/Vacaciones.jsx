@@ -121,7 +121,7 @@ const Vacaciones = () => {
       return;
     }
     try {
-      const nuevaSolicitud = { ...formData, Estado: "En proceso" };
+      const nuevaSolicitud = { ...formData, Estado: "Rechazado" };
       await Axios.post("http://localhost:3000/Vacaciones/crear_solicitud_vacaciones", nuevaSolicitud);
       setShowSuccessAlert(true);
       setShowErrorAlert(false);

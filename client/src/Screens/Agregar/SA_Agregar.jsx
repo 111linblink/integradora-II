@@ -14,8 +14,8 @@ const SA_Agregar = () => {
         Contrato: "",
         Contrasena: "",
         ConfirmarContraseña: "",
-        Sede: "", // Agrega el estado para almacenar la sede seleccionada
-        Area: ""  // Agrega el estado para almacenar el área seleccionada
+        Sede: "", 
+        Area: ""  
     });
 
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
