@@ -297,7 +297,7 @@ const Contrato = () => {
             <div className="AgregarNuevoEmpleado" style={{ width: 540, height: 37, left: 98, top: 161, position: 'absolute', color: 'black', fontSize: 30, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
                 Administracion de Sedes
             </div>
-            <Button color="primary" style={{ left: 1305, top: 87 }}><FormDialog /> </Button>
+            <Button color="primary" style={{ left: 1268, top: 87 }}><FormDialog /> </Button>
         </>
     );
 };
