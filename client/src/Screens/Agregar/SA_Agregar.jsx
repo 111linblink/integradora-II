@@ -18,9 +18,12 @@ const SA_Agregar = () => {
         Contrato: "",
         Contrasena: "",
         ConfirmarContraseña: "",
+
         Sede: "",
         Area: "",
         Img:""
+
+
     });
 
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);

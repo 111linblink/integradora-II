@@ -47,6 +47,7 @@ export const subirEmpleados = async (req, res) => {
 
 // Login
 export const login = async (req, res) => {
+    
     const { CorreoElectronico, Contrasena } = req.body;
 
     try {
