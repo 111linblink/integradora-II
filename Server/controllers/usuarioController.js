@@ -49,22 +49,31 @@ export const subirEmpleados = async (req, res) => {
 
 // Login
 export const login = async (req, res) => {
-    
     const { CorreoElectronico, Contrasena } = req.body;
 
     try {
-        console.log('CorreoElectronico:', CorreoElectronico);
-        console.log('Contrasena:', Contrasena);
         const user = await UsuarioModel.findOne({ CorreoElectronico });
+
         if (!user || user.Contrasena !== Contrasena) {
             return res.status(401).json({ success: false, message: "Credenciales incorrectas" });
         }
-        res.json({ success: true, message: "Inicio de sesión exitoso" });
+
+        res.json({ 
+            success: true, 
+            message: "Inicio de sesión exitoso", 
+            Tipo: user.Tipo,
+            usuario: {
+                nombre: user.Nombre,
+                correo: user.CorreoElectronico,
+                numero: user.Numero_Empleado,
+            }
+        });
     } catch (error) {
         console.error("Error al iniciar sesión:", error);
         res.status(500).json({ success: false, message: "Error del servidor" });
     }
-}
+};
+
 
 // Mostrar todos los usuarios
 export const getAllUsers = async (req, res) => {

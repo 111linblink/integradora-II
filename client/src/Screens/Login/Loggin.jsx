@@ -28,7 +28,23 @@ function Login() {
 
       if (response.ok) {
         console.log('Inicio de sesión exitoso:', data);
-        navigate('/sa-agregar');
+        // Guardar los datos en el sessionStorage
+        sessionStorage.setItem('userData', JSON.stringify(data.usuario));
+        // Redirigir según el tipo de usuario
+        switch (data.Tipo) {
+          case 'Super Administrador':
+            navigate('/sa-agregar'); 
+            break;
+          case 'Administrador':
+            navigate('/sa-agregar');
+            break;
+          case 'Empleado':
+            navigate('/vacaciones');
+            break;
+          default:
+            console.log('Tipo de usuario desconocido');
+            break;
+        }
       } else {
         setMensaje(data.message || 'Error al iniciar sesión');
       }
