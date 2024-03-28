@@ -13,7 +13,8 @@ const usuarioSchema = new Schema({
     Sexo: String,
     Contrato: String,
     Tipo: String,
-    Contrasena:String
+    Contrasena:String,
+    Img:String
 }, {
    
 });

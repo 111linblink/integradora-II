@@ -1,23 +1,77 @@
-// Importa el modelo de usuario desde el archivo usuarioModel.js
-import UsuarioModel from '../models/usuarioModel.js'; // Importa el modelo de usuario
+import UsuarioModel from '../models/usuarioModel.js';
+import multer from 'multer';
+import fs from 'fs';
+
+export const subirEmpleados = async (req, res) => {
+    try {
+        // Verificar si se cargó un archivo
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: "No se ha proporcionado ningún archivo" });
+        }
+
+        const filePath = req.file.path; // Ruta del archivo temporal
+        const rawData = fs.readFileSync(filePath);
+        const empleados = JSON.parse(rawData);
+
+        // Iterar sobre los empleados y guardarlos en la base de datos
+        for (const empleado of empleados) {
+            // Crear un nuevo objeto de usuario con campos vacíos si faltan datos
+            const nuevoEmpleado = {
+                Nombre: empleado.Nombre || '',
+                Numero_Empleado: empleado.Numero_Empleado || null,
+                Estado: empleado.Estado || '',
+                CorreoElectronico: empleado.CorreoElectronico || '',
+                Area: empleado.Area || '',
+                Sede: empleado.Sede || '',
+                FechaNacimiento: empleado.FechaNacimiento || null,
+                Sexo: empleado.Sexo || '',
+                Contrato: empleado.Contrato || '',
+                Tipo: empleado.Tipo || '',
+                Contrasena: empleado.Contrasena || '',
+                Img: empleado.Img || ''
+            };
+
+            // Guardar el empleado en la base de datos
+            await UsuarioModel.create(nuevoEmpleado);
+        }
+
+        // Eliminar el archivo temporal después de procesarlo
+        fs.unlinkSync(filePath);
+
+        res.json({ success: true, message: "Carga masiva de empleados completada exitosamente" });
+    } catch (error) {
+        console.error("Error al cargar empleados:", error);
+        res.status(500).json({ success: false, message: "Error del servidor al cargar empleados" });
+    }
+};
 
 // Login
 export const login = async (req, res) => {
     const { CorreoElectronico, Contrasena } = req.body;
 
     try {
-        console.log('CorreoElectronico:', CorreoElectronico);
-        console.log('Contrasena:', Contrasena);
         const user = await UsuarioModel.findOne({ CorreoElectronico });
+
         if (!user || user.Contrasena !== Contrasena) {
             return res.status(401).json({ success: false, message: "Credenciales incorrectas" });
         }
-        res.json({ success: true, message: "Inicio de sesión exitoso" });
+
+        res.json({ 
+            success: true, 
+            message: "Inicio de sesión exitoso", 
+            Tipo: user.Tipo,
+            usuario: {
+                nombre: user.Nombre,
+                correo: user.CorreoElectronico,
+                numero: user.Numero_Empleado,
+            }
+        });
     } catch (error) {
         console.error("Error al iniciar sesión:", error);
         res.status(500).json({ success: false, message: "Error del servidor" });
     }
-}
+};
+
 
 // Mostrar todos los usuarios
 export const getAllUsers = async (req, res) => {

@@ -3,6 +3,10 @@ import NarBar from '../NarBar.js/NarBar';
 import { Alert } from '@mui/material';
 import "./agregar.css";
 import Axios from 'axios';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
 
 const SA_Agregar = () => {
     const [formData, setFormData] = useState({
@@ -14,8 +18,12 @@ const SA_Agregar = () => {
         Contrato: "",
         Contrasena: "",
         ConfirmarContraseña: "",
+
         Sede: "",
-        Area: ""
+        Area: "",
+        Img:""
+
+
     });
 
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -112,14 +120,14 @@ const SA_Agregar = () => {
             setShowSuccessAlert(true);
             setShowErrorAlert(false);
             setFormData({
-                Nombre: "",
+               
                 Numero_Empleado: "",
                 CorreoElectronico: "",
                 Sexo: "",
                 Tipo: "",
                 Contrato: "",
                 Contrasena: "",
-                ConfirmarContraseña: "",
+
                 Sede: "",
                 Area: ""
             });
@@ -142,13 +150,40 @@ const SA_Agregar = () => {
         return emailRegex.test(email);
     };
 
+    const VisuallyHiddenInput = styled('input')({
+        clip: 'rect(0 0 0 0)',
+        clipPath: 'inset(50%)',
+        height: 1,
+        overflow: 'hidden',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        whiteSpace: 'nowrap',
+        width: 1,
+      });
+
     return (
         <>
             <NarBar />
             <div className="SAdmin">
                 <div className="Rectangle157" />
                 <div className="Rectangle196" />
-                <div className="FotoDelEmpleado">Foto del empleado</div>
+               
+                <div className="FotoDelEmpleado">Foto del empleado
+                <Button
+                    component="label"
+                    role={undefined}
+                    variant="contained"
+                    tabIndex={-1}
+                    startIcon={<CloudUploadIcon />}
+                    onChange={CrearUsuario} name="Img" value={formData.Img}
+                >
+                   Subir imagen 
+                <VisuallyHiddenInput type="file" accept="image/*" />
+                </Button>
+                
+                </div>
+                
 
                 <div className="alert-container">
                     {showSuccessAlert && <Alert variant="filled" severity="success">Usuario creado correctamente</Alert>}

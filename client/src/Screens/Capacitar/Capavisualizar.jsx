@@ -22,6 +22,9 @@ const Capavisualizar = () => {
   const [assignedCapacitaciones, setAssignedCapacitaciones] = useState([]);
   const [assignmentAlert, setAssignmentAlert] = useState(false);
   const [assignedCapacitacionName, setAssignedCapacitacionName] = useState('');
+  const [nombreSedeBuscado, setNombreSedeBuscado] = useState("");
+  const [sedesAreas, setSedesAreas] = useState([]);
+  const [areasSeleccionadas, setAreasSeleccionadas] = useState([]);
 
   useEffect(() => {
     axios.get('http://localhost:3000/usuarios/user')
@@ -48,6 +51,15 @@ const Capavisualizar = () => {
       .catch(error => {
         console.error('Error al obtener capacitaciones:', error);
       });
+    
+    // Cargar sedes y áreas
+    axios.get('http://localhost:3000/sedesAreas')
+      .then(response => {
+        setSedesAreas(response.data);
+      })
+      .catch(error => {
+        console.error('Error al obtener sedes y áreas:', error);
+      });
   }, []);
 
   useEffect(() => {
@@ -72,7 +84,15 @@ const Capavisualizar = () => {
     const capacitacionSeleccionada = capacitaciones.find(capacitacion => capacitacion.id === selection);
     setSelectedCapacitacion(capacitacionSeleccionada);
   };
-  
+
+  const handleNombreSedeChange = (event) => {
+    const nombreSede = event.target.value;
+    setNombreSedeBuscado(nombreSede);
+  };  
+
+  const filteredData = data.filter(usuario => {
+    return usuario.Sede.toLowerCase().includes(nombreSedeBuscado.toLowerCase());
+  });
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -111,7 +131,6 @@ const Capavisualizar = () => {
         console.error('Error al guardar la asignación:', error);
       });
   };
-  
   
 
   const handleDelete = (id, nombre) => {
@@ -156,8 +175,9 @@ const Capavisualizar = () => {
       <NarBar />
       <div className="v141_16">
         <div style={{ height: 400, width: '100%', marginTop: 100 }}>
+          <input type="text" value={nombreSedeBuscado} onChange={handleNombreSedeChange} placeholder="Buscar Nombre de Sede" className='v141_18 ' style={{ left: 940, top: -67 }} />
           <DataGrid
-            rows={data}
+            rows={filteredData}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5, 10, 20]}
