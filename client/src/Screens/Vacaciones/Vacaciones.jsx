@@ -101,7 +101,7 @@ const Vacaciones = () => {
 
   const SolicitarVacaciones = async () => {
     const today = new Date().toISOString().split('T')[0];
-    if (formData.DiaIni < today || formData.DiaFin < today || formData.DiaFin < formData.DiaIni) {
+    if (formData.DiaIni <= today || formData.DiaFin <= today || formData.DiaFin < formData.DiaIni) {
       setShowErrorAlert(true);
       setShowSuccessAlert(false);
       setTimeout(() => {
@@ -121,7 +121,7 @@ const Vacaciones = () => {
       return;
     }
     try {
-      const nuevaSolicitud = { ...formData, Estado: "En proceso" };
+      const nuevaSolicitud = { ...formData, Estado: "Procesando" };
       await Axios.post("http://localhost:3000/Vacaciones/crear_solicitud_vacaciones", nuevaSolicitud);
       setShowSuccessAlert(true);
       setShowErrorAlert(false);
@@ -164,7 +164,7 @@ const Vacaciones = () => {
   };
 
   const handleUpdate = (id, diaIni, diaFin, estado) => {
-    if (estado === "Aprobada" || estado === "Rechazada") {
+    if (estado === "Aprobada" || estado === "Denegada") {
       return;
     }
     setOpenDialog(true);
@@ -204,7 +204,7 @@ const Vacaciones = () => {
   const handleSaveChanges = async () => {
     try {
       const today = new Date().toISOString().split('T')[0];
-      if (formData.DiaIniDialog < today || formData.DiaFinDialog < today || formData.DiaFinDialog < formData.DiaIniDialog) {
+      if (formData.DiaIniDialog <= today || formData.DiaFinDialog <= today || formData.DiaFinDialog < formData.DiaIniDialog) {
         setShowErrorAlert(true);
         setShowSuccessAlert(false);
         setTimeout(() => {
@@ -249,7 +249,7 @@ const Vacaciones = () => {
       width: 300,
       renderCell: (params) => (
         <div>
-          {(params.row.Estado !== "Aprobada" && params.row.Estado !== "Rechazada") && (
+          {(params.row.Estado !== "Aprobada" && params.row.Estado !== "Denegada") && (
             <>
               <Button onClick={() => handleDelete(params.row.id)} variant="outlined" color="error" startIcon={<DeleteIcon />}>Eliminar</Button>
               <Button onClick={() => handleUpdate(params.row.id, params.row.DiaIni, params.row.DiaFin, params.row.Estado)} variant="outlined" color="primary">Actualizar</Button>
