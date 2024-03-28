@@ -2,6 +2,8 @@ import UsuarioModel from '../models/usuarioModel.js';
 import multer from 'multer';
 import fs from 'fs';
 
+const upload = multer({ dest: 'uploads/' }); // Directorio donde se guardarán los archivos temporales
+
 export const subirEmpleados = async (req, res) => {
     try {
         // Verificar si se cargó un archivo
@@ -9,9 +11,9 @@ export const subirEmpleados = async (req, res) => {
             return res.status(400).json({ success: false, message: "No se ha proporcionado ningún archivo" });
         }
 
-        const filePath = req.file.path; // Ruta del archivo temporal
-        const rawData = fs.readFileSync(filePath);
-        const empleados = JSON.parse(rawData);
+        const rutaArchivo = req.file.path; // Ruta del archivo temporal
+        const datosCrudos = fs.readFileSync(rutaArchivo);
+        const empleados = JSON.parse(datosCrudos);
 
         // Iterar sobre los empleados y guardarlos en la base de datos
         for (const empleado of empleados) {
@@ -36,7 +38,7 @@ export const subirEmpleados = async (req, res) => {
         }
 
         // Eliminar el archivo temporal después de procesarlo
-        fs.unlinkSync(filePath);
+        fs.unlinkSync(rutaArchivo);
 
         res.json({ success: true, message: "Carga masiva de empleados completada exitosamente" });
     } catch (error) {

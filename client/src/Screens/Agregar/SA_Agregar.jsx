@@ -6,7 +6,7 @@ import Axios from 'axios';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-
+import CargaMasiva from './CargaMasiva';
 
 const SA_Agregar = () => {
     const [formData, setFormData] = useState({
@@ -165,8 +165,11 @@ const SA_Agregar = () => {
     return (
         <>
             <NarBar />
+           
             <div className="SAdmin">
+             
                 <div className="Rectangle157" />
+                <div  style={{marginLeft:'1230px', marginTop:'130px'}} > <CargaMasiva ></CargaMasiva></div>
                 <div className="Rectangle196" />
                
                 <div className="FotoDelEmpleado">Foto del empleado

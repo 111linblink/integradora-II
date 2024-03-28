@@ -92,18 +92,23 @@ const Contrato = () => {
 
     const handleAgregarHorario = async (id) => {
         try {
-            const datosHorario = {
-                Numero: 1, // Reemplaza con el número de turno apropiado
-                HoraInicial: horarioNuevo.HoraInicial,
-                HoraFinal: horarioNuevo.HoraFinal
-            };
-            await Axios.post(`http://localhost:3000/contrato/add_horario/${id}`, datosHorario);
-            alert(`Horario agregado al contrato exitosamente.`);
-            setOpenAgregarHorarioDialog(false);
+            if (id) {
+                const datosHorario = {
+                    Numero: 2, // Reemplaza con el número de turno apropiado
+                    HoraInicial: horarioNuevo.HoraInicial,
+                    HoraFinal: horarioNuevo.HoraFinal
+                };
+                await Axios.post(`http://localhost:3000/contrato/add_horario/${id}`, datosHorario);
+                alert(`Horario agregado al contrato exitosamente.`);
+                setOpenAgregarHorarioDialog(false);
+            } else {
+                console.error('ID de contrato inválido');
+            }
         } catch (error) {
             console.error('Error al agregar el horario al contrato:', error.message);
         }
     };
+    
 
     const handleEliminarHorario = (index) => {
         const updatedHorarios = horariosDialog.filter((_, i) => i !== index);

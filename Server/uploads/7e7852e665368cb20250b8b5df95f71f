@@ -1,0 +1,5 @@
+Nombre,Numero_Empleado,Status,CorreoElectronico,Area,Sede,FechaNacimiento,Sexo,Contrato,Tipo
+Juan Pérez,12345,Activo,juan@example.com,Recursos Humanos,Ciudad de México,1990-05-15,Masculino,Indefinido,Administrativo
+María García,54321,Activo,maria@example.com,Ventas,Madrid,1988-10-20,Femenino,Temporal,Ejecutivo
+Pedro López,98765,Inactivo,pedro@example.com,Tecnología,Barcelona,1985-12-30,Masculino,Indefinido,Técnico
+Ana Martínez,13579,Activo,ana@example.com,Marketing,París,1995-08-25,Femenino,Temporal,Marketing
