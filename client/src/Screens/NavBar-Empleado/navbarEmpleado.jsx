@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './navbarEmpleado.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NavbarEmpleado = () => {
   const [mostrarVentanaNotificaciones, setMostrarVentanaNotificaciones] = useState(false);
   const [mostrarVentanaUsuario, setMostrarVentanaUsuario] = useState(false);
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    // Función para obtener los datos del usuario desde el sessionStorage
+    const obtenerDatosUsuario = () => {
+      const userDataFromStorage = sessionStorage.getItem('userData');
+      if (userDataFromStorage) {
+        setUserData(JSON.parse(userDataFromStorage)); // Establecer los datos del usuario en el estado
+      }
+    };
+
+    obtenerDatosUsuario();
+  }, []);
 
   const handleMostrarVentanaNotificaciones = () => {
     setMostrarVentanaNotificaciones(true);
@@ -17,6 +30,13 @@ const NavbarEmpleado = () => {
   const handleCloseVentana = () => {
     setMostrarVentanaNotificaciones(false);
     setMostrarVentanaUsuario(false);
+  };
+
+  const navigate = useNavigate();
+
+  const handleCerrarSesion=()=>{
+    sessionStorage.removeItem('userData');
+    navigate('/');
   };
 
   return (
@@ -50,14 +70,14 @@ const NavbarEmpleado = () => {
         </div>
       )}
 
-      {mostrarVentanaUsuario && (
+      {mostrarVentanaUsuario && userData && (
         <div className="usuarioVentanaEmergente" onClick={handleCloseVentana}>
           <div className="contenido">
-            <h3>Información del empleado</h3>
-            <p>Nombre de empleado: John Doe</p>
-            <p>Sede: Ciudad de México</p>
-            <p>Área: Recursos Humanos</p>
-            <p>Id: 123456</p>
+            <h3>Información del usuario</h3>
+            <p>Nombre: {userData.nombre}</p>
+            <p>Correo electrónico: {userData.correo}</p>
+            <p>Numero de empleado: {userData.numero}</p>
+            <button className= 'actions-button' style={{ width: 200, height: 40, left: 1255, top: 2}} variant="outlined" color="error" onClick={handleCerrarSesion} >Cerrar Sesión</button>
           </div>
         </div>
       )}
