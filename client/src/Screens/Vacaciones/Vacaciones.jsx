@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import './Vacaciones.css';
 import { DataGrid } from '@mui/x-data-grid';
 import TextField from '@mui/material/TextField';
-import { Alert, Button, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, NativeSelect } from '@mui/material';
+import { Alert, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Axios from 'axios';
 import NavbarEmpleado from '../NavBar-Empleado/navbarEmpleado';
+import { useNavigate } from 'react-router-dom';
 
 const Vacaciones = () => {
   const [formData, setFormData] = useState({
     DiaIni: "",
     DiaFin: "",
-    tipoContrato: "",  
-    horario: ""  
   });
 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -20,84 +19,46 @@ const Vacaciones = () => {
   const [vacaciones, setVacaciones] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedVacationId, setSelectedVacationId] = useState("");
-  const [contratos] = useState([
-    { nombre: "5/2", horarios: ["7:00 – 15:00", "15:00 – 23:00", "23:00 – 7:00"] },
-    { nombre: "1/2", horarios: ["7:00 – 7:00", "19:00 – 19:00"] },
-    { nombre: "6/1", horarios: ["6:00 – 12:00", "12:00 – 18:00", "18:00 - 23:59", "0:00 – 6:00"] }
-  ]);
+  const [userData, setUserData] = useState(null); 
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchVacaciones();
-    fetchContratos();
+    const obtenerDatosUsuario = () => {
+      const userDataFromStorage = sessionStorage.getItem('userData');
+      if (userDataFromStorage) {
+        setUserData(JSON.parse(userDataFromStorage));
+      }
+    };
+
+    obtenerDatosUsuario();
+    obtenerSolicitudesVacaciones();
   }, []);
 
-  const fetchVacaciones = async () => {
+  const obtenerSolicitudesVacaciones = async () => {
     try {
-      const response = await Axios.get("http://localhost:3000/Vacaciones/solicitudes_vacaciones");
-      if (response.data && Array.isArray(response.data.data)) {
-        const formattedVacaciones = response.data.data.map(vacacion => ({
-          ...vacacion,
-          DiaIni: vacacion.DiaIni.substring(0, 10),
-          DiaFin: vacacion.DiaFin.substring(0, 10)
-        }));
-        setVacaciones(formattedVacaciones);
-      } else {
-        console.error('Error: El servidor no devolvió una matriz de vacaciones.');
-        setVacaciones([]);
+      const userDataFromStorage = sessionStorage.getItem('userData');
+      if (userDataFromStorage) {
+        const userData = JSON.parse(userDataFromStorage);
+        const numeroEmpleado = userData.numero; // Obtener el número de empleado del almacenamiento
+        const response = await Axios.get(`http://localhost:3000/Vacaciones/solicitudes_vacaciones/${numeroEmpleado}`);
+        if (response.data && Array.isArray(response.data.data)) {
+          const formattedVacaciones = response.data.data.map(vacacion => ({
+            ...vacacion,
+            DiaIni: vacacion.DiaIni.substring(0, 10),
+            DiaFin: vacacion.DiaFin.substring(0, 10)
+          }));
+          setVacaciones(formattedVacaciones);
+        } else {
+          console.error('Error: El servidor no devolvió una matriz de vacaciones.');
+          setVacaciones([]);
+        }
       }
     } catch (error) {
       console.error('Error al obtener las peticiones de vacaciones:', error.message);
       setVacaciones([]);
     }
   };
-
-  const fetchContratos = async () => {
-    try {
-      const response = await Axios.get("http://localhost:3000/contratos"); 
-      if (response.data && Array.isArray(response.data.data)) {
-      } else {
-        console.error('Error: El servidor no devolvió una matriz de contratos.');
-      }
-    } catch (error) {
-      console.error('Error al obtener los contratos:', error.message);
-    }
-  };
-
-  const SolicitarContrato = async () => {
-    const requiredFields = ['tipoContrato', 'horario'];
-    const fieldsAreFilled = requiredFields.every(field => formData[field] !== "");
-    if (!fieldsAreFilled) {
-      setShowErrorAlert(true);
-      setShowSuccessAlert(false);
-      setTimeout(() => {
-        setShowErrorAlert(false);
-      }, 2000);
-      return;
-    }
-    try {
-
-      await Axios.post("http://localhost:3000/Vacaciones/crear_contrato");
-      setShowSuccessAlert(true);
-      setShowErrorAlert(false);
-      setFormData({
-        ...formData,
-        tipoContrato: "",
-        horario: ""  
-      });
-      fetchContratos(); 
-      setTimeout(() => {
-        setShowSuccessAlert(false);
-      }, 2000);
-    } catch (error) {
-      console.error('Error al crear la solicitud de contrato:', error.message);
-      setShowErrorAlert(true);
-      setShowSuccessAlert(false);
-      setTimeout(() => {
-        setShowErrorAlert(false);
-      }, 2000);
-    }
-  };
-  
 
   const SolicitarVacaciones = async () => {
     const today = new Date().toISOString().split('T')[0];
@@ -120,21 +81,28 @@ const Vacaciones = () => {
       }, 2000);
       return;
     }
+  
     try {
-
-      const nuevaSolicitud = { ...formData, Estado: "Procesando" };
-      await Axios.post("http://localhost:3000/Vacaciones/crear_solicitud_vacaciones", nuevaSolicitud);
-      setShowSuccessAlert(true);
-      setShowErrorAlert(false);
-      setFormData({
-        ...formData,
-        DiaIni: "",
-        DiaFin: ""
-      });
-      fetchVacaciones();
-      setTimeout(() => {
-        setShowSuccessAlert(false);
-      }, 2000);
+      const userDataFromStorage = sessionStorage.getItem('userData');
+      if (userDataFromStorage) {
+        const userData = JSON.parse(userDataFromStorage);
+        const numeroEmpleado = userData.numero; // Obtener el número de empleado del almacenamiento
+        const nuevaSolicitud = { ...formData, Estado: "Procesando", Numero_Empleado: numeroEmpleado };
+        await Axios.post("http://localhost:3000/Vacaciones/crear_solicitud_vacaciones", nuevaSolicitud);
+        setShowSuccessAlert(true);
+        setShowErrorAlert(false);
+        setFormData({
+          ...formData,
+          DiaIni: "",
+          DiaFin: ""
+        });
+        obtenerSolicitudesVacaciones();
+        setTimeout(() => {
+          setShowSuccessAlert(false);
+        }, 2000);
+      } else {
+        throw new Error('Error: No se pudo obtener el número de empleado del sessionStorage.');
+      }
     } catch (error) {
       console.error('Error al crear la solicitud de vacaciones:', error.message);
       setShowErrorAlert(true);
@@ -144,13 +112,15 @@ const Vacaciones = () => {
       }, 2000);
     }
   };
+  
+
 
   const handleDelete = async (id) => {
     try {
       await Axios.delete(`http://localhost:3000/Vacaciones/eliminar_solicitud_vacaciones/${id}`);
       setShowSuccessAlert(true);
       setShowErrorAlert(false);
-      fetchVacaciones();
+      obtenerSolicitudesVacaciones();
       setTimeout(() => {
         setShowSuccessAlert(false);
       }, 2000);
@@ -183,23 +153,10 @@ const Vacaciones = () => {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    if (id === "tipoContrato") {
-      setFormData({
-        ...formData,
-        [id]: value,
-        horario: ""  
-      });
-    } else if (id === "horario") {
-      setFormData({
-        ...formData,
-        [id]: value
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [id]: value
-      });
-    }
+    setFormData({
+      ...formData,
+      [id]: value
+    });
   };
 
   const handleSaveChanges = async () => {
@@ -219,7 +176,7 @@ const Vacaciones = () => {
       setShowSuccessAlert(true);
       setShowErrorAlert(false);
       handleCloseDialog();
-      fetchVacaciones();
+      obtenerSolicitudesVacaciones();
       setTimeout(() => {
         setShowSuccessAlert(false);
       }, 2000);
@@ -233,17 +190,19 @@ const Vacaciones = () => {
     }
   };
 
-  const rows = vacaciones.map((vacacion, index) => ({
+  const rows = vacaciones.map((vacacion) => ({
     id: vacacion._id,
-    DiaIni: vacacion.DiaIni,
-    DiaFin: vacacion.DiaFin,
-    Estado: vacacion.Estado
+    DiaIni: vacacion.DiaIni.substring(0, 10),
+    DiaFin: vacacion.DiaFin.substring(0, 10),
+    Estado: vacacion.Estado,
+    NumeroEmpleado: vacacion.Numero_Empleado // Mostrar el número de empleado
   }));
 
   const columns = [
     { field: 'DiaIni', headerName: 'Primer Día', width: 110 },
     { field: 'DiaFin', headerName: 'Último Día', width: 110 },
     { field: 'Estado', headerName: 'Estado', width: 120 },
+    { field: 'NumeroEmpleado', headerName: 'Número de Empleado', width: 180 }, // Mostrar el número de empleado
     {
       field: 'actions',
       headerName: 'Acciones',
@@ -273,38 +232,7 @@ const Vacaciones = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }} className="root">
-      <NavbarEmpleado />
-        <div className="rectangulo1">
-          <img className="usuario" src="../assets/Usuario.png" alt="Usuario"/>
-          <div className="nombreEmpleado">Nombre de empleado</div>
-          <FormControl className="tipoContrato">
-            <InputLabel htmlFor="tipoContrato">Tipo de contrato</InputLabel>
-            <NativeSelect
-              id="tipoContrato"
-              value={formData.tipoContrato}
-              onChange={handleChange}
-            >
-              <option aria-label="None" value="" />
-              {contratos.map((contrato, index) => (
-                <option key={index} value={contrato.nombre}>{contrato.nombre}</option>
-              ))}
-            </NativeSelect>
-          </FormControl>
-          <FormControl className="horario">
-            <InputLabel htmlFor="horario">Horarios</InputLabel>
-            <NativeSelect
-              id="horario"
-              value={formData.horario}
-              onChange={handleChange}
-            >
-              <option aria-label="None" value="" />
-              {contratos.find(contrato => contrato.nombre === formData.tipoContrato)?.horarios.map((horario, index) => (
-                <option key={index} value={horario}>{horario}</option>
-              ))}
-            </NativeSelect>
-          </FormControl>
-          <button className="solicitarContrato" onClick={SolicitarContrato}>Solicitar contrato</button>
-        </div>
+        <NavbarEmpleado />
         <div className="rectangulo2">
           <div className="textoCalendario">Solicitudes</div>
           <div className="rectanguloInterior">
@@ -334,12 +262,7 @@ const Vacaciones = () => {
             <button className="solicitar" onClick={SolicitarVacaciones}>Solicitar</button>
           </div>
         </div>
-        <div style={{ height: '55%', 
-          width: '45%', 
-          position: 'absolute',
-          top: '35%',
-          left: '30%'
-           }}>
+        <div style={{ height: '55%', width: '45%', position: 'absolute', top: '35%', left: '30%' }}>
           <DataGrid rows={rows} columns={columns} pageSize={5} />
         </div>
         <Dialog open={openDialog} onClose={handleCloseDialog}>
@@ -367,8 +290,8 @@ const Vacaciones = () => {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseDialog} color="secondary">Cancelar</Button>
-            <Button onClick={handleSaveChanges} color="primary">Guardar cambios</Button>
+            <Button onClick={handleCloseDialog}>Cancelar</Button>
+            <Button onClick={handleSaveChanges}>Guardar cambios</Button>
           </DialogActions>
         </Dialog>
         <div className="alert-container">

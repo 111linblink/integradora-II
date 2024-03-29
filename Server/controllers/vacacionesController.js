@@ -3,8 +3,8 @@ import Vacaciones from "../models/vacacionesModel.js";
 // Crear una solicitud de vacaciones
 export const crearSolicitudVacaciones = async (req, res) => {
     try {
-        const { DiaIni, DiaFin, Estado } = req.body; // Asegúrate de recibir el campo Estado del cuerpo de la solicitud
-        const nuevaSolicitud = new Vacaciones({ DiaIni, DiaFin, Estado }); // Asegúrate de incluir el campo Estado al crear un nuevo documento
+        const { DiaIni, DiaFin, Estado, Numero_Empleado } = req.body; // Asegúrate de recibir el campo Numero_Empleado del cuerpo de la solicitud
+        const nuevaSolicitud = new Vacaciones({ DiaIni, DiaFin, Estado, Numero_Empleado }); // Asegúrate de incluir el campo Numero_Empleado al crear un nuevo documento
         console.log("Nueva solicitud de vacaciones:", nuevaSolicitud);
         await nuevaSolicitud.save();
         res.json({ success: true, message: "Solicitud de vacaciones guardada exitosamente", data: nuevaSolicitud });
@@ -14,6 +14,18 @@ export const crearSolicitudVacaciones = async (req, res) => {
     }
 };
 
+// Obtener todas las solicitudes de vacaciones para un empleado específico
+export const obtenerSolicitudesDeEmpleado = async (req, res) => {
+    const numeroEmpleado = req.params.numeroEmpleado;
+  
+    try {
+      const data = await Vacaciones.find({ Numero_Empleado: numeroEmpleado });
+      res.json({ success: true, data: data });
+    } catch (error) {
+      console.error("Error al obtener las solicitudes de vacaciones para el empleado:", error);
+      res.status(500).json({ success: false, message: "Error del servidor al obtener las solicitudes de vacaciones para el empleado" });
+    }
+  };
 
 // Obtener todas las solicitudes de vacaciones
 export const obtenerTodasLasSolicitudesVacaciones = async (req, res) => {
