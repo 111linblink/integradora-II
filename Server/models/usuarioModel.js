@@ -13,9 +13,8 @@ const usuarioSchema = new Schema({
     Sexo: String,
     Contrato: String,
     Tipo: String,
-    Contrasena:String,
-    Img:String
-}, {
-   
-});
+    Contrasena: String,
+    Img: String // Campo para almacenar la imagen
+}, {});
+
 export default mongoose.model('empleados', usuarioSchema);

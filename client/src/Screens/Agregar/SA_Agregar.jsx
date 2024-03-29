@@ -17,13 +17,9 @@ const SA_Agregar = () => {
         Tipo: "",
         Contrato: "",
         Contrasena: "",
-        ConfirmarContraseña: "",
-
         Sede: "",
         Area: "",
-        Img:""
-
-
+        Img: ""
     });
 
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -85,51 +81,27 @@ const SA_Agregar = () => {
                 return;
             }
     
-            // Enviar la solicitud para crear el usuario
-            const response = await Axios.post("http://localhost:3000/usuarios/create", formData);
+            const formDataToSend = new FormData();
+            Object.keys(formData).forEach(key => {
+                formDataToSend.append(key, formData[key]);
+            });
+
+            const response = await Axios.post("http://localhost:3000/usuarios/create", formDataToSend);
             const usuarioCreado = response.data.data;
             console.log('Usuario creado:', usuarioCreado);
-    
-            // Obtener la lista de sedes con sus IDs
-            const sedesResponse = await Axios.get("http://localhost:3000/sedes/sedes_areas");
-            const sedes = sedesResponse.data.data;
-    
-            // Buscar el ID de la sede seleccionada
-            let sedeId;
-            sedes.forEach(sede => {
-                if (sede.Nombre === formData.Sede) {
-                    sedeId = sede._id;
-                }
-            });
-    
-            // Verificar si la sede fue encontrada
-            if (!sedeId) {
-                console.error('La sede seleccionada no se encontró en la lista de sedes:', formData.Sede);
-                setShowErrorAlert(true);
-                setShowSuccessAlert(false);
-                return;
-            }
-    
-            console.log('ID de la sede seleccionada:', sedeId);
-    
-            // Agregar al nuevo usuario a la sede correspondiente
-            const addEmployeeResponse = await Axios.post(`http://localhost:3000/sedes/add_empleado_to_sede/${sedeId}`, { numeroControl: formData.Numero_Empleado });
-
-            console.log('Respuesta de agregar empleado a la sede:', addEmployeeResponse.data);
     
             setShowSuccessAlert(true);
             setShowErrorAlert(false);
             setFormData({
-               
                 Numero_Empleado: "",
                 CorreoElectronico: "",
                 Sexo: "",
                 Tipo: "",
                 Contrato: "",
                 Contrasena: "",
-
                 Sede: "",
-                Area: ""
+                Area: "",
+                Img: ""
             });
         } catch (error) {
             console.error('Error al crear el usuario:', error.message);
@@ -162,37 +134,63 @@ const SA_Agregar = () => {
         width: 1,
       });
 
+      const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        const imgPreviewUrl = URL.createObjectURL(file);
+        setFormData({
+            ...formData,
+            Img: file,
+            ImgPreview: imgPreviewUrl
+        });
+    };
+    
+
     return (
         <>
             <NarBar />
-           
             <div className="SAdmin">
-             
                 <div className="Rectangle157" />
                 <div  style={{marginLeft:'1230px', marginTop:'130px'}} > <CargaMasiva ></CargaMasiva></div>
-                <div className="Rectangle196" />
-               
-                <div className="FotoDelEmpleado">Foto del empleado
-                <Button
-                    component="label"
-                    role={undefined}
-                    variant="contained"
-                    tabIndex={-1}
-                    startIcon={<CloudUploadIcon />}
-                    onChange={CrearUsuario} name="Img" value={formData.Img}
-                >
-                   Subir imagen 
-                <VisuallyHiddenInput type="file" accept="image/*" />
-                </Button>
-                
-                </div>
-                
+                <div className="Rectangle196" onChange={CrearUsuario} name="Img"/>
 
+                <div className="FotoDelEmpleado">
+                    Foto del empleado
+                    <input
+                        type="file"
+                        accept="image/*"
+                        id="img-upload"
+                        style={{ display: 'none' }}
+                        onChange={handleFileChange}
+                    />
+                    <label htmlFor="img-upload">
+                        <Button
+                            component="span"
+                            variant="contained"
+                            startIcon={<CloudUploadIcon />}
+                        >
+                            Subir imagen
+                        </Button>
+                    </label>
+                    <br />
+                    {formData.ImgPreview && (
+                        <img
+                            src={formData.ImgPreview}
+                            alt="Previsualización de la imagen"
+                            style={{
+                                maxWidth: '100%',
+                                maxHeight: '160px',
+                                marginTop: '10px',
+                                position: 'absolute',
+                                zIndex: '9999',
+                            }}
+                        />
+                    )}
+                  
+                </div>
                 <div className="alert-container">
                     {showSuccessAlert && <Alert variant="filled" severity="success">Usuario creado correctamente</Alert>}
                     {showErrorAlert && <Alert variant="filled" severity="error">Por favor, llene todos los campos requeridos correctamente</Alert>}
                 </div>
-
                 <input className="Rectangle97" type="text" placeholder="Nombre Apellido Paterno Apellido Materno" onChange={CrearUsuario} name="Nombre" value={formData.Nombre} />
                 <input className="Rectangle158" type="number" placeholder="Número Control Empleado" onChange={CrearUsuario} name="Numero_Empleado" value={formData.Numero_Empleado} />
                 <input className="Rectangle159" type="email" placeholder="Correo" onChange={CrearUsuario} name="CorreoElectronico" value={formData.CorreoElectronico} />
@@ -209,14 +207,12 @@ const SA_Agregar = () => {
                         <option key={index} value={tipo}>{tipo}</option>
                     ))}
                 </select>
-
                 <select className="Rectangle163" onChange={CrearUsuario} name="Sede" value={formData.Sede}>
                     <option value="" defaultValue="">Sede</option>
                     {sedes.map((sede, index) => (
                         <option key={index} value={sede.nombre}>{sede.nombre}</option>
                     ))}
                 </select>
-                
                 <select className="Rectangle164" onChange={CrearUsuario} name="Area" value={formData.Area}>
                     <option value="" defaultValue="">Area</option>
                     {formData.Sede && sedes.find(sede => sede.nombre === formData.Sede)?.areas.map((area, index) => (
@@ -235,7 +231,6 @@ const SA_Agregar = () => {
                         <option key={index} value={contrato}>{contrato}</option>
                     ))}
                 </select>
-
                 <div className="AgregarNuevoEmpleado" style={{ width: 540, height: 37, left: 98, top: 161, position: 'absolute', color: 'black', fontSize: 30, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
                     Agregar Empleado
                 </div>
@@ -248,4 +243,3 @@ const SA_Agregar = () => {
 };
 
 export default SA_Agregar;
-

@@ -9,8 +9,9 @@ const upload = multer({ dest: 'uploads/' });
 router.post("/login", usuarioController.login);
 router.get("/user", usuarioController.getAllUsers);
 router.get("/user/:id", usuarioController.getUserById);
-router.post("/create", usuarioController.createUser);
-router.post("/subirEmpleados", upload.single('archivo'), usuarioController.subirEmpleados); // Agregar multer aquí
+router.post("/create", upload.single('Img'), usuarioController.createUser);
+router.get("/imagen/:id", usuarioController.obtenerImagenUsuarioPorId);
+router.post("/subirEmpleados", upload.single('archivo'), usuarioController.subirEmpleados);
 router.put("/update/:id", usuarioController.updateUser);
 router.delete("/delete/:id", usuarioController.deleteUser);
 

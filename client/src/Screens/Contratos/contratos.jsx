@@ -54,19 +54,7 @@ const Contrato = () => {
         });
     };
 
-    const handleCrearContrato = async () => {
-        try {
-            await Axios.put(`http://localhost:3000/contrato/update_contrato/${contratoId}`, formData);
-            alert(`Contrato actualizado exitosamente.`);
-            setFormData({
-                Nombre: "",
-                Tipo: ""
-            });
-            window.location.reload();
-        } catch (error) {
-            console.error('Error al actualizar el contrato:', error.message);
-        }
-    };
+ 
 
     const handleEliminarContrato = async (id) => {
         try {
@@ -90,25 +78,25 @@ const Contrato = () => {
         setOpenDialog(true);
     };
 
-    const handleAgregarHorario = async (id) => {
+    const handleAgregarHorario = async () => {
         try {
-            if (id) {
+            if (contratoId) {
                 const datosHorario = {
-                    Numero: 2, // Reemplaza con el número de turno apropiado
+                    Numero: 1, 
                     HoraInicial: horarioNuevo.HoraInicial,
                     HoraFinal: horarioNuevo.HoraFinal
                 };
-                await Axios.post(`http://localhost:3000/contrato/add_horario/${id}`, datosHorario);
+                await Axios.post(`http://localhost:3000/contrato/add_horario/${contratoId}`, datosHorario);
                 alert(`Horario agregado al contrato exitosamente.`);
                 setOpenAgregarHorarioDialog(false);
+                window.location.reload();
             } else {
-                console.error('ID de contrato inválido');
+                console.error('Ningún contrato seleccionado');
             }
         } catch (error) {
             console.error('Error al agregar el horario al contrato:', error.message);
         }
     };
-    
 
     const handleEliminarHorario = (index) => {
         const updatedHorarios = horariosDialog.filter((_, i) => i !== index);
@@ -162,7 +150,7 @@ const Contrato = () => {
                 <div className="Rectangle" />
                 <div className="Tablas" style={{ maxHeight: '400px', overflowY: 'auto' }}>
                     <div>
-                        <h2>Listado de contratos</h2>
+                        <h2> </h2>
                         <TableContainer component={Paper}>
                             <Table aria-label="collapsible table">
                                 <TableHead>
@@ -181,7 +169,10 @@ const Contrato = () => {
                                             <TableCell>
                                                 <Button onClick={() => handleEliminarContrato(contrato._id)} variant="outlined" color="secondary" startIcon={<DeleteIcon />}>Eliminar</Button>
                                                 <Button onClick={() => handleVerHorarios(contrato.Turno)} variant="outlined" color="primary" startIcon={<EditIcon />}>Ver Horarios</Button>
-                                                <Button onClick={() => setOpenAgregarHorarioDialog(true)} variant="outlined" color="primary" startIcon={<AddIcon />}>Agregar Horario</Button>
+                                                <Button onClick={() => {
+                                                    setContratoId(contrato._id); // Establece el ID del contrato seleccionado
+                                                    setOpenAgregarHorarioDialog(true);
+                                                }} variant="outlined" color="primary" startIcon={<AddIcon />}>Agregar Horario</Button>
                                                 <Button onClick={() => handleModificarContrato(contrato)} variant="outlined" color="primary" startIcon={<EditIcon />}>Modificar Contrato</Button>
                                             </TableCell>
                                         </TableRow>
@@ -254,7 +245,7 @@ const Contrato = () => {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => handleAgregarHorario(contratoId)} color="primary">
+                    <Button onClick={handleAgregarHorario} color="primary">
                         Agregar Horario
                     </Button>
                     <Button onClick={closeModal} color="primary">
@@ -299,8 +290,8 @@ const Contrato = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <div className="AgregarNuevoEmpleado" style={{ width: 540, height: 37, left: 98, top: 161, position: 'absolute', color: 'black', fontSize: 30, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
-                Administracion de Sedes
+            <div className="AgregarNuevoEmpleado" style={{ width: 540, height: 37, left: 60, top: 161, position: 'absolute', color: 'black', fontSize: 30, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
+                Administracion de Contratos
             </div>
             <Button color="primary" style={{ left: 1268, top: 87 }}><FormDialog /> </Button>
         </>

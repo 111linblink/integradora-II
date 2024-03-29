@@ -8,6 +8,7 @@ const SA_Modificar = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
+    // Estados
     const [formData, setFormData] = useState({
         Nombre: '',
         Numero_Empleado: '',
@@ -18,14 +19,15 @@ const SA_Modificar = () => {
         FechaNacimiento: '',
         Sexo: '',
         Contrato: '',
-        Tipo: ''
+        Tipo: '',
+        Img: '' // Agregamos la propiedad Img al estado formData
     });
-
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [showErrorAlert, setShowErrorAlert] = useState(false);
-    const [sedes, setSedes] = useState([]); // Estado para almacenar las sedes y sus áreas disponibles
-    const [tiposDeUsuario, setTiposDeUsuario] = useState([]); // Estado para almacenar los tipos de usuario disponibles
+    const [sedes, setSedes] = useState([]);
+    const [tiposDeUsuario, setTiposDeUsuario] = useState([]);
     const [contratos, setContratos] = useState([]);
+    const [imageSrc, setImageSrc] = useState(''); // Estado para almacenar la URL de la imagen
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,7 +35,8 @@ const SA_Modificar = () => {
                 const response = await axios.get(`http://localhost:3000/usuarios/user/${id}`);
                 setFormData(response.data.data);
 
-              
+                // Llamar a la función para cargar la imagen del usuario
+                loadImage(response.data.data.Img);
             } catch (error) {
                 console.error("Error al obtener los datos:", error);
             }
@@ -75,6 +78,24 @@ const SA_Modificar = () => {
                 console.error('Error al obtener los contratos:', error);
             });
     }, []);
+
+    const loadImage = async (imgId) => {
+        try {
+            const response = await axios.get(`http://localhost:3000/usuarios/imagen/${imgId}`, {
+                responseType: 'arraybuffer'
+            });
+    
+            if (response.status === 200) {
+                const imageData = Buffer.from(response.data).toString('base64');
+                const imageSrc = `data:image/jpeg;base64,${imageData}`;
+                setImageSrc(imageSrc);
+            } else {
+                console.error('Error al cargar la imagen: respuesta no exitosa');
+            }
+        } catch (error) {
+            console.error('Error al cargar la imagen:', error.message);
+        }
+    };
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -95,49 +116,45 @@ const SA_Modificar = () => {
         }
     };
 
-    
-  return (
-    <>
-    <NarBar/>
-    
-    <div className="SAdmin" style={{ width: 153, height: 69, background: '#0C789C' }}>
-    
-        <div className="Rectangle157" style={{ width: 1459, height: 490, left: 32, top: 125, position: 'absolute' ,
-            background: 'white' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 20 }} />
-    
-        <div className="Rectangle196" style={{width: 296, height: 118, left: 1111, top: 384, position: 'absolute' ,
-            background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10}} />
-        <div className="FotoDelEmpleado" style={{width: 222, height: 19, left: 1159, top: 393, position: 'absolute' ,
-            color: 'rgba(0, 0, 0, 0.70)' , fontSize: 24, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
-            }}>Foto del empleado</div>
+    return (
+        <>
+            <NarBar />
 
-            
-    <input className="Rectangle97" style={{ width: 365, height: 37, left: 98, top: 239, position: 'absolute',
-                    background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', 
-                    fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }} 
-                    placeholder={formData.Nombre} name="Nombre" value={formData.Nombre } onChange={handleInputChange} />
+            <div className="SAdmin" style={{ width: 153, height: 69, background: '#0C789C' }}>
+
+                <div className="Rectangle157" style={{ width: 1459, height: 490, left: 32, top: 125, position: 'absolute', background: 'white', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 20 }} />
+
+                <div className="Rectangle196" style={{ width: 296, height: 118, left: 1111, top: 384, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10 }} />
+                <div style={{ position: 'absolute', left: 1159, top: 393 }}>
+                    <img
+                        src={imageSrc} // Utiliza la URL de la imagen cargada
+                        alt="Foto del empleado"
+                        style={{ width: 222, height: 222, objectFit: 'cover', borderRadius: '50%' }}
+                    />
+                </div>
+
+        <input className="Rectangle97" style={{ width: 365, height: 37, left: 98, top: 239, position: 'absolute',
+            background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)',
+            fontSize: 20, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}
+            placeholder={formData.Nombre} name="Nombre" value={formData.Nombre } onChange={handleInputChange} />
 
         <input className="Rectangle158" style={{ width: 365, height: 37, left: 98, top: 297, position: 'absolute' ,
             background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10,
             color: 'rgba(0, 0, 0, 0.70)' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
             }} type="number" placeholder={formData.Numero_Empleado} name="Numero_Empleado" value={formData.Numero_Empleado } onChange={handleInputChange} />
-    
-    
+
+
         <input className="Rectangle159" style={{ width: 365, height: 37, left: 98, top: 354, position: 'absolute' ,
             background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10,
             color: 'rgba(0, 0, 0, 0.70)' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
             }} type="email" placeholder={formData.CorreoElectronico} name="CorreoElectronico" value={formData.CorreoElectronico } onChange={handleInputChange}/>
-    
+
         <input className="Rectangle160" style={{ width: 365, height: 37, left: 98, top: 411, position: 'absolute' ,
             background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10,
             color: 'rgba(0, 0, 0, 0.70)' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
-            }} type="password" placeholder="Contraseña" /> 
-    
-        <input className="Rectangle161" style={{ width: 365, height: 38, left: 98, top: 468, position: 'absolute' ,
-            background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10,
-            color: 'rgba(0, 0, 0, 0.70)' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
-            }} type="password" placeholder="Confirmar contraseña" />
-    
+            }} type="password" placeholder={formData.Contrasena} name="Contrasena" />
+
+
         <select className="Rectangle162" style={{ width: 365, height: 37, left: 609, top: 237, position: 'absolute' ,
             background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10,
             color: 'rgba(0, 0, 0, 0.70)' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
@@ -145,17 +162,17 @@ const SA_Modificar = () => {
             <option value="Femenino">Femenino</option>
             <option value="Masculino">Masculino</option>
         </select>
-    
-    
-        <select className="Rectangle168" style={{ width: 365, height: 37, left: 1085, top: 239, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400' }} 
+
+
+        <select className="Rectangle168" style={{ width: 365, height: 37, left: 1085, top: 239, position: 'absolute', background: '#E1F6FF', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, color: 'rgba(0, 0, 0, 0.70)', fontSize: 20, fontFamily: 'Roboto', fontWeight: '400' }}
         value={formData.Tipo} name="Tipo" onChange={handleInputChange}>
                     <option value={formData.Tipo} disabled >{formData.Tipo}</option>
                     {tiposDeUsuario.map((tipo, index) => (
                         <option key={index} value={tipo}>{tipo}</option>
                     ))}
                 </select>
-    
-    
+
+
         <select className="Rectangle163" style={{ width: 365, height: 37, left: 609, top: 294, position: 'absolute' ,
             background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10,
             color: 'rgba(0, 0, 0, 0.70)' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
@@ -165,7 +182,7 @@ const SA_Modificar = () => {
                         <option key={index} value={sede.nombre}>{sede.nombre}</option>
                     ))}
         </select>
-    
+
         <select className="Rectangle164" style={{ width: 365, height: 37, left: 609, top: 352, position: 'absolute' ,
             background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10,
             color: 'rgba(0, 0, 0, 0.70)' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
@@ -175,11 +192,11 @@ const SA_Modificar = () => {
                         <option key={index} value={area}>{area}</option>
                     ))}
         </select>
-    
+
         <input className="Rectangle165" style={{ width: 365, height: 36, left: 609, top: 409, position: 'absolute' ,
             background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10 }} type="date" placeholder={formData.FechaNacimiento} name="FechaNacimiento" value={formData.FechaNacimiento} onChange={handleInputChange}/>
-    
-    
+
+
         <select className="Rectangle166" style={{ width: 365, height: 37, left: 609, top: 466, position: 'absolute' ,
             background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10,
             color: 'rgba(0, 0, 0, 0.70)' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
@@ -187,7 +204,7 @@ const SA_Modificar = () => {
             <option value="Activo">Activo</option>
             <option value="Inactivo">Inactivo</option>
         </select>
-    
+
         <select className="Rectangle166" style={{ width: 365, height: 37, left: 1092, top: 320, position: 'absolute' ,
             background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10,
             color: 'rgba(0, 0, 0, 0.70)' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
@@ -197,7 +214,7 @@ const SA_Modificar = () => {
                         <option key={index} value={contrato}>{contrato}</option>
                     ))}
         </select>
-    
+
         <div className="AgregarNuevoEmpleado" style={{ width: 540, height: 37, left: 98, top: 161, position: 'absolute' ,
             color: 'black' , fontSize: 30, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word' }}>
             Modificar nuevo empleado
@@ -213,7 +230,8 @@ const SA_Modificar = () => {
                     {showErrorAlert && <Alert variant="filled" severity="error">Error al actualizar el usuario</Alert>}
                 </div>
     </div>
-    </>
+</>
+
   );
 };
 
