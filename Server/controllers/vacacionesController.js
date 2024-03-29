@@ -100,19 +100,17 @@ export const actualizarEstadoSolicitud = async (req, res) => {
 };
 
 
-// Agregar un comentario a una solicitud de vacaciones por su ID
+// Agregar un comentario a una solicitud de vacaciones por el ID del empleado
 export const agregarComentario = async (req, res) => {
-    const id = req.params.id;
-    const { Comentarios } = req.body; // Extraer el campo Comentarios del cuerpo de la solicitud
+    const empleadoId = req.params.id; // Obtener el ID del empleado desde los parámetros de la solicitud
+    const { Comentarios } = req.body;
 
     try {
-        const solicitudVacaciones = await Vacaciones.findById(id); // Buscar la solicitud de vacaciones por su ID
-        if (!solicitudVacaciones) {
-            return res.status(404).json({ success: false, message: "Solicitud de vacaciones no encontrada" });
-        }
+        const solicitudVacaciones = await Vacaciones.findOneAndUpdate({ Empleado: empleadoId }, { Comentarios }, { new: true });
 
-        solicitudVacaciones.Comentarios = Comentarios; // Asignar el comentario al campo Comentarios de la solicitud
-        await solicitudVacaciones.save(); // Guardar los cambios
+        if (!solicitudVacaciones) {
+            return res.status(404).json({ success: false, message: "Solicitud de vacaciones no encontrada para el empleado" });
+        }
 
         res.json({ success: true, message: "Comentario agregado exitosamente", data: solicitudVacaciones });
     } catch (error) {

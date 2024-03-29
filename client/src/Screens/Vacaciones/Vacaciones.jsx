@@ -195,14 +195,16 @@ const Vacaciones = () => {
     DiaIni: vacacion.DiaIni.substring(0, 10),
     DiaFin: vacacion.DiaFin.substring(0, 10),
     Estado: vacacion.Estado,
-    NumeroEmpleado: vacacion.Numero_Empleado // Mostrar el número de empleado
+    NumeroEmpleado: vacacion.Numero_Empleado,
+    Comentarios: vacacion.Comentarios
   }));
 
   const columns = [
     { field: 'DiaIni', headerName: 'Primer Día', width: 110 },
     { field: 'DiaFin', headerName: 'Último Día', width: 110 },
     { field: 'Estado', headerName: 'Estado', width: 120 },
-    { field: 'NumeroEmpleado', headerName: 'Número de Empleado', width: 180 }, // Mostrar el número de empleado
+    { field: 'NumeroEmpleado', headerName: 'Número de Empleado', width: 180 },
+    { field: 'Comentarios', headerName: 'Comentarios', width: 190},
     {
       field: 'actions',
       headerName: 'Acciones',

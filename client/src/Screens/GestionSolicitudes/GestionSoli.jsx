@@ -10,13 +10,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Axios from 'axios';
 import NarBar from '../NarBar.js/NarBar';
-import { useNavigate } from 'react-router-dom';
 
 const GestionSoli = () => {
   const [formData, setFormData] = useState({
     DiaIniDialog: "",
     DiaFinDialog: "",
-    Comentarios: ""
   });
 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -186,22 +184,31 @@ const GestionSoli = () => {
 
   const handleAddComment = async () => {
     try {
-      await Axios.put(`http://localhost:3000/Vacaciones/agregar_comentario/${selectedVacationId}`, { Comentarios: formData.Comentarios });
-      // Aquí podrías mostrar alguna notificación o mensaje de éxito si lo deseas
-      obtenerSolicitudesVacaciones(); // Actualizar la lista después de agregar el comentario
-      setCommentDialogOpen(false); // Cerrar el diálogo después de enviar el comentario
+      const response = await Axios.put(`http://localhost:3000/Vacaciones/agregar_comentario/${userData.numero}`, { Comentarios: formData.Comentarios });
+      // Verificar si la solicitud fue exitosa antes de actualizar la lista y cerrar el diálogo
+      if (response.data.success) {
+        obtenerSolicitudesVacaciones(); 
+        setCommentDialogOpen(false); 
+        console.log('Comentario agregado exitosamente:', response.data.message);
+      } else {
+        console.error('Error al agregar el comentario:', response.data.message);
+        // Aquí podrías mostrar alguna notificación o mensaje de error si lo deseas
+      }
     } catch (error) {
       console.error('Error al agregar el comentario:', error.message);
       // Aquí podrías mostrar alguna notificación o mensaje de error si lo deseas
     }
-  };  
+  };
+  
+   
 
   const rows = vacaciones.map((vacacion) => ({
     id: vacacion._id,
     DiaIni: vacacion.DiaIni.substring(0, 10),
     DiaFin: vacacion.DiaFin.substring(0, 10),
     Estado: vacacion.Estado,
-    NumeroEmpleado: vacacion.Numero_Empleado
+    NumeroEmpleado: vacacion.Numero_Empleado,
+    Comentarios: vacacion.Comentarios
   }));
 
   const columns = [
@@ -209,6 +216,7 @@ const GestionSoli = () => {
     { field: 'DiaFin', headerName: 'Último Día', width: 110 },
     { field: 'Estado', headerName: 'Estado', width: 120 },
     { field: 'NumeroEmpleado', headerName: 'Número de Empleado', width: 180 },
+    { field: 'Comentarios', headerName: 'Comentarios', width: 190},
     {
       field: 'actions',
       headerName: 'Acciones',
