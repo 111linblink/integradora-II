@@ -10,7 +10,10 @@ const vacacionesSchema = new Schema({
   Numero_Empleado: Number,
   Contrato: String,
   Sede: String,
-  Area: String
+  Area: String,
+  Comentarios: String
 });
 
 export default mongoose.model('Vacaciones', vacacionesSchema);
+
+
