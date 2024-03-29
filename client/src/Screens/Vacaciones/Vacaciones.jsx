@@ -86,8 +86,7 @@ const Vacaciones = () => {
       const userDataFromStorage = sessionStorage.getItem('userData');
       if (userDataFromStorage) {
         const userData = JSON.parse(userDataFromStorage);
-        const numeroEmpleado = userData.numero; // Obtener el número de empleado del almacenamiento
-        const nuevaSolicitud = { ...formData, Estado: "Procesando", Numero_Empleado: numeroEmpleado };
+        const nuevaSolicitud = { ...formData, Estado: "Procesando", Numero_Empleado: userData.numero, Nombre: userData.nombre, Contrato: userData.contrato, Sede: userData.sede, Area: userData.area };
         await Axios.post("http://localhost:3000/Vacaciones/crear_solicitud_vacaciones", nuevaSolicitud);
         setShowSuccessAlert(true);
         setShowErrorAlert(false);
@@ -111,7 +110,9 @@ const Vacaciones = () => {
         setShowErrorAlert(false);
       }, 2000);
     }
-  };
+};
+
+
   
 
 
@@ -199,10 +200,10 @@ const Vacaciones = () => {
   }));
 
   const columns = [
-    { field: 'DiaIni', headerName: 'Primer Día', width: 110 },
-    { field: 'DiaFin', headerName: 'Último Día', width: 110 },
-    { field: 'Estado', headerName: 'Estado', width: 120 },
-    { field: 'NumeroEmpleado', headerName: 'Número de Empleado', width: 180 }, // Mostrar el número de empleado
+    { field: 'DiaIni', headerName: 'Primer Día', width: 150 },
+    { field: 'DiaFin', headerName: 'Último Día', width: 150 },
+    { field: 'Estado', headerName: 'Estado', width: 150 },
+    { field: 'NumeroEmpleado', headerName: 'Número de Empleado', width: 200 }, // Mostrar el número de empleado
     {
       field: 'actions',
       headerName: 'Acciones',
@@ -262,7 +263,7 @@ const Vacaciones = () => {
             <button className="solicitar" onClick={SolicitarVacaciones}>Solicitar</button>
           </div>
         </div>
-        <div style={{ height: '55%', width: '45%', position: 'absolute', top: '35%', left: '30%' }}>
+        <div style={{ height: '55%', width: '65%', position: 'absolute', top: '35%', left: '5%' }}>
           <DataGrid rows={rows} columns={columns} pageSize={5} />
         </div>
         <Dialog open={openDialog} onClose={handleCloseDialog}>
