@@ -85,3 +85,38 @@ export const eliminarSolicitudVacacionesPorId = async (req, res) => {
         res.status(500).json({ success: false, message: "Error del servidor al eliminar la solicitud de vacaciones" });
     }
 };
+
+
+//actualizar el estado de la solicitud
+export const actualizarEstadoSolicitud = async (req, res) => {
+    const id = req.params.id;
+    const newData = req.body;
+
+    try {
+        const data = await Vacaciones.findByIdAndUpdate(id, newData, { new: true });
+        res.json({ success: true, message: "Estado de la solicitud de vacaciones actualizado exitosamente", data: data });
+    } catch (error) {
+        console.error("Error al actualizar el estado de la solicitud de vacaciones:", error);
+        res.status(500).json({ success: false, message: "Error del servidor al actualizar el estado de la solicitud de vacaciones" });
+    }
+};
+
+
+// Agregar un comentario a una solicitud de vacaciones por el ID del empleado
+export const agregarComentario = async (req, res) => {
+    const empleadoId = req.params.id; // Obtener el ID del empleado desde los parámetros de la solicitud
+    const { Comentarios } = req.body;
+
+    try {
+        const solicitudVacaciones = await Vacaciones.findOneAndUpdate({ Empleado: empleadoId }, { Comentarios }, { new: true });
+
+        if (!solicitudVacaciones) {
+            return res.status(404).json({ success: false, message: "Solicitud de vacaciones no encontrada para el empleado" });
+        }
+
+        res.json({ success: true, message: "Comentario agregado exitosamente", data: solicitudVacaciones });
+    } catch (error) {
+        console.error("Error al agregar el comentario:", error);
+        res.status(500).json({ success: false, message: "Error del servidor al agregar el comentario" });
+    }
+};

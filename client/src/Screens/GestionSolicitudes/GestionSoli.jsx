@@ -1,359 +1,312 @@
 import React, { useState, useEffect } from 'react';
-import NarBar from '../NarBar.js/NarBar';
-import Axios from 'axios';
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Button from '@mui/material/Button';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import './GestionSoli.css';
+import { DataGrid } from '@mui/x-data-grid';
 import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import Checkbox from '@mui/material/Checkbox';
-import { List, ListItem, ListItemText } from '@mui/material';
-import "./GestionSoli.css";
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Axios from 'axios';
+import NarBar from '../NarBar.js/NarBar';
 
 const GestionSoli = () => {
-    const [sedesAreas, setSedesAreas] = useState([]);
-    const [selectedSedeArea, setSelectedSedeArea] = useState(null);
-    const [openDialog, setOpenDialog] = useState(false);
-    const [areaNombre, setAreaNombre] = useState("");
-    const [areaTipo, setAreaTipo] = useState("");
-    const [openAddAreaDialog, setOpenAddAreaDialog] = useState(false);
-    const [nombreSedeBuscado, setNombreSedeBuscado] = useState("");
-    const [tipoAreas, setTipoAreas] = useState([]);
-    const [areasSeleccionadas, setAreasSeleccionadas] = useState([]);
+  const [formData, setFormData] = useState({
+    DiaIniDialog: "",
+    DiaFinDialog: "",
+  });
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await Axios.get("http://localhost:3000/sedes/sedes_areas");
-                setSedesAreas(response.data.data);
-                const tipoAreasResponse = await Axios.get("http://localhost:3000/tipoArea/ver");
-                setTipoAreas(tipoAreasResponse.data.data);
-               
-            } catch (error) {
-                console.error('Error al obtener las sedes y áreas:', error.message);
-            }
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const [vacaciones, setVacaciones] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedVacationId, setSelectedVacationId] = useState("");
+  const [userData, setUserData] = useState(null);
+  const [commentDialogOpen, setCommentDialogOpen] = useState(false); // Estado para abrir/cerrar el diálogo de comentarios
+
+  useEffect(() => {
+    const obtenerDatosUsuario = () => {
+      const userDataFromStorage = sessionStorage.getItem('userData');
+      if (userDataFromStorage) {
+        setUserData(JSON.parse(userDataFromStorage));
+      }
+    };
+
+    obtenerDatosUsuario();
+    obtenerSolicitudesVacaciones();
+  }, []);
+
+  const obtenerSolicitudesVacaciones = async () => {
+    try {
+      const userDataFromStorage = sessionStorage.getItem('userData');
+      if (userDataFromStorage) {
+        const userData = JSON.parse(userDataFromStorage);
+        const numeroEmpleado = userData.numero;
+        const response = await Axios.get(`http://localhost:3000/Vacaciones/solicitudes_vacaciones`);
+        if (response.data && Array.isArray(response.data.data)) {
+          const formattedVacaciones = response.data.data.map(vacacion => ({
+            ...vacacion,
+            DiaIni: vacacion.DiaIni.substring(0, 10),
+            DiaFin: vacacion.DiaFin.substring(0, 10)
+          }));
+          setVacaciones(formattedVacaciones);
+        } else {
+          console.error('Error: El servidor no devolvió una matriz de vacaciones.');
+          setVacaciones([]);
         }
-        fetchData();
-    }, []);
+      }
+    } catch (error) {
+      console.error('Error al obtener las peticiones de vacaciones:', error.message);
+      setVacaciones([]);
+    }
+  };  
 
-    const handleRowClick = async (sedeArea) => {
-        setSelectedSedeArea(sedeArea);
-    };
+  const handleDelete = async (id) => {
+    try {
+      await Axios.delete(`http://localhost:3000/Vacaciones/eliminar_solicitud_vacaciones/${id}`);
+      setShowSuccessAlert(true);
+      setShowErrorAlert(false);
+      obtenerSolicitudesVacaciones();
+      setTimeout(() => {
+        setShowSuccessAlert(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Error al eliminar la solicitud de vacaciones:', error.message);
+      setShowErrorAlert(true);
+      setShowSuccessAlert(false);
+      setTimeout(() => {
+        setShowErrorAlert(false);
+      }, 2000);
+    }
+  };
 
-    const handleOpenUpdateDialog = () => {
-        setOpenDialog(true);
-    };
-
-    const handleCloseDialog = () => {
-        setOpenDialog(false);
-    };
-
-    const handleUpdateSedeArea = async () => {
-        try {
-            await Axios.put(`http://localhost:3000/sedes/update_sede_area/${selectedSedeArea._id}`, selectedSedeArea);
-            setOpenDialog(false);
-            const response = await Axios.get("http://localhost:3000/sedes/sedes_areas");
-            setSedesAreas(response.data.data);
-            window.location.reload();
-        } catch (error) {
-            console.error('Error al actualizar la sede o área:', error.message);
-        }
-    };
-    const handleAddArea = async () => {
-        if (!selectedSedeArea || !selectedSedeArea._id) {
-            console.error('Error: No hay una sede seleccionada.');
-            return;
-        }
-    
-        try {
-            // Validar que se haya seleccionado al menos un área
-            if (areasSeleccionadas.length === 0) {
-                console.error('Error: Debes seleccionar al menos un área.');
-                return;
-            }
-    
-            // Validar que se haya seleccionado un tipo de área
-            if (!areaTipo) {
-                console.error('Error: Debes seleccionar un tipo de área.');
-                return;
-            }
-    
-            // Iterar sobre cada área seleccionada y enviarla al servidor
-            for (const areaId of areasSeleccionadas) {
-                const selectedArea = tipoAreas
-                    .find(typeArea => typeArea.Tipo === areaTipo)
-                    .Areas.find(area => area._id === areaId);
-    
-                const newAreaData = {
-                    NombreArea: selectedArea.Nombre,
-                    Tipo: areaTipo
-                };
-    
-                // Envía una solicitud POST al servidor para agregar el área a la sede seleccionada
-                const response = await Axios.post(`http://localhost:3000/sedes/add_area_to_sede/${selectedSedeArea._id}`, newAreaData);
-                const updatedSedeArea = response.data.data;
-    
-                // Actualiza las áreas de la sede en el estado local
-                const updatedSedesAreas = sedesAreas.map(sedeArea => {
-                    if (sedeArea._id === selectedSedeArea._id) {
-                        return updatedSedeArea;
-                    }
-                    return sedeArea;
-                });
-    
-                setSedesAreas(updatedSedesAreas);
-            }
-    
-            setOpenAddAreaDialog(false);
-            window.location.reload();
-        } catch (error) {
-            console.error('Error al agregar el área:', error.message);
-        }
-    };
-    
-    const handleDeleteArea = async (sedeId, areaId) => {
-        try {
-            await Axios.delete(`http://localhost:3000/sedes/delete_area/${sedeId}/${areaId}`);
-            const updatedSedesAreas = sedesAreas.map(sedeArea => {
-                if (sedeArea._id === sedeId) {
-                    const updatedAreas = sedeArea.Areas.filter(area => area._id !== areaId);
-                    return { ...sedeArea, Areas: updatedAreas };
-                }
-                return sedeArea;
-            });
-            setSedesAreas(updatedSedesAreas);
-            window.location.reload();
-        } catch (error) {
-            console.error('Error al eliminar el área:', error.message);
-        }
-    };
-
-    const handleDeleteSede = async (sedeId) => {
-        try {
-            await Axios.delete(`http://localhost:3000/sedes/delete_sede_area/${sedeId}`);
-            const updatedSedesAreas = sedesAreas.filter(sedeArea => sedeArea._id !== sedeId);
-            setSedesAreas(updatedSedesAreas);
-            window.location.reload();
-        } catch (error) {
-            console.error('Error al eliminar la sede:', error.message);
-        }
-    };
-
-    const handleNombreSedeChange = (event) => {
-        setNombreSedeBuscado(event.target.value);
-    };
-
-    const filteredSedesAreas = sedesAreas && sedesAreas.filter(sedeArea => {
-        return sedeArea && sedeArea.Nombre && sedeArea.Nombre.toLowerCase().includes(nombreSedeBuscado.toLowerCase());
+  const handleUpdate = (id, diaIni, diaFin, estado) => {
+    if (estado === "Aprobada" || estado === "Denegada") {
+      return;
+    }
+    setOpenDialog(true);
+    setSelectedVacationId(id);
+    setFormData({
+      DiaIniDialog: diaIni,
+      DiaFinDialog: diaFin
     });
-    
+  };
 
-    const handleAreaCheckboxChange = (event, areaId) => {
-        const checked = event.target.checked;
-        setAreasSeleccionadas(prevState => {
-            if (checked) {
-                return [...prevState, areaId];
-            } else {
-                return prevState.filter(id => id !== areaId);
-            }
-        });
-    };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
-    return (
-        <>
-            <NarBar />
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: value
+    });
+  };
 
-            <div className="Sede">
-                <div className="Rectangle" />
-                <input type="text" value={nombreSedeBuscado} onChange={handleNombreSedeChange} placeholder="Buscar Nombre de Sede" className='v141_18 ' style={{ left: 1050, top: 160 }} />
-                <div className="Tablas" style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                    <div></div>
-                    <h1>     </h1>
-                    <div>
+  const handleCommentsChange = (e) => { // Manejar el cambio en el campo de comentarios
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: value
+    });
+  };
 
-                    </div>
-                    <TableContainer component={Paper}>
-                        <Table aria-label="collapsible table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell />
-                                    <TableCell>Nombre</TableCell>
-                                    <TableCell>Dirección</TableCell>
-                                    <TableCell>Eliminar</TableCell>
-                                    <TableCell>Actualizar</TableCell>
-                                    <TableCell>Agregar Área</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {filteredSedesAreas.map((sedeArea, index) => (
-                                    <React.Fragment key={index}>
-                                        <TableRow>
-                                            <TableCell>
-                                                <IconButton size="small" onClick={() => handleRowClick(sedeArea)}>
-                                                    {selectedSedeArea && selectedSedeArea._id === sedeArea._id ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                                                </IconButton>
-                                            </TableCell>
-                                            <TableCell>{sedeArea.Nombre}</TableCell>
-                                            <TableCell>{sedeArea.Ubicacion}</TableCell>
-                                            <TableCell>
-                                                <Button onClick={() => handleDeleteSede(sedeArea._id)} size="small" variant="outlined" color="error" startIcon={<DeleteIcon />}>Eliminar</Button>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Button onClick={handleOpenUpdateDialog} size="small" variant="outlined" color="primary" startIcon={<CloudUploadIcon />}>Actualizar</Button>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Button onClick={() => setOpenAddAreaDialog(true)} size="small" variant="outlined" color="primary" startIcon={<CloudUploadIcon />}>Agregar Area</Button>
-                                            </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                                                <Collapse in={selectedSedeArea && selectedSedeArea._id === sedeArea._id} timeout="auto" unmountOnExit>
-                                                    <Box sx={{ margin: 1 }}>
-                                                        <Typography variant="subtitle1">Áreas:</Typography>
-                                                        {sedeArea.Areas.map((area, areaIndex) => (
-                                                            <div key={areaIndex}>
-                                                                Tipo: {area.Tipo}, Nombre: {area.NombreArea}
-                                                                <Button onClick={() => handleDeleteArea(sedeArea._id, area._id)} size="small" variant="outlined" color="error" startIcon={<DeleteIcon />}>Eliminar Área</Button>
-                                                            </div>
-                                                        ))}
-                                                    </Box>
-                                                </Collapse>
-                                            </TableCell>
-                                        </TableRow>
-                                    </React.Fragment>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </div>
-            </div>
-            <Dialog open={openDialog} onClose={handleCloseDialog}>
-                <DialogTitle>Actualizar Sede o Área</DialogTitle>
-                <DialogContent>
-                    {selectedSedeArea && (
-                        <>
-                            <DialogContentText>
-                                Aquí puedes actualizar los datos de la sede o área.
-                            </DialogContentText>
+  const handleSaveChanges = async () => {
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      if (formData.DiaIniDialog <= today || formData.DiaFinDialog <= today || formData.DiaFinDialog < formData.DiaIniDialog) {
+        setShowErrorAlert(true);
+        setShowSuccessAlert(false);
+        setTimeout(() => {
+          setShowErrorAlert(false);
+        }, 2000);
+        return;
+      }
 
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="nombre"
-                                label="Nombre"
-                                type="text"
-                                fullWidth
-                                value={selectedSedeArea.Nombre}
-                                onChange={(e) => setSelectedSedeArea({ ...selectedSedeArea, Nombre: e.target.value })}
-                            />
-                            <TextField
-                                margin="dense"
-                                id="ubicacion"
-                                label="Ubicación"
-                                type="text"
-                                fullWidth
-                                value={selectedSedeArea.Ubicacion}
-                                onChange={(e) => setSelectedSedeArea({ ...selectedSedeArea, Ubicacion: e.target.value })}
-                            />
-                        </>
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseDialog} color="primary">
-                        Cancelar
-                    </Button>
-                    <Button onClick={handleUpdateSedeArea} color="primary">
-                        Actualizar
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            <Dialog open={openAddAreaDialog} onClose={() => setOpenAddAreaDialog(false)}>
-                <DialogTitle>Agregar Área</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Complete los detalles del área a agregar.
-                    </DialogContentText>
-                    {/* Formulario para agregar un área */}
-                   
-                    <TextField
-                        select
-                        margin="dense"
-                        id="tipoArea"
-                        label="Tipo de Área"
-                        fullWidth
-                        value={areaTipo}
-                        onChange={(e) => {
-                            setAreaTipo(e.target.value);
-                            // Actualiza las áreas basadas en el tipo de área seleccionado
-                            const selectedTypeAreas = tipoAreas.find(item => item.Tipo === e.target.value);
-                            if (selectedTypeAreas) {
-                                setAreasSeleccionadas(selectedTypeAreas.Areas.map(area => area._id));
-                            }
-                        }}
-                    >
-                        {tipoAreas.map((tipoArea) => (
-                            <MenuItem key={tipoArea._id} value={tipoArea.Tipo}>
-                                {tipoArea.Tipo}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="nombreArea"
-                        label="Nombre Nueva Área"
-                        type="text"
-                        fullWidth
-                        value={areaNombre}
-                        onChange={(e) => setAreaNombre(e.target.value)}
-                    />
-                    <List>
-                        {tipoAreas
-                            .filter(typeArea => typeArea.Tipo === areaTipo)
-                            .flatMap(typeArea => typeArea.Areas)
-                            .map((area) => (
-                                <ListItem key={area._id} button>
-                                    <Checkbox
-                                        checked={areasSeleccionadas.includes(area._id)}
-                                        onChange={(e) => handleAreaCheckboxChange(e, area._id)}
-                                    />
-                                    <ListItemText primary={area.Nombre} />
-                                </ListItem>
-                            ))}
-                    </List>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setOpenAddAreaDialog(false)} color="primary">
-                        Cancelar
-                    </Button>
-                    <Button onClick={handleAddArea} color="primary">
-                        Agregar
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            <div className="AgregarNuevoEmpleado" style={{ width: 540, height: 37, left: 98, top: 161, position: 'absolute', color: 'black', fontSize: 30, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
-                Gestión de Solicitudes
-            </div>        
+      const updatedVacation = { DiaIni: formData.DiaIniDialog, DiaFin: formData.DiaFinDialog };
+      await Axios.put(`http://localhost:3000/Vacaciones/actualizar_solicitud_vacaciones/${selectedVacationId}`, updatedVacation);
+      setShowSuccessAlert(true);
+      setShowErrorAlert(false);
+      handleCloseDialog();
+      obtenerSolicitudesVacaciones();
+      setTimeout(() => {
+        setShowSuccessAlert(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Error al guardar cambios:', error.message);
+      setShowErrorAlert(true);
+      setShowSuccessAlert(false);
+      setTimeout(() => {
+        setShowErrorAlert(false);
+      }, 2000);
+    }
+  };
+
+  const handleAccept = async (id) => {
+    try {
+      await Axios.put(`http://localhost:3000/Vacaciones/actualizar_estado_solicitud/${id}`, { Estado: "Aprobada" });
+      setShowSuccessAlert(true);
+      setShowErrorAlert(false);
+      obtenerSolicitudesVacaciones();
+      setTimeout(() => {
+        setShowSuccessAlert(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Error al aceptar la solicitud de vacaciones:', error.message);
+      setShowErrorAlert(true);
+      setShowSuccessAlert(false);
+      setTimeout(() => {
+        setShowErrorAlert(false);
+      }, 2000);
+    }
+  };
+
+  const handleReject = async (id) => {
+    try {
+      await Axios.put(`http://localhost:3000/Vacaciones/actualizar_estado_solicitud/${id}`, { Estado: "Denegada" });
+      setShowSuccessAlert(true);
+      setShowErrorAlert(false);
+      obtenerSolicitudesVacaciones();
+      setTimeout(() => {
+        setShowSuccessAlert(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Error al rechazar la solicitud de vacaciones:', error.message);
+      setShowErrorAlert(true);
+      setShowSuccessAlert(false);
+      setTimeout(() => {
+        setShowErrorAlert(false);
+      }, 2000);
+    }
+  };
+
+  const handleAddComment = async () => {
+    try {
+      const response = await Axios.put(`http://localhost:3000/Vacaciones/agregar_comentario/${userData.numero}`, { Comentarios: formData.Comentarios });
+      // Verificar si la solicitud fue exitosa antes de actualizar la lista y cerrar el diálogo
+      if (response.data.success) {
+        obtenerSolicitudesVacaciones(); 
+        setCommentDialogOpen(false); 
+        console.log('Comentario agregado exitosamente:', response.data.message);
+      } else {
+        console.error('Error al agregar el comentario:', response.data.message);
+        // Aquí podrías mostrar alguna notificación o mensaje de error si lo deseas
+      }
+    } catch (error) {
+      console.error('Error al agregar el comentario:', error.message);
+      // Aquí podrías mostrar alguna notificación o mensaje de error si lo deseas
+    }
+  };
+  
+   
+
+  const rows = vacaciones.map((vacacion) => ({
+    id: vacacion._id,
+    DiaIni: vacacion.DiaIni.substring(0, 10),
+    DiaFin: vacacion.DiaFin.substring(0, 10),
+    Estado: vacacion.Estado,
+    NumeroEmpleado: vacacion.Numero_Empleado,
+    Comentarios: vacacion.Comentarios
+  }));
+
+  const columns = [
+    { field: 'DiaIni', headerName: 'Primer Día', width: 110 },
+    { field: 'DiaFin', headerName: 'Último Día', width: 110 },
+    { field: 'Estado', headerName: 'Estado', width: 120 },
+    { field: 'NumeroEmpleado', headerName: 'Número de Empleado', width: 180 },
+    { field: 'Comentarios', headerName: 'Comentarios', width: 190},
+    {
+      field: 'actions',
+      headerName: 'Acciones',
+      width: 510,
+      renderCell: (params) => (
+        <div>
+          {(params.row.Estado !== "Aprobada" && params.row.Estado !== "Denegada") && (
+            <>
+              <Button onClick={() => handleAccept(params.row.id)} variant="outlined" color="success">Aceptar</Button>
+              <Button onClick={() => handleReject(params.row.id)} variant="outlined" color="error">Rechazar</Button>
+              <Button onClick={() => setCommentDialogOpen(true)} variant="outlined" color="primary">Agregar Comentario</Button> 
             </>
-    );
+          )}
+        </div>
+      ),
+    },
+  ];
+
+  return (
+    <>
+      <div style={{
+        position: 'relative',
+        width: '100%',
+        height: '100vh',
+        backgroundColor: '#0c789c',
+        overflow: 'hidden',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }} className="root">
+        <NarBar />
+        <div className="rect2">
+          <div className="textoCalendario">Gestión de Solicitudes</div>
+        </div>
+        <div style={{ height: '55%', width: '85%', position: 'absolute', top: '35%', left: '8%' }}>
+          <DataGrid rows={rows} columns={columns} pageSize={5} />
+        </div>
+        <Dialog open={openDialog} onClose={handleCloseDialog}>
+          <DialogTitle>Modificar fechas</DialogTitle>
+          <DialogContent>
+            <TextField
+              id="DiaIniDialog"
+              label="Primer día"
+              type="date"
+              value={formData.DiaIniDialog}
+              onChange={handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              id="DiaFinDialog"
+              label="Último día"
+              type="date"
+              value={formData.DiaFinDialog}
+              onChange={handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog}>Cancelar</Button>
+            <Button onClick={handleSaveChanges}>Guardar cambios</Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={commentDialogOpen} onClose={() => setCommentDialogOpen(false)}>
+          <DialogTitle>Agregar Comentario</DialogTitle>
+          <DialogContent>
+            <TextField
+              id="Comentarios"
+              label="Comentarios"
+              multiline
+              rows={4}
+              value={formData.Comentarios}
+              onChange={handleCommentsChange}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setCommentDialogOpen(false)}>Cancelar</Button>
+            <Button onClick={handleAddComment}>Enviar</Button>
+          </DialogActions>
+        </Dialog>
+        <div className="alert-container">
+          {showSuccessAlert && <Alert variant="filled" severity="success">El cambio se ha hecho correctamente</Alert>}
+          {showErrorAlert && <Alert variant="filled" severity="error">Error</Alert>}
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default GestionSoli;

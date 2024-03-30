@@ -1,11 +1,14 @@
 import express from 'express';
-import * as vacacionesController from '../controllers/vacacionesController.js'; // Importa los controladores de las solicitudes de vacaciones
+import * as vacacionesController from '../controllers/vacacionesController.js';
+
 const router = express.Router();
 
-router.post('/crear_solicitud_vacaciones', vacacionesController.crearSolicitudVacaciones); // Ruta para crear una solicitud de vacaciones
-router.get('/solicitudes_vacaciones', vacacionesController.obtenerTodasLasSolicitudesVacaciones); // Ruta para obtener todas las solicitudes de vacaciones
-router.get('/solicitudes_vacaciones/:numeroEmpleado', vacacionesController.obtenerSolicitudesDeEmpleado); // Corregido: Ruta para obtener las solicitudes de vacaciones por número de empleado
-router.put('/actualizar_solicitud_vacaciones/:id', vacacionesController.actualizarSolicitudVacaciones); // Ruta para actualizar una solicitud de vacaciones por su ID
-router.delete('/eliminar_solicitud_vacaciones/:id', vacacionesController.eliminarSolicitudVacacionesPorId); // Ruta para eliminar una solicitud de vacaciones por su ID
+router.post('/crear_solicitud_vacaciones', vacacionesController.crearSolicitudVacaciones);
+router.get('/solicitudes_vacaciones', vacacionesController.obtenerTodasLasSolicitudesVacaciones);
+router.get('/solicitudes_vacaciones/:numeroEmpleado', vacacionesController.obtenerSolicitudesDeEmpleado);
+router.put('/actualizar_solicitud_vacaciones/:id', vacacionesController.actualizarSolicitudVacaciones);
+router.put('/agregar_comentario/:idEmpleado', vacacionesController.agregarComentario);
+router.put('/actualizar_estado_solicitud/:id', vacacionesController.actualizarEstadoSolicitud); // Nueva ruta para actualizar el estado
+router.delete('/eliminar_solicitud_vacaciones/:id', vacacionesController.eliminarSolicitudVacacionesPorId);
 
-export { router as routesVacaciones }; // Exporta las rutas de las solicitudes de vacaciones
+export { router as routesVacaciones };
