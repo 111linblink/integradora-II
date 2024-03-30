@@ -201,11 +201,11 @@ const Vacaciones = () => {
   }));
 
   const columns = [
-    { field: 'DiaIni', headerName: 'Primer Día', width: 150 },
-    { field: 'DiaFin', headerName: 'Último Día', width: 150 },
-    { field: 'Estado', headerName: 'Estado', width: 150 },
-    { field: 'NumeroEmpleado', headerName: 'Número de Empleado', width: 200 }, // Mostrar el número de empleado
-    { field: 'Comentarios', headerName: 'Comentarios', width: 190},
+    { field: 'DiaIni', headerName: 'Primer Día', width: 100 },
+    { field: 'DiaFin', headerName: 'Último Día', width: 100 },
+    { field: 'Estado', headerName: 'Estado', width: 100 },
+    { field: 'NumeroEmpleado', headerName: 'Número de Empleado', width: 160 }, // Mostrar el número de empleado
+    { field: 'Comentarios', headerName: 'Comentarios', width: 300},
     {
       field: 'actions',
       headerName: 'Acciones',
@@ -265,7 +265,7 @@ const Vacaciones = () => {
             <button className="solicitar" onClick={SolicitarVacaciones}>Solicitar</button>
           </div>
         </div>
-        <div style={{ height: '55%', width: '65%', position: 'absolute', top: '35%', left: '5%' }}>
+        <div style={{ height: '55%', width: '71%', position: 'absolute', top: '35%', left: '3%' }}>
           <DataGrid rows={rows} columns={columns} pageSize={5} />
         </div>
         <Dialog open={openDialog} onClose={handleCloseDialog}>
