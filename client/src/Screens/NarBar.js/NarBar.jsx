@@ -94,12 +94,11 @@ const NarBar = () => {
             <h3>Información del usuario</h3>
             <p>Nombre: {userData.nombre}</p>
             <p>Correo electrónico: {userData.correo}</p>
-            <p>Número del empleado: {userData.correo}</p>
+            <p>Número del empleado: {userData.numero}</p>
             <button className= 'actions-button' style={{ width: 200, height: 40, left: 1255, top: 2}} variant="outlined" color="error" onClick={handleCerrarSesion} >Cerrar Sesión</button>
           </div>
         </div>
       )}
-
     </div>
   );
 }

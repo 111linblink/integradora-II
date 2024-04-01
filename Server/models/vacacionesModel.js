@@ -6,11 +6,14 @@ const vacacionesSchema = new Schema({
   DiaIni: Date,
   DiaFin: Date,
   Estado: String,
-  Empleado: Number,
   Numero_Empleado: Number,
+  Nombre: String,
   Contrato: String,
   Sede: String,
-  Area: String
+  Area: String,
+  Comentarios: String
 });
 
 export default mongoose.model('Vacaciones', vacacionesSchema);
+
+

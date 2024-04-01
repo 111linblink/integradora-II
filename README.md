@@ -1,2 +1,7 @@
-# integradora-II
-Aquí se subirá los cambios del proyecto.
+# Integrantt
+
+## Descripción 
+
+## Lista de requisitos priorizada del proyecto refinada
+
+# 

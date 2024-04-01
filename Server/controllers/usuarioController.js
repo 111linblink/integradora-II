@@ -69,6 +69,9 @@ export const login = async (req, res) => {
                 nombre: user.Nombre,
                 correo: user.CorreoElectronico,
                 numero: user.Numero_Empleado,
+                area: user.Area,
+                sede: user.Sede,
+                contrato: user.Contrato
             }
         });
     } catch (error) {
