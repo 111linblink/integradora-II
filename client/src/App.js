@@ -18,7 +18,7 @@ import AsignacionesUsuario from './Screens/Capacitar/AsignacionesUsuario';
 import CargaMasiva from './Screens/Agregar/CargaMasiva'
 
 import GestionSoli from './Screens/GestionSolicitudes/GestionSoli';
-
+import DocumentosU from './Screens/Documentos/DocumentosU';
 
 
 function App() {
@@ -41,6 +41,7 @@ function App() {
           <Route path="/cargaMasiva" element={<CargaMasiva/>} />
           <Route path="/asignaciones/:userId" element={<AsignacionesUsuario/>} />
           <Route path="/gestion" element={< GestionSoli/>} />
+          <Route path="/documentos" element={<DocumentosU/>}/>
         </Routes>
       </Router>
     </div>
