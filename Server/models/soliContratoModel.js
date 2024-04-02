@@ -7,7 +7,15 @@ const contratoSchema = new Schema({
   diasTrabajo: Number,
   diasDescanso: Number,
   horasDia: Number,
-  turnos: [String]
+  turnos: [String],
+
+  Estado: String,
+  Numero_Empleado: Number,
+  Nombre: String,
+  Contrato: String,
+  Sede: String,
+  Area: String,
+  Comentarios: String
 });
 
 export default mongoose.model('Contrato', contratoSchema);
