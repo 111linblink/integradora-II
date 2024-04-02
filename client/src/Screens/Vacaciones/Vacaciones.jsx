@@ -238,7 +238,7 @@ const Vacaciones = () => {
         <NavbarEmpleado />
         <div className="rectangulo2">
           <div className="textoCalendario">Solicitudes</div>
-          <div className="rectanguloInterior">
+          <div className="rectanguloInt">
             <div className="solicitarVacaciones">Solicitar vacaciones</div>
             <TextField
               id="DiaIni"

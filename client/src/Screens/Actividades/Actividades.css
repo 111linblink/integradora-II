@@ -1,0 +1,89 @@
+.root {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: #0c789c; /* Color azul */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+    
+
+  .rectanguloIn {
+    position: absolute;
+    width: 22%;
+    height: 80%;
+    left: 2%;
+    top: 15%;
+    background-color: #D9EBF3;
+    border-radius: 20px;
+  }
+
+  .rectangulo {
+    position: absolute;
+    width: 72%;
+    height: 80%;
+    left: 26%;
+    top: 15%;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+  }
+  
+  .formulario-box {
+    background-color: none;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    margin: 10px;
+  }
+    
+  .tabla-container {
+    background-color: white;
+    padding: 20px;
+    width: 100%;
+    height: 80%;
+    top: 10%;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 255, 0.1); /* Tono azulado */
+    margin: 10px;
+    float: right; /* Alineado a la derecha */
+  }
+    
+  .formulario-container,
+  .tabla-container {
+    max-width: 800px;
+  }
+    
+  .tabla {
+    width: 100%;
+    border-collapse: collapse;
+  }
+    
+  .tabla th,
+  .tabla td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+    
+  .tabla th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .guardar {
+    position: absolute;
+    width: 30%;
+    height: 7%;
+    left: 28%;
+    top: 82%;
+    background-color: #047393;
+    border-radius: 30px;
+    color: #FFFFFF;
+    font-family: Roboto;
+    font-size: 14px;
+    border: none;
+    box-shadow: none;
+  }
+  

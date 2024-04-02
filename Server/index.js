@@ -9,6 +9,7 @@ import { routesTipoAreas } from './routes/routerTipoArea.js';
 import { routesTipoUsuario } from './routes/routerTipoUsuarios.js';
 import { routesVacaciones } from './routes/routerVacaciones.js';
 import routesAsignarCapacitaciones from './routes/routesAsignar.js';
+import { routesActividades } from './routes/routerActividades.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,6 +29,7 @@ app.use ('/tipoArea',routesTipoAreas)
 app.use ('/tipoUsuario',routesTipoUsuario)
 app.use ('/asignacion',routesAsignarCapacitaciones)
 app.use ('/Vacaciones',routesVacaciones)
+app.use ('/Actividad', routesActividades)
 
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
