@@ -12,7 +12,7 @@ const NavbarEmpleado = () => {
     const obtenerDatosUsuario = () => {
       const userDataFromStorage = sessionStorage.getItem('userData');
       if (userDataFromStorage) {
-        setUserData(JSON.parse(userDataFromStorage)); // Establecer los datos del usuario en el estado
+        setUserData(JSON.parse(userDataFromStorage)); //establece datos del usuario
       }
     };
 

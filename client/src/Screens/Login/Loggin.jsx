@@ -28,7 +28,7 @@ function Login() {
 
       if (response.ok) {
         console.log('Inicio de sesión exitoso:', data);
-        // Guardar los datos en el sessionStorage
+        // Guardar los datos
         sessionStorage.setItem('userData', JSON.stringify(data.usuario));
         // Redirigir según el tipo de usuario
         switch (data.Tipo) {
