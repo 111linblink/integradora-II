@@ -5,8 +5,11 @@
 ## Lista de requisitos priorizada del proyecto refinada
 
 ## Diagramas de actividades
-# Carpeta en Drive 
+Carpeta en Drive 
 https://drive.google.com/drive/folders/1qCUIFxVm_E3nSEUwH9qkr9TUn-LkbD4v?usp=sharing
+
+##Modelo de la base de datos 
+https://drive.google.com/drive/folders/19CE3BX1ecY9NZDH6OblSKF2FWU6W7YJ_?usp=sharing
 
 ## Modelo Vista Controlador
 
