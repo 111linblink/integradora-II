@@ -37,8 +37,12 @@ const NarBar = () => {
   return (
     <div className="v283_4">
       <div className="v283_2">
-        <div className="v141_9"></div>
-        
+        <div className="v141_9">
+
+        </div>
+
+
+
         <Tooltip title="" placement="bottom">
           <div className="tooltip-container">
             <Link to="/">
@@ -46,6 +50,7 @@ const NarBar = () => {
             </Link>
           </div>
         </Tooltip>
+
         
         <Tooltip title="Datos del Usuario" placement="bottom">
           <div className="tooltip-container">
@@ -70,7 +75,7 @@ const NarBar = () => {
             </Link>
           </div>
         </Tooltip>
-        
+      
         <Tooltip title="Visualizar usuarios" placement="bottom">
           <div className="tooltip-container">
             <Link to="/sa-visualizar">
@@ -86,7 +91,34 @@ const NarBar = () => {
             </Link>
           </div>
         </Tooltip>
+
+        <Tooltip title="Agregar Capacitaciones" placement="bottom">
+          <div className="tooltip-container">
+            <Link to="/sadmicapacitacion">
+              <div className="acpacitaciones" ></div>
+            </Link>
+          </div>
+        </Tooltip>
+
+        <Tooltip title="Asignar Capacitaciones" placement="bottom">
+          <div className="tooltip-container">
+            <Link to="/capavisualizar">
+              <div className="Capacitaciones" ></div>
+            </Link>
+          </div>
+        </Tooltip>
+
+        <Tooltip title="Control de Solicitudes" placement="bottom">
+  <div className="tooltip-container">
+    <Link to="/gestion">
+      <div className="Solicitudes"></div>
+    </Link>
+  </div>
+</Tooltip>
+
+
       </div>
+
 
       {mostrarVentanaUsuario && userData && (
         <div className="usuarioVentanaEmergente" onClick={handleCloseVentana}>

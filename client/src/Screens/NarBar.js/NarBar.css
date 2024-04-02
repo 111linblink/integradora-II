@@ -40,15 +40,15 @@
     overflow: hidden;
   }
   .v141_11 {
-    width: 52px;
-    height: 50px;
-    background: url("./images/v141_11.png");
+    width: 59px;
+    height: 60px;
+    background: url("./images/circulo-de-usuario.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
     opacity: 1;
     position: absolute;
-    top: 15px;
+    top: 11px;
     left: 1444px;
     overflow: hidden;
     
@@ -56,7 +56,7 @@
   .v141_12 {
     width: 52px;
     height: 50px;
-    background: url("./images/v141_12.png");
+    background: url("./images/garaje\ \(1\).png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -69,7 +69,7 @@
   .v141_13 {
     width: 51px;
     height: 50px;
-    background: url("./images/v141_13.png");
+    background: url("./images/sonrisa-mas.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -82,7 +82,7 @@
   .v141_14 {
     width: 52px;
     height: 50px;
-    background: url("./images/v141_14.png");
+    background: url("./images/navegador\ \(1\).png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -95,7 +95,7 @@
   .v141_15 {
     width: 52px;
     height: 50px;
-    background: url("./images/v141_15.png");
+    background: url("./images/calendario-reloj.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -105,6 +105,48 @@
     left: 1082px;
     overflow: hidden;
   }
+  .acpacitaciones {
+    width: 52px;
+    height: 50px;
+    background: url("./images/multiple.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: absolute;
+    top: 15px;
+    left: 1010px; /* Ajusta la posición horizontal según sea necesario */
+    overflow: hidden;
+}
+
+.Capacitaciones {
+    width: 52px;
+    height: 50px;
+    background: url("./images/evaluacion.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: absolute;
+    top: 15px;
+    left: 940px; /* Ajusta la posición horizontal según sea necesario */
+    overflow: hidden;
+}
+
+.Solicitudes {
+  width: 52px;
+  height: 50px;
+  background: url("./images/sobre-texto-abierto\ \(1\).png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  opacity: 1;
+  position: absolute;
+  top: 15px;
+  left: 870px;
+  overflow: hidden;
+}
+
   .tooltip-container {
     position: relative;
   }
