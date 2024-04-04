@@ -40,6 +40,11 @@ Carpeta en Drive
 ## Modelo Vista Controlador
 ![Gráfico de Pasos a Seguir Proceso Ciclo de Desarrollo Circular Numerado Moderno Multicolor (1)](https://github.com/111linblink/integradora-II/assets/146273461/57542883-f598-4129-b961-d46514effc19)
 
+
+## Diagrama de componentes
+![Diagrama1](https://github.com/111linblink/integradora-II/assets/146273461/9b597ee8-dbbd-4e1e-996c-a83a58df3332)
+
+
 ## Proceso de instalación
 [![Captura de pantalla 2024-04-02 135134](https://github.com/111linblink/integradora-II/assets/116209151/6b7f620f-d273-48b0-9c2c-f81476b5085f)](https://docs.google.com/document/d/1oAiZXUM1AoTR3ASBeHwbkRRftYcSCRnylG1lgw6zfRQ/edit?usp=sharing)
 
