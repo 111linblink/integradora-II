@@ -33,6 +33,16 @@ https://docs.google.com/document/d/1oAiZXUM1AoTR3ASBeHwbkRRftYcSCRnylG1lgw6zfRQ/
 ## Manual de usuario
 https://docs.google.com/document/d/1XIEfrNBF6tGglgUtN7GGhhUdsUYxX_ytmoepi2BiUqI/edit?usp=sharing
 
+## Plan de iteraciones
+Estamos usando las herremientas de Trello para subir lo que le corresponde a cada miembro del equipo de sus actividades, asi mismo para asegurar que se trabaje adecuadamente sobre el proyecto.
+- https://trello.com/b/LTYHiD4C/control-de-horarios
+- https://trello.com/b/ILMtTPbF/daylis
+
+En Notion, estamos documentando todo el proyecto, añadiendo los puntos importantes divididos por secciones.
+- https://www.notion.so/adeca334287249129b8e5b87a4d47ccb?v=f7f24e5beabd4754b4daa25eb644fc59
+
+
+
 
 
 
