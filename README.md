@@ -4,10 +4,17 @@
 
 ## Lista de requisitos priorizada del proyecto refinada
 
+## Historias de usuario
+https://docs.google.com/document/d/1TnXWcYvdeRdGvWrfRtZ0M29qGNVINi3WxoBp79bEaIk/edit?usp=sharing
+
+## Diagramas de Casos de uso
+https://drive.google.com/drive/folders/1z8wxYOidbASiAFRvGNr_JEkQVLSiM3qN?usp=sharing
+
 ## Diagramas de actividades
 [![DiagramaContrato](https://github.com/111linblink/integradora-II/assets/116209151/058269fa-9604-47e6-b6e0-4937ac9dfbb6)](https://drive.google.com/drive/folders/1qCUIFxVm_E3nSEUwH9qkr9TUn-LkbD4v?usp=sharing)
 Carpeta en Drive
 https://drive.google.com/drive/folders/1qCUIFxVm_E3nSEUwH9qkr9TUn-LkbD4v?usp=sharing
+
 
 ## Modelo de la base de datos 
 [![1](https://github.com/111linblink/integradora-II/assets/116209151/70531d63-3bbe-45ba-a156-c069c572ad22)](https://drive.google.com/drive/folders/19CE3BX1ecY9NZDH6OblSKF2FWU6W7YJ_?usp=sharing)
@@ -22,6 +29,9 @@ https://drive.google.com/drive/folders/19CE3BX1ecY9NZDH6OblSKF2FWU6W7YJ_?usp=sha
 [![Captura de pantalla 2024-04-02 135134](https://github.com/111linblink/integradora-II/assets/116209151/6b7f620f-d273-48b0-9c2c-f81476b5085f)](https://docs.google.com/document/d/1oAiZXUM1AoTR3ASBeHwbkRRftYcSCRnylG1lgw6zfRQ/edit?usp=sharing)
 Documento en Drive
 https://docs.google.com/document/d/1oAiZXUM1AoTR3ASBeHwbkRRftYcSCRnylG1lgw6zfRQ/edit?usp=sharing
+
+## Manual de usuario
+https://docs.google.com/document/d/1XIEfrNBF6tGglgUtN7GGhhUdsUYxX_ytmoepi2BiUqI/edit?usp=sharing
 
 
 
