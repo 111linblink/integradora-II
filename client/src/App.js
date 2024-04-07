@@ -43,7 +43,7 @@ function App() {
           <Route path="/cargaMasiva" element={<CargaMasiva/>} />
           <Route path="/asignaciones/:userId" element={<AsignacionesUsuario/>} />
           <Route path="/gestion" element={< GestionSoli/>} />
-          <Route path="/documentos" element={<DocumentosU/>}/>
+          <Route path="/documentos/:id" element={<DocumentosU/>}/>
         </Routes>
       </Router>
     </div>
