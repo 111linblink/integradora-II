@@ -12,7 +12,6 @@ export default function FormDialog() {
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState({
         Nombre: "",
-        Tipo: "",
         HoraInicial: "",
         HoraFinal: ""
     });
@@ -38,7 +37,6 @@ export default function FormDialog() {
         try {
             const contratoData = {
                 Nombre: formData.Nombre,
-                Tipo: formData.Tipo,
                 Turno: [{
                     HoraInicial: formData.HoraInicial,
                     HoraFinal: formData.HoraFinal
@@ -49,7 +47,6 @@ export default function FormDialog() {
 
             setFormData({
                 Nombre: "",
-                Tipo: "",
                 HoraInicial: "",
                 HoraFinal: ""
             });
@@ -76,7 +73,7 @@ export default function FormDialog() {
                 <DialogTitle>Agregar Contrato</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Por favor, ingresa el nombre, tipo y horario del contrato.
+                        Por favor, ingresa el nombre y horario del contrato.
                     </DialogContentText>
                     <TextField
                         autoFocus
@@ -89,18 +86,6 @@ export default function FormDialog() {
                         fullWidth
                         variant="standard"
                         value={formData.Nombre}
-                        onChange={handleChange}
-                    />
-                    <TextField
-                        required
-                        margin="dense"
-                        id="tipo"
-                        name="Tipo"
-                        label="Tipo"
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                        value={formData.Tipo}
                         onChange={handleChange}
                     />
                     <TextField

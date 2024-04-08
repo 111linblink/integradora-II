@@ -23,7 +23,7 @@ import FormDialog from './contrato';
 const Contrato = () => {
     const [formData, setFormData] = useState({
         Nombre: "",
-        Tipo: ""
+        
     });
 
     const [contratos, setContratos] = useState([]);
@@ -38,7 +38,7 @@ const Contrato = () => {
         async function fetchData() {
             try {
                 const response = await Axios.get("http://localhost:3000/contrato/contratos");
-                setContratos(response.data.data);
+                setContratos(response.data.data.filter(contrato => !contrato.eliminado)); // Filtrar los contratos eliminados
             } catch (error) {
                 console.error('Error al obtener los contratos:', error.message);
             }
@@ -54,16 +54,27 @@ const Contrato = () => {
         });
     };
 
- 
-
     const handleEliminarContrato = async (id) => {
         try {
-            await Axios.delete(`http://localhost:3000/contrato/delete_contrato/${id}`);
-            alert(`Contrato eliminado correctamente.`);
-            const response = await Axios.get("http://localhost:3000/contrato/contratos");
-            setContratos(response.data.data);
+            // En lugar de eliminar el contrato, marcarlo como eliminado
+            await Axios.delete(`http://localhost:3000/contrato/delete_contrato/${id}`, { eliminado: true });
+
+            alert(`Contrato marcado como eliminado correctamente.`);
+            const updatedContratos = contratos.filter(contrato => contrato._id !== id);
+            setContratos(updatedContratos);
         } catch (error) {
-            console.error(`Error al eliminar el contrato:`, error.message);
+            console.error(`Error al marcar el contrato como eliminado:`, error.message);
+        }
+    };
+
+    const handleEliminarHorarioContrato = async (contratoId, horarioId) => {
+        try {
+            await Axios.delete(`http://localhost:3000/contrato/delete_horario/${contratoId}/${horarioId}`);
+            alert(`Horario eliminado del contrato exitosamente.`);
+            const updatedHorarios = horariosDialog.filter(horario => horario._id !== horarioId);
+            setHorariosDialog(updatedHorarios);
+        } catch (error) {
+            console.error(`Error al eliminar el horario del contrato:`, error.message);
         }
     };
 
@@ -73,7 +84,8 @@ const Contrato = () => {
         setOpenAgregarContratoDialog(false);
     };
 
-    const handleVerHorarios = (horarios) => {
+    const handleVerHorarios = (contratoId, horarios) => {
+        setContratoId(contratoId); // Establecer el ID del contrato
         setHorariosDialog(horarios);
         setOpenDialog(true);
     };
@@ -81,8 +93,14 @@ const Contrato = () => {
     const handleAgregarHorario = async () => {
         try {
             if (contratoId) {
+                // Verificar que se haya seleccionado un contrato antes de agregar un horario
+                if (!horarioNuevo.HoraInicial || !horarioNuevo.HoraFinal) {
+                    alert('Por favor, completa los campos de hora inicial y hora final.');
+                    return;
+                }
+
                 const datosHorario = {
-                    Numero: 1, 
+                    Numero: horariosDialog.length + 1, // Número en base a la cantidad de horarios que tiene el contrato
                     HoraInicial: horarioNuevo.HoraInicial,
                     HoraFinal: horarioNuevo.HoraFinal
                 };
@@ -92,15 +110,15 @@ const Contrato = () => {
                 window.location.reload();
             } else {
                 console.error('Ningún contrato seleccionado');
+                // Aquí podrías mostrar un mensaje al usuario indicando que debe seleccionar un contrato primero
             }
         } catch (error) {
             console.error('Error al agregar el horario al contrato:', error.message);
         }
     };
 
-    const handleEliminarHorario = (index) => {
-        const updatedHorarios = horariosDialog.filter((_, i) => i !== index);
-        setHorariosDialog(updatedHorarios);
+    const handleEliminarHorario = (horarioId) => {
+        handleEliminarHorarioContrato(contratoId, horarioId);
     };
 
     const handleModificarContrato = (contrato) => {
@@ -109,10 +127,6 @@ const Contrato = () => {
             Tipo: contrato.Tipo
         });
         setContratoId(contrato._id);
-        setOpenAgregarContratoDialog(true);
-    };
-
-    const handleAgregarContrato = () => {
         setOpenAgregarContratoDialog(true);
     };
 
@@ -155,7 +169,7 @@ const Contrato = () => {
                             <Table aria-label="collapsible table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Tipo</TableCell>
+                                       
                                         <TableCell>Nombre</TableCell>
                                         <TableCell>Acciones</TableCell>
                                     </TableRow>
@@ -163,12 +177,13 @@ const Contrato = () => {
                                 <TableBody>
                                     {contratos.map((contrato, index) => (
                                         <TableRow key={index}>
-                                            <TableCell>{contrato.Tipo}</TableCell>
+                                        
                                             <TableCell>{contrato.Nombre}</TableCell>
                                             
                                             <TableCell>
                                                 <Button onClick={() => handleEliminarContrato(contrato._id)} variant="outlined" color="secondary" startIcon={<DeleteIcon />}>Eliminar</Button>
-                                                <Button onClick={() => handleVerHorarios(contrato.Turno)} variant="outlined" color="primary" startIcon={<EditIcon />}>Ver Horarios</Button>
+                                              
+                                                <Button onClick={() => handleVerHorarios(contrato._id, contrato.Turno)} variant="outlined" color="primary" startIcon={<EditIcon />}>Ver Horarios</Button>
                                                 <Button onClick={() => {
                                                     setContratoId(contrato._id); // Establece el ID del contrato seleccionado
                                                     setOpenAgregarHorarioDialog(true);
@@ -208,7 +223,7 @@ const Contrato = () => {
                                 value={horario.HoraFinal}
                                 disabled
                             />
-                            <Button onClick={() => handleEliminarHorario(index)} variant="outlined" color="secondary" startIcon={<DeleteIcon />}>Eliminar Horario</Button>
+                            <Button onClick={() => handleEliminarHorario(horario._id)} variant="outlined" color="secondary" startIcon={<DeleteIcon />}>Eliminar Horario</Button>
                         </div>
                     ))}
                 </DialogContent>

@@ -152,7 +152,7 @@ const SA_Modificar = () => {
         <input className="Rectangle160" style={{ width: 365, height: 37, left: 98, top: 411, position: 'absolute' ,
             background: '#E1F6FF' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' , borderRadius: 10,
             color: 'rgba(0, 0, 0, 0.70)' , fontSize: 20, fontFamily: 'Roboto' , fontWeight: '400' , wordWrap: 'break-word'
-            }} type="password" placeholder={formData.Contrasena} name="Contrasena" />
+            }} type="password" placeholder={formData.Contrasena} name="Contrasena"  value={formData.Contrasena } onChange={handleInputChange} />
 
 
         <select className="Rectangle162" style={{ width: 365, height: 37, left: 609, top: 237, position: 'absolute' ,

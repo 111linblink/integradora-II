@@ -86,3 +86,24 @@ export const addHorarioToContrato = async (req, res) => {
     }
 };
 
+// Eliminar un horario de un contrato por su ID y el ID del horario
+export const deleteHorarioFromContrato = async (req, res) => {
+    const contratoId = req.params.id;
+    const horarioId = req.params.horarioId;
+
+    try {
+        const contrato = await contratoModel.findById(contratoId);
+        if (!contrato) {
+            return res.status(404).json({ success: false, message: "Contrato no encontrado" });
+        }
+
+        // Filtrar el arreglo de turnos del contrato para eliminar el horario con el ID proporcionado
+        contrato.Turno = contrato.Turno.filter(horario => horario._id != horarioId);
+        await contrato.save();
+
+        res.json({ success: true, message: "Horario eliminado del contrato exitosamente", data: contrato });
+    } catch (error) {
+        console.error("Error al eliminar el horario del contrato:", error);
+        res.status(500).json({ success: false, message: "Error del servidor" });
+    }
+};

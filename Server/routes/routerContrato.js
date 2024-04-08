@@ -8,5 +8,6 @@ router.get('/contratos/:id', contratoController.getContratoById);
 router.put('/update_contrato/:id', contratoController.updateContrato);
 router.delete('/delete_contrato/:id', contratoController.deleteContrato);
 router.post('/add_horario/:id', contratoController.addHorarioToContrato);
+router.delete('/delete_horario/:id/:horarioId', contratoController.deleteHorarioFromContrato);
 
 export { router as routesContrato };

@@ -230,6 +230,9 @@ const Capavisualizar = () => {
           </ul>
         </div>
       )}
+        <div className="AgregarNuevoEmpleado" style={{ width: 540, height: 37, left: 60, top: 176, position: 'absolute', color: 'black', fontSize: 30, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
+          Asignación de capacitaciones
+        </div>
     </>
   );
 };

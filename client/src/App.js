@@ -48,6 +48,7 @@ function App() {
           <Route path="/gestion" element={< GestionSoli/>} />
           <Route path="/documentos" element={<DocumentosU/>}/>
           <Route path="/" element={<HomePage/>}/>
+          <Route path="/documentos/:id" element={<DocumentosU/>}/>
         </Routes>
       </Router>
     </div>
