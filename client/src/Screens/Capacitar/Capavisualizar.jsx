@@ -181,7 +181,7 @@ const Capavisualizar = () => {
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5, 10, 20]}
-            checkboxSelection
+            onCellClick={(params) => handleRowSelection(params.row)}
           />
         </div>
         <Button className="actions-button" variant="outlined" style={{left: 1200, top: -465}} onClick={handleOpenDialog} disabled={!selectedUser}>Asignar Capacitación</Button>
@@ -217,6 +217,7 @@ const Capavisualizar = () => {
           Se le ha asignado la capacitación "{assignedCapacitacionName}" al empleado seleccionado.
         </MuiAlert>
       </Snackbar>
+      
 
       {/* Lista o tabla de capacitaciones asignadas */}
       {assignedCapacitaciones.length > 0 && (

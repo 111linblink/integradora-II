@@ -1,0 +1,47 @@
+.home-page-container {
+    height: 100vh;
+    background-image: url('https://www.elindependiente.com/wp-content/uploads/2017/07/blockchain-p.gif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.texto {
+    font-family: 'Roboto', sans-serif; 
+    font-size: 5em; 
+    margin-bottom: 40px; 
+    font-weight: bold; 
+}
+
+.home-page-content {
+    text-align: center;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.home-page-content h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.home-page-content p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.home-page-content a {
+    color: #fff;
+    text-decoration: none;
+    background-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.home-page-content a:hover {
+    background-color: #0056b3;
+}
