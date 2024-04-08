@@ -18,25 +18,17 @@ const CargaMasiva = () => {
         try {
             const formData = new FormData();
             formData.append('archivo', archivo);
-
-            // Cambia la URL por la dirección de tu servidor y la ruta correcta
             const respuesta = await axios.post('http://localhost:3000/usuarios/subirEmpleados', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-
             console.log('Respuesta del servidor:', respuesta.data);
-
-            // Mostrar alerta de éxito
             mostrarSnackbar('¡Archivo subido exitosamente!', 'success');
-            
-            // Cerrar el diálogo después de subir el archivo
             handleCloseDialog();
         } catch (error) {
             console.error('Error al cargar el archivo:', error);
-            
-            // Mostrar alerta de fallo
+        
             mostrarSnackbar('Error al subir el archivo. Por favor, intenta nuevamente.', 'error');
         }
     };

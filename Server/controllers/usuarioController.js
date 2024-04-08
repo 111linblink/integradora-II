@@ -5,22 +5,22 @@ import fs from 'fs';
 import mongoose from 'mongoose';
 
 const { ObjectId } = mongoose.Types;
-const upload = multer({ dest: 'uploads/' }); // Directorio donde se guardarán los archivos temporales
+const upload = multer({ dest: 'uploads/' }); 
 
 export const subirEmpleados = async (req, res) => {
     try {
-        // Verificar si se cargó un archivo
+       
         if (!req.file) {
             return res.status(400).json({ success: false, message: "No se ha proporcionado ningún archivo" });
         }
 
-        const rutaArchivo = req.file.path; // Ruta del archivo temporal
+        const rutaArchivo = req.file.path; 
         const datosCrudos = fs.readFileSync(rutaArchivo);
         const empleados = JSON.parse(datosCrudos);
 
-        // Iterar sobre los empleados y guardarlos en la base de datos
+        
         for (const empleado of empleados) {
-            // Crear un nuevo objeto de usuario con campos vacíos si faltan datos
+        
             const nuevoEmpleado = {
                 Nombre: empleado.Nombre || '',
                 Numero_Empleado: empleado.Numero_Empleado || null,
@@ -36,11 +36,11 @@ export const subirEmpleados = async (req, res) => {
                 Img: empleado.Img || ''
             };
 
-            // Guardar el empleado en la base de datos
+          
             await UsuarioModel.create(nuevoEmpleado);
         }
 
-        // Eliminar el archivo temporal después de procesarlo
+   
         fs.unlinkSync(rutaArchivo);
 
         res.json({ success: true, message: "Carga masiva de empleados completada exitosamente" });
