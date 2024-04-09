@@ -1,0 +1,168 @@
+
+.solicitar {
+    position: absolute;
+    width: 50%;
+    height: 7%;
+    left: 24%;
+    top: 85%;
+    background-color: #047393;
+    border-radius: 30px;
+    color: #FFFFFF;
+    font-family: Roboto;
+    font-size: 14px;
+    border: none;
+    box-shadow: none;
+    transition: box-shadow 0.3s ease; /* Add transition for smooth effect */
+  }
+  
+  .solicitarContrato:hover,
+  .solicitar:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Add shadow on hover */
+  }
+  
+  .rectangulo2 {
+    position: absolute;
+    width: 96%;
+    height: 80%;
+    left: 2%;
+    top: 17%;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+  }
+  
+  .textoCalendario {
+    position: absolute;
+    left: 70px;
+    top: 55px;
+    font-family: Roboto;
+    font-size: 40px;
+  }
+  
+  .rectanguloInt {
+    position: absolute;
+    width: 22%;
+    height: 85%;
+    left: 76%;
+    top: 7%;
+    background-color: #D9EBF3;
+    border-radius: 20px;
+  }
+  
+  .texContrato {
+    position: absolute;
+    text-align: center;
+    left: 4px;
+    top: 50px;
+    border-radius: 10px;
+    font-family: Roboto;
+    font-size: 45px;
+  }
+  
+  .tipocontrato {
+    position: absolute;
+    width: 70%;
+    height: 11%;
+    left: 17%;
+    top: 40%;
+    background-color: #E1F6FF;
+    border-radius: 5px;
+    font-family: Roboto;
+    font-size: 14px;
+    border: none;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .turnocontrato {
+    position: absolute;
+    width: 70%;
+    height: 11%;
+    left: 17%;
+    top: 50%;
+    background-color: #E1F6FF;
+    border-radius: 5px;
+    font-family: Roboto;
+    font-size: 14px;
+    border: none;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tipocontratoaaa {
+    position: absolute;
+    width: 70%;
+    height: 11%;
+    left: 40%;
+    top: 40%;
+    background-color: #E1F6FF;
+    border-radius: 5px;
+    font-family: Roboto;
+    font-size: 14px;
+    border: none;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .turnocontratoaaa {
+    position: absolute;
+    width: 70%;
+    height: 11%;
+    left: 17%;
+    top: 60%;
+    background-color: #E1F6FF;
+    border-radius: 5px;
+    font-family: Roboto;
+    font-size: 14px;
+    border: none;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ventanaEmergente {
+    position: absolute;
+    width: 283px;
+    height: 167px;
+    left: 1100px;
+    top: 110px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .ventanaEmergente .contenido {
+    padding: 20px;
+  }
+  
+  .ventanaEmergente .contenido h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .ventanaEmergente .contenido p {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .usuarioVentanaEmergente {
+    position: absolute;
+    width: 283px;
+    height: 200px;
+    left: 1185px;
+    top: 110px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .usuarioVentanaEmergente .contenido {
+    padding: 20px;
+  }
+  
+  .usuarioVentanaEmergente .contenido h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .usuarioVentanaEmergente .contenido p {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  

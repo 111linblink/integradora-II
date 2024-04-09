@@ -113,7 +113,7 @@ const SA_visualizar = () => {
       width: 500,
       renderCell: (params) => (
         <div>
-          <Button className="actions-button" variant="outlined" startIcon={<CloudUploadIcon />} onClick={() => window.location.href=`/sa-Modificar/${params.row.id}`}>Subir Doct</Button>
+          <Button className="actions-button" variant="outlined" startIcon={<CloudUploadIcon />} onClick={() => window.location.href=`/documentos/${params.row.id}`}>Subir Doct</Button>
           <Button className="actions-button" variant="outlined" onClick={() => window.location.href=`/sa-Modificar/${params.row.id}`}>Modificar/Ver Datos</Button>
           <Button onClick={() => handleDelete(params.row.id, params.row.Nombre)} variant="outlined" color="error" startIcon={<DeleteIcon />}>Eliminar</Button>
         </div>
@@ -144,7 +144,7 @@ const SA_visualizar = () => {
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5, 10, 20]}
-            checkboxSelection
+            
           />
         </div>
       </div>

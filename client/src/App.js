@@ -19,9 +19,10 @@ import CargaMasiva from './Screens/Agregar/CargaMasiva';
 import Actividades from './Screens/Actividades/Actividades';
 import GestionSoli from './Screens/GestionSolicitudes/GestionSoli';
 import DocumentosU from './Screens/Documentos/DocumentosU';
+import SoliContrato from './Screens/SoliContratos/SoliContratos';
 import LoginE from './Screens/LoginEmp/LoginE';
 import HomePage from './Screens/Inicio/HomePage';
-
+import CrearEmpleados from './Screens/Agregar/CrearEmpleados';
 
 function App() {
   return (
@@ -49,6 +50,11 @@ function App() {
           <Route path="/documentos" element={<DocumentosU/>}/>
           <Route path="/" element={<HomePage/>}/>
           <Route path="/documentos/:id" element={<DocumentosU/>}/>
+
+          <Route path="/crearEmpleado" element={<CrearEmpleados/>}/>
+
+          <Route path="/SoliContrato" element={<SoliContrato/>}/>
+
         </Routes>
       </Router>
     </div>

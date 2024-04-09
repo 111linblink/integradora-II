@@ -8,7 +8,8 @@ import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CargaMasiva from './CargaMasiva';
 
-const SA_Agregar = () => {
+
+const CrearEmpleados = () => {
     const [formData, setFormData] = useState({
         Nombre: "",
         Numero_Empleado: "",
@@ -195,38 +196,38 @@ const SA_Agregar = () => {
                 <input className="Rectangle97" type="text" placeholder="Nombre Apellido Paterno Apellido Materno" onChange={CrearUsuario} name="Nombre" value={formData.Nombre} />
                 <input className="Rectangle158" type="number" placeholder="Número Control Empleado" onChange={CrearUsuario} name="Numero_Empleado" value={formData.Numero_Empleado} />
                 <input className="Rectangle159" type="email" placeholder="Correo" onChange={CrearUsuario} name="CorreoElectronico" value={formData.CorreoElectronico} />
-                <input className="Rectangle160" type="password" placeholder="Contraseña" onChange={CrearUsuario} name="Contrasena" value={formData.Contrasena} />
-                <input className="Rectangle161" type="password" placeholder="Confirmar contraseña" onChange={CrearUsuario} name="ConfirmarContraseña" value={formData.ConfirmarContraseña} />
-                <select className="Rectangle162" onChange={CrearUsuario} name="Sexo">
+               
+               
+                <select className="Rectangle160" onChange={CrearUsuario} name="Sexo">
                     <option value="" defaultValue="">Género</option>
                     <option value="Femenino">Femenino</option>
                     <option value="Masculino">Masculino</option>
                 </select>
-                <select className="Rectangle168" onChange={CrearUsuario} name="Tipo" value={formData.Tipo}>
+                <select className="Rectangle161" onChange={CrearUsuario} name="Tipo" value={formData.Tipo}>
                     <option value="" defaultValue="">Empleado o Admin</option>
                     {tiposDeUsuario.map((tipo, index) => (
                         <option key={index} value={tipo}>{tipo}</option>
                     ))}
                 </select>
-                <select className="Rectangle163" onChange={CrearUsuario} name="Sede" value={formData.Sede}>
+                <select className="Rectangle162" onChange={CrearUsuario} name="Sede" value={formData.Sede}>
                     <option value="" defaultValue="">Sede</option>
                     {sedes.map((sede, index) => (
                         <option key={index} value={sede.nombre}>{sede.nombre}</option>
                     ))}
                 </select>
-                <select className="Rectangle164" onChange={CrearUsuario} name="Area" value={formData.Area}>
+                <select className="Rectangle166" onChange={CrearUsuario} name="Area" value={formData.Area}>
                     <option value="" defaultValue="">Area</option>
                     {formData.Sede && sedes.find(sede => sede.nombre === formData.Sede)?.areas.map((area, index) => (
                         <option key={index} value={area}>{area}</option>
                     ))}
                 </select>
-                <input className="Rectangle165" type="date" placeholder="Fecha de Nacimiento" onChange={CrearUsuario} name="FechaNacimiento" />
-                <select className="Rectangle186" onChange={CrearUsuario} name="Status">
+                <input className="Rectangle163" type="date" placeholder="Fecha de Nacimiento" onChange={CrearUsuario} name="FechaNacimiento" />
+                <select className="Rectangle164" onChange={CrearUsuario} name="Status">
                     <option value="" defaultValue="">Estado</option>
                     <option value="Activo">Activo</option>
                     <option value="Inactivo">Inactivo</option>
                 </select>
-                <select className="Rectangle166" onChange={CrearUsuario} name="Contrato" value={formData.Contrato}>
+                <select className="Rectangle168" onChange={CrearUsuario} name="Contrato" value={formData.Contrato}>
                     <option value="" defaultValue="">Contrato</option>
                     {contratos.map((contrato, index) => (
                         <option key={index} value={contrato}>{contrato}</option>
@@ -243,4 +244,4 @@ const SA_Agregar = () => {
     );
 };
 
-export default SA_Agregar;
+export default CrearEmpleados
