@@ -10,3 +10,4 @@ router.put('/actualizar_actividad/:id', actividadesController.actualizarActivida
 router.delete('/eliminar_actividad/:id', actividadesController.eliminarActividadPorId);
 
 export { router as routesActividades };
+

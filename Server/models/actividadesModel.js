@@ -8,7 +8,11 @@ const actividadSchema = new Schema({
   horaInicio: String,
   horaFinalizacion: String,
   diaInicio: Date,
-  diaFinalizacion: Date
+  diaFinalizacion: Date,
+  Area: String,
+  Sede: String,
+  Numero_Empleado: Number
 });
 
 export default mongoose.model('Actividad', actividadSchema);
+

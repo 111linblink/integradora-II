@@ -3,8 +3,8 @@ import Actividad from "../models/actividadesModel.js";
 // Crear una actividad
 export const crearActividad = async (req, res) => {
     try {
-        const { nombre, descripcion, horaInicio, horaFinalizacion, diaInicio, diaFinalizacion } = req.body;
-        const nuevaActividad = new Actividad({ nombre, descripcion, horaInicio, horaFinalizacion, diaInicio, diaFinalizacion });
+        const { nombre, descripcion, horaInicio, horaFinalizacion, diaInicio, diaFinalizacion, Area, Sede, Numero_Empleado } = req.body;
+        const nuevaActividad = new Actividad({ nombre, descripcion, horaInicio, horaFinalizacion, diaInicio, diaFinalizacion,Area, Sede, Numero_Empleado });
         console.log("Nueva actividad:", nuevaActividad);
         await nuevaActividad.save();
         res.json({ success: true, message: "Actividad creada exitosamente", data: nuevaActividad });
@@ -70,3 +70,4 @@ export const eliminarActividadPorId = async (req, res) => {
         res.status(500).json({ success: false, message: "Error del servidor al eliminar la actividad" });
     }
 };
+

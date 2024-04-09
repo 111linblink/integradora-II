@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Gantt, Task, EventOption, DisplayOption, StylingOption } from 'gantt-task-react';
+import { Gantt, EventOption, DisplayOption, StylingOption } from 'gantt-task-react';
 import "gantt-task-react/dist/index.css";
+import './gantt.css';
 import Axios from 'axios';
+import NarBar from '../NarBar.js/NarBar';
 
 const MyGantt = () => {
   const [tasks, setTasks] = useState([]);
@@ -43,31 +45,45 @@ const MyGantt = () => {
     return 0;
   };
 
-  const eventOptions: EventOption = {};
+  const eventOptions = {};
 
-  const displayOptions: DisplayOption = {
+  const displayOptions = {
     viewMode: 'Week',
     viewDate: new Date(),
     preStepsCount: 1,
     locale: 'es',
   };
 
-  const stylingOptions: StylingOption = {};
+  const stylingOptions = {};
 
   return (
     <div>
-      <h1>Mi Gráfico de Gantt</h1>
-      {tasks.length > 0 && (
-        <Gantt
-          tasks={tasks}
-          eventOption={eventOptions}
-          displayOption={displayOptions}
-          stylingOption={stylingOptions}
-        />
-      )}
+      
+      <div style={{
+        position: 'relative',
+        width: '100%',
+        height: '100vh',
+        backgroundColor: '#0c789c',
+        overflow: 'hidden',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }} className="root">
+        <NarBar />
+        <div className="rectangulogantt">
+          <h1>Gantt de actividades</h1>
+          {tasks.length > 0 && (
+            <Gantt
+              tasks={tasks}
+              eventOption={eventOptions}
+              displayOption={displayOptions}
+              stylingOption={stylingOptions}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
-  
 };
 
 export default MyGantt;
