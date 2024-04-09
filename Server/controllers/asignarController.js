@@ -1,9 +1,9 @@
 import Asignacion from '../models/asignarModel.js';
 
-export const obtenerCapacitacionesAsignadasPorUsuarioId = async (req, res) => {
+export const obtenerCapacitacionesAsignadasPorUsuarioNombre = async (req, res) => {
   try {
-    const userId = req.params.userId; // Cambia el nombre del parámetro a userId
-    const asignaciones = await Asignacion.find({ Numero_Empleado: userId }); // Usa el campo Numero_Empleado para buscar las asignaciones
+    const nombreUsuario = req.params.nombreUsuario; // Cambia el nombre del parámetro a nombreUsuario
+    const asignaciones = await Asignacion.find({ Nombre: nombreUsuario }).populate('Actividad');
     res.status(200).json(asignaciones);
   } catch (error) {
     console.error('Error al obtener las capacitaciones asignadas:', error);
@@ -24,12 +24,12 @@ export const crearAsignacion = async (req, res) => {
       Numero_Empleado,
       Area,
       Sede,
-      Actividad: {
+      Actividad: [{
         NombreCapacitacion,
         FechaInicio,
         FechaFin,
         Descripcion
-      }
+      }]
     });
 
     const asignacionGuardada = await nuevaAsignacion.save();

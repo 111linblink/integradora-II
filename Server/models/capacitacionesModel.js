@@ -7,13 +7,6 @@ const capacitacionSchema = new Schema({
     Sede: String,
     Ubicacion: String,
     Descripcion: String,
-    Actividad: [
-        {
-            NombreActividad: String,
-            FechaInicio: Date,
-            FechaFin: Date  
-        }
-    ]
 }, {
     timestamps: true
 });

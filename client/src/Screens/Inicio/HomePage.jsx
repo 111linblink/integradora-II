@@ -8,7 +8,7 @@ const Home = () => {
             <div className="home-page-content">
                 <div className="texto">Bienvenido a Integrantt</div>
                 {/* Utiliza el componente Link para dirigir al usuario a la raíz de la aplicación */}
-                <Link to="/login" className="login-link">Inicia Sesión</Link>
+                <Link to="/loge" className="login-link">Inicia Sesión</Link>
             </div>
         </div>
     );

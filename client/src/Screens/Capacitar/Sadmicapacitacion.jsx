@@ -150,7 +150,7 @@ const Sadmicapacitacion = () => {
                                     <TableRow>
                                         <TableCell />
                                         <TableCell>Nombre</TableCell>
-                                        <TableCell>Área</TableCell>
+                                        {/*<TableCell>Área</TableCell>*/}
                                         <TableCell>Sede</TableCell>
                                         <TableCell>Ubicación</TableCell>
                                         <TableCell>Descripción</TableCell>
@@ -162,7 +162,7 @@ const Sadmicapacitacion = () => {
                                         <TableRow key={index}>
                                             <TableCell />
                                             <TableCell>{capacitacion.Nombre}</TableCell>
-                                            <TableCell>{capacitacion.Area}</TableCell>
+                                           {/* <TableCell>{capacitacion.Area}</TableCell>*/}
                                             <TableCell>{capacitacion.Sede}</TableCell>
                                             <TableCell>{capacitacion.Ubicacion}</TableCell>
                                             <TableCell>{capacitacion.Descripcion}</TableCell>
@@ -250,7 +250,7 @@ const Sadmicapacitacion = () => {
                 <button onClick={handleCrearCapacitacion} className="Rectangle03">
                     <div>Registrar nueva capacitación</div>
                 </button>
-                <Button className="actions-button" style={{ width: 200, height: 40, left: 1255, top: 2}} variant="outlined"  onClick={() => window.location.href=/capavisualizar/}>Asignar Capacitación</Button>
+                <Button className="actions-button" style={{ width: 300, height: 40, left: 1180, top: 2}} variant="outlined"  onClick={() => window.location.href=/capavisualizar/}>Asignar Capacitación</Button>
 
             </div>
 

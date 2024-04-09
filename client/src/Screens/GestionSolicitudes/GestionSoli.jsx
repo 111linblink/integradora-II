@@ -206,7 +206,6 @@ const GestionSoli = () => {
     }
   };
   
-   
 
   const rows = vacaciones
   .filter(vacacion => {

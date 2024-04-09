@@ -65,7 +65,7 @@ const Capavisualizar = () => {
   useEffect(() => {
     // Lógica para cargar las capacitaciones asignadas al usuario seleccionado
     if (selectedUser) {
-      axios.get(`http://localhost:3000/asignacion/capacitaciones/${selectedUser.id}`)
+      axios.get(`http://localhost:3000/asignacion/capacitaciones/nombre/${selectedUser.Nombre}`) // Cambia la ruta para buscar por nombre de usuario
         .then(response => {
           setAssignedCapacitaciones(response.data.data);
         })
@@ -132,6 +132,23 @@ const Capavisualizar = () => {
       });
   };
   
+  const handleViewAssignedCapacitaciones = () => {
+    // Lógica para obtener y visualizar las capacitaciones asignadas al usuario seleccionado
+    if (!selectedUser) {
+      console.error('No se ha seleccionado un usuario');
+      return;
+    }
+
+    axios.get(`http://localhost:3000/asignacion/capacitaciones/nombre/${selectedUser.Nombre}`) // Cambia la ruta para buscar por nombre de usuario
+      .then(response => {
+        console.log('Capacitaciones asignadas:', response.data);
+        // Aquí puedes manejar la visualización de las capacitaciones asignadas
+      })
+      .catch(error => {
+        console.error('Error al obtener las capacitaciones asignadas:', error);
+      });
+  };
+  
 
   const handleDelete = (id, nombre) => {
     // Lógica para eliminar un usuario
@@ -141,11 +158,6 @@ const Capavisualizar = () => {
 
   const handleCloseAlert = () => {
     setOpenAlert(false);
-  };
-
-  const handleViewAssignedCapacitaciones = () => {
-    // Aquí puedes implementar la lógica para visualizar las capacitaciones asignadas
-    console.log('Visualizar capacitaciones asignadas');
   };
 
   const columns = [
@@ -163,7 +175,7 @@ const Capavisualizar = () => {
       renderCell: (params) => (
         <div>
           <Button className="actions-button" variant="outlined" onClick={() => handleRowSelection(params.row)}>Seleccionar</Button>
-          <Button className="actions-button" variant="outlined" onClick={handleViewAssignedCapacitaciones}>Ver Capacitaciones</Button>
+          <Button className="actions-button" variant="outlined" onClick={handleViewAssignedCapacitaciones}>Ver Capacitaciones Asignadas</Button>
           <Button onClick={() => handleDelete(params.row.id, params.row.Nombre)} variant="outlined" color="error" startIcon={<DeleteIcon />}>Eliminar</Button>
         </div>
       ),  
