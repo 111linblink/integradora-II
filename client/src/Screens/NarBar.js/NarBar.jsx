@@ -60,7 +60,7 @@ const NarBar = () => {
           </div>
         </Tooltip>
 
-        <Tooltip title="Adimistración de Sedes" placement="bottom">
+        <Tooltip title="Administración de Sedes" placement="bottom">
           <div className="tooltip-container">
             <Link to="/agregarsede">
               <div className="v141_12"></div>
@@ -84,7 +84,7 @@ const NarBar = () => {
           </div>
         </Tooltip>
         
-        <Tooltip title="Adimistración de Contratos" placement="bottom">
+        <Tooltip title="Administración de Contratos" placement="bottom">
           <div className="tooltip-container">
             <Link to="/admcontrato">
               <div className="v141_15"></div>

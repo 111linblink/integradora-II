@@ -39,6 +39,13 @@ function LoginE() {
 
       if (response.data && response.data.ok) {
         alert('Inicio de sesión exitoso.');
+        // Guardar los datos del usuario en sessionStorage
+        const userData = {
+          correo: email,
+          token: token
+        };
+        sessionStorage.setItem('userData', JSON.stringify(userData));
+        // Redirigir a la página de vacaciones
         window.location.href = '/vacaciones';
       } else {
         setError('Inicio de sesión fallido. Por favor, verifique el token e inténtelo nuevamente.');

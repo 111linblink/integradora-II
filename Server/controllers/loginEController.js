@@ -22,7 +22,7 @@ export const envioCorreo = (req, resp) => {
   const opciones = {
     from: 'Integrantt <integrantt@outlook.com>',
     to: body.correo,
-    subject: body.asunto,
+    subject: 'Token para inicio de sesión',
     text: `Aquí está tu token: ${token}`, // Envía el token en el cuerpo del mensaje
   }
 
@@ -34,7 +34,7 @@ export const envioCorreo = (req, resp) => {
     }
     return resp.json({
       ok: true,
-      msg: result
+      msg: 'Se ha enviado un correo con el token.'
     });
   })
 }

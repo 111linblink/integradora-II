@@ -77,7 +77,7 @@ const NavbarEmpleado = () => {
             <p>Nombre: {userData.nombre}</p>
             <p>Correo electrónico: {userData.correo}</p>
             <p>Numero de empleado: {userData.numero}</p>
-            <button className= 'actions-button' style={{ width: 200, height: 40, left: 1255, top: 2}} variant="outlined" color="error" onClick={handleCerrarSesion} >Cerrar Sesión</button>
+            <button className= 'actions-button' style={{ width: 200, height: 40, left: 1355, top: 2}} variant="outlined" color="error" onClick={handleCerrarSesion} >Cerrar Sesión</button>
           </div>
         </div>
       )}
