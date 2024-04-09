@@ -19,6 +19,7 @@ import CargaMasiva from './Screens/Agregar/CargaMasiva';
 import Actividades from './Screens/Actividades/Actividades';
 import GestionSoli from './Screens/GestionSolicitudes/GestionSoli';
 import DocumentosU from './Screens/Documentos/DocumentosU';
+import SoliContrato from './Screens/SoliContratos/SoliContratos';
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
           <Route path="/asignaciones/:userId" element={<AsignacionesUsuario/>} />
           <Route path="/gestion" element={< GestionSoli/>} />
           <Route path="/documentos" element={<DocumentosU/>}/>
+          <Route path="/SoliContrato" element={<SoliContrato/>}/>
         </Routes>
       </Router>
     </div>

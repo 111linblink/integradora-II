@@ -2,20 +2,14 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const contratoSchema = new Schema({
-  tipoContrato: String,
-  diasTrabajo: Number,
-  diasDescanso: Number,
-  horasDia: Number,
-  turnos: [String],
-
+const solicontratoSchema = new Schema({
+  Tipo: String,
+  Turno: String,
   Estado: String,
   Numero_Empleado: Number,
   Nombre: String,
-  Contrato: String,
   Sede: String,
-  Area: String,
-  Comentarios: String
+  Area: String
 });
 
-export default mongoose.model('Contrato', contratoSchema);
+export default mongoose.model('SoliContrato', solicontratoSchema);

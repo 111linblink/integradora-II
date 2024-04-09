@@ -1,70 +1,73 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Gantt, Task, EventOption, DisplayOption, StylingOption } from 'gantt-task-react';
 import "gantt-task-react/dist/index.css";
+import Axios from 'axios';
 
 const MyGantt = () => {
-  const tasks: Task[] = [
-    {
-      id: 'Task1',
-      name: 'Task 1',
-      type: 'task',
-      start: new Date(2024, 3, 1),
-      end: new Date(2024, 3, 5),
-      progress: 50,
-      dependencies: [],
-      styles: {
-        backgroundColor: '#4CAF50',
-        progressColor: '#FF9800',
-      },
-    },
-    {
-      id: 'Task2',
-      name: 'Task 2',
-      type: 'task',
-      start: new Date(2024, 3, 6),
-      end: new Date(2024, 3, 10),
-      progress: 30,
-      dependencies: ['Task1'],
-      styles: {
-        backgroundColor: '#FFEB3B',
-        progressColor: '#FF9800',
-      },
-    },
-    // Añade más tareas según sea necesario
-  ];
+  const [tasks, setTasks] = useState([]);
 
-  const eventOptions: EventOption = {
-    onSelect: (task, isSelected) => console.log('Task selected:', task),
-    onDoubleClick: (task) => console.log('Task double clicked:', task),
-    onClick: (task) => console.log('Task clicked:', task),
-    onDelete: (task) => console.log('Task deleted:', task),
-    onDateChange: (task, children) => console.log('Task date changed:', task, children),
-    onProgressChange: (task, children) => console.log('Task progress changed:', task, children),
-    onExpanderClick: (task) => console.log('Expander clicked:', task),
+  useEffect(() => {
+    obtenerTodasLasActividades();
+  }, []);
+
+  const obtenerTodasLasActividades = async () => {
+    try {
+      const data = await Axios.get(`http://localhost:3000/Actividad/actividades`);
+      const actividades = data.data.data.map((actividad, index) => {
+        const start = actividad.diaInicio ? new Date(actividad.diaInicio) : new Date();
+        const end = actividad.diaFinalizacion ? new Date(actividad.diaFinalizacion) : new Date();
+        const progress = calcularProgreso(actividad); // Calcular el progreso aquí
+        return {
+          id: `Task${index + 1}`,
+          name: actividad.nombre,
+          type: 'task',
+          start: start,
+          end: end,
+          progress: progress,
+          dependencies: [],
+          styles: {
+            backgroundColor: '#4CAF50',
+            progressColor: '#FF9800',
+          },
+        };
+      });
+      setTasks(actividades);
+    } catch (error) {
+      console.error('Error al obtener las actividades:', error.message);
+      setTasks([]);
+    }
   };
+
+  const calcularProgreso = (actividad) => {
+    // Implementa tu lógica para calcular el progreso de la actividad aquí
+    return 0;
+  };
+
+  const eventOptions: EventOption = {};
 
   const displayOptions: DisplayOption = {
-    viewMode: 'Week', // Puedes cambiar esto según tus necesidades
+    viewMode: 'Week',
     viewDate: new Date(),
     preStepsCount: 1,
-    locale: 'es', // Configura el idioma de la interfaz según sea necesario
+    locale: 'es',
   };
 
-  const stylingOptions: StylingOption = {
-    // Aquí puedes configurar el estilo del Gantt según tus preferencias
-  };
+  const stylingOptions: StylingOption = {};
 
   return (
     <div>
-      <h1>My Gantt Chart</h1>
-      <Gantt
-        tasks={tasks}
-        eventOption={eventOptions}
-        displayOption={displayOptions}
-        stylingOption={stylingOptions}
-      />
+      <h1>Mi Gráfico de Gantt</h1>
+      {tasks.length > 0 && (
+        <Gantt
+          tasks={tasks}
+          eventOption={eventOptions}
+          displayOption={displayOptions}
+          stylingOption={stylingOptions}
+        />
+      )}
     </div>
   );
+  
 };
 
 export default MyGantt;
