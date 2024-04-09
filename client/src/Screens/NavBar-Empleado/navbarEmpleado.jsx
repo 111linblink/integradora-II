@@ -46,18 +46,26 @@ const NavbarEmpleado = () => {
         top: 0,
         right: 0,
         width: '100%',
-        height: '14%',
+        height: '80px',
         backgroundColor: '#FFFFFF',
       }} className="cabecera">
-        <img className="logo" src="../assets/Logo.png" alt="Logo" style={{ position: 'absolute', top: '0%', left: '1%', width: '8%', height: '100%' }} />
-        <Link to="/empleado-vacaciones">
-          <img className="calendario" src="../assets/Calendario.png" alt="Calendario" style={{ position: 'absolute', top: '30%', left: '78%', width: '3%', height: '42%' }} />
+
+
+
+        <img className="logo" src="../assets/v141_10.png" alt="Logo" style={{ position: 'absolute', top: '6px', left: '12px', width: '100px', height: '70px' }} />
+        
+        <Link to="/vacaciones">
+          <img className="Vacaciones" src="../assets/calendario-diario.png" alt="Solicitar Vacaciones" style={{ position: 'absolute', top: '18px', left: '78%', width: '60px', height: '50px' }} />
         </Link>
-        <Link to="/empleado-horario">
-          <img className="horarioEmpleado" src="../assets/Horario-empleado.png" alt="Horario empleado" style={{ position: 'absolute', top: '30%', left: '83%', width: '3%', height: '42%' }} />
+        <Link to="/SoliContrato">
+          <img className="Contrato" src="../assets/reserva.png" alt="Solicitar Contrato" style={{ position: 'absolute', top: '18px', left: '73%', width: '60px', height: '50px' }} />
         </Link>
-        <img className="notificaciones" src="../assets/Notificaciones.png" alt="Notificaciones" onClick={handleMostrarVentanaNotificaciones} style={{ position: 'absolute', top: '30%', left: '88%', cursor: 'pointer', width: '3%', height: '42%' }} />
-        <img className="usuarioCabecera" src="../assets/Usuario.png" alt="Usuario" onClick={handleMostrarVentanaUsuario} style={{ position: 'absolute', top: '30%', left: '93%', cursor: 'pointer', width: '3%', height: '42%' }} />
+
+        <Link to="/gantt">
+          <img className="horarioEmpleado" src="../assets/calendario-reloj.png" alt="Horario empleado" style={{ position: 'absolute', top: '18px', left: '83%', width: '60px', height: '50px' }} />
+        </Link>
+        <img className="notificaciones" src="../assets/Notificaciones.png" alt="Notificaciones" onClick={handleMostrarVentanaNotificaciones} style={{ position: 'absolute', top: '18px', left: '88%', cursor: 'pointer', width: '60px', height: '50px' }} />
+        <img className="usuarioCabecera" src="../assets/circulo-de-usuario.png" alt="Usuario" onClick={handleMostrarVentanaUsuario} style={{ position: 'absolute', top: '11px', left: '1444px', cursor: 'pointer', width: '60px', height: '60px' }} />
       </div>
 
       {mostrarVentanaNotificaciones && (

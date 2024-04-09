@@ -69,7 +69,8 @@ function LoginE() {
                 style={{ width: '100%', height: '40px', borderRadius: '5px', border: '1px solid #ccc', padding: '0 10px', boxSizing: 'border-box' }}
               />
             </div>
-            <button type="submit" style={{ width: '100%', height: '40px', background: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', fontFamily: 'Roboto', fontSize: '16px' }}>Enviar Token</button>
+            <button type="submit" style={{ width: '100%', height: '40px', background: '#047393', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', fontFamily: 'Roboto', fontSize: '16px' }}>Enviar Token</button>
+            <a href="/login" style={{ display: 'block', marginTop: '10px', textAlign: 'center', fontFamily: 'Roboto', color: '#007bff', }}>Iniciar sesión como administrador</a>
           </form>
         ) : (
           <form onSubmit={handleLogin}>
@@ -84,13 +85,14 @@ function LoginE() {
                 style={{ width: '100%', height: '40px', borderRadius: '5px', border: '1px solid #ccc', padding: '0 10px', boxSizing: 'border-box' }}
               />
             </div>
-            <button type="submit" style={{ width: '100%', height: '40px', background: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', fontFamily: 'Roboto', fontSize: '16px' }}>Iniciar Sesión</button>
+            <button type="submit" style={{ width: '100%', height: '40px', background: '#047393', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', fontFamily: 'Roboto', fontSize: '16px' }}>Iniciar Sesión</button>
+            <a href="/login" style={{ display: 'block', marginTop: '10px', textAlign: 'center', fontFamily: 'Roboto', color: '#007bff' }}>Iniciar sesión como administrador</a>
           </form>
         )}
         {error && <p style={{ color: 'red', marginTop: '10px', fontFamily: 'Roboto' }}>{error}</p>}
       </div>
     </div>
   );
-}
+}  
 
 export default LoginE;
