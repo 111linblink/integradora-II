@@ -20,6 +20,8 @@ import Actividades from './Screens/Actividades/Actividades';
 import GestionSoli from './Screens/GestionSolicitudes/GestionSoli';
 import DocumentosU from './Screens/Documentos/DocumentosU';
 import SoliContrato from './Screens/SoliContratos/SoliContratos';
+import LoginE from './Screens/LoginEmp/LoginE';
+import HomePage from './Screens/Inicio/HomePage';
 
 
 function App() {
@@ -27,7 +29,8 @@ function App() {
     <div className=''>
       <Router>
         <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/loge" element={<LoginE />} />
           <Route path="/sa-agregar" element={<SaAgregar />} />
           <Route path="/sa-visualizar" element={<SAvisualizar />} />
           <Route path="/agregarsede" element={<AgregarSede />} />
@@ -45,6 +48,8 @@ function App() {
           <Route path="/asignaciones/:userId" element={<AsignacionesUsuario/>} />
           <Route path="/gestion" element={< GestionSoli/>} />
           <Route path="/documentos" element={<DocumentosU/>}/>
+          <Route path="/" element={<HomePage/>}/>
+          <Route path="/documentos/:id" element={<DocumentosU/>}/>
           <Route path="/SoliContrato" element={<SoliContrato/>}/>
         </Routes>
       </Router>

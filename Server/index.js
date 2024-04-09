@@ -11,6 +11,7 @@ import { routesVacaciones } from './routes/routerVacaciones.js';
 import routesAsignarCapacitaciones from './routes/routesAsignar.js';
 import { routesActividades } from './routes/routerActividades.js';
 import { routesSoliContratos } from './routes/routersoliContrato.js';
+import { routesDocumentos } from './routes/routerDocumentos.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,11 +27,12 @@ app.use('/usuarios', routesUsuario);
 app.use('/capacitaciones', routesCapacitaciones); 
 app.use('/contrato', routesContrato); 
 app.use('/sedes', routesSedes); 
-app.use ('/tipoArea',routesTipoAreas)
-app.use ('/tipoUsuario',routesTipoUsuario)
-app.use ('/asignacion',routesAsignarCapacitaciones)
-app.use ('/Vacaciones',routesVacaciones)
-app.use ('/Actividad', routesActividades)
+app.use ('/tipoArea',routesTipoAreas);
+app.use ('/tipoUsuario',routesTipoUsuario);
+app.use ('/asignacion',routesAsignarCapacitaciones);
+app.use ('/Vacaciones',routesVacaciones);
+app.use ('/Actividad', routesActividades);
+app.use ('/documentos',routesDocumentos);
 app.use ('/SoliContrato', routesSoliContratos)
 
 app.listen(PORT, () => {

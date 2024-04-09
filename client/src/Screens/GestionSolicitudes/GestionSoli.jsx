@@ -24,6 +24,8 @@ const GestionSoli = () => {
   const [selectedVacationId, setSelectedVacationId] = useState("");
   const [userData, setUserData] = useState(null);
   const [commentDialogOpen, setCommentDialogOpen] = useState(false); // Estado para abrir/cerrar el diálogo de comentarios
+  const [statusSeleccionado, setStatusSeleccionado] = useState('');
+
 
   useEffect(() => {
     const obtenerDatosUsuario = () => {
@@ -91,6 +93,10 @@ const GestionSoli = () => {
       DiaIniDialog: diaIni,
       DiaFinDialog: diaFin
     });
+  };
+
+  const handleStatusChange = (event) => {
+    setStatusSeleccionado(event.target.value);
   };
 
   const handleCloseDialog = () => {
@@ -202,7 +208,14 @@ const GestionSoli = () => {
   
    
 
-  const rows = vacaciones.map((vacacion) => ({
+  const rows = vacaciones
+  .filter(vacacion => {
+    if (statusSeleccionado === '') {
+      return true;
+    }
+    return vacacion.Estado === statusSeleccionado;
+  })
+  .map((vacacion) => ({
     id: vacacion._id,
     DiaIni: vacacion.DiaIni.substring(0, 10),
     DiaFin: vacacion.DiaFin.substring(0, 10),
@@ -210,6 +223,7 @@ const GestionSoli = () => {
     NumeroEmpleado: vacacion.Numero_Empleado,
     Comentarios: vacacion.Comentarios
   }));
+
 
   const columns = [
     { field: 'DiaIni', headerName: 'Primer Día', width: 110 },
@@ -251,6 +265,13 @@ const GestionSoli = () => {
         <div className="rect2">
           <div className="textoCalendario">Gestión de Solicitudes</div>
         </div>
+        <select className="v141_777 v141_779" value={statusSeleccionado} onChange={handleStatusChange}>
+          <option value=''>Seleccione un Estado</option>
+          <option value="Aprobada">Aprobada</option>
+          <option value="Denegada">Denegada</option>
+          <option value="Procesando">En proceso</option>
+        </select>
+
         <div style={{ height: '55%', width: '85%', position: 'absolute', top: '35%', left: '8%' }}>
           <DataGrid rows={rows} columns={columns} pageSize={5} />
         </div>
