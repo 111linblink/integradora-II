@@ -1,15 +1,8 @@
 import documentosModel from "../models/documentosModel.js";
 
-// Controlador para subir documentos
 export const createDocumento = async (req, res) => {
   try {
-    const { originalname, path } = req.file;
-    // Guardar el documento en la base de datos y obtener la URL
-    const documento = await documentosModel.create({
-      Nombre: originalname,
-      URL: path,
-      // Otros detalles del documento pueden ser guardados aquí
-    });
+    const documento = await documentosModel.create(req.body);
     res.json(documento);
   } catch (error) {
     console.error('Error al subir documento:', error);
@@ -17,10 +10,26 @@ export const createDocumento = async (req, res) => {
   }
 };
 
+
+
+
 // Controlador para obtener documentos
 export const getDocumentos = async (req, res) => {
   try {
     const documentos = await documentosModel.find();
+    res.json(documentos);
+  } catch (error) {
+    console.error('Error al obtener documentos:', error);
+    res.status(500).json({ message: 'Error al obtener documentos' });
+  }
+};
+
+// Controlador para obtener documentos por el número de empleado
+export const getDocumentosPorEmpleado = async (req, res) => {
+  const { Numero_Empleado } = req.params;
+
+  try {
+    const documentos = await documentosModel.find({ Numero_Empleado });
     res.json(documentos);
   } catch (error) {
     console.error('Error al obtener documentos:', error);
