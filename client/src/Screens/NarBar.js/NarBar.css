@@ -119,6 +119,34 @@
     overflow: hidden;
 }
 
+.actividades {
+  width: 52px;
+  height: 50px;
+  background: url("./images/Actividades.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  opacity: 1;
+  position: absolute;
+  top: 15px;
+  left: 800px; /* Ajusta la posición horizontal según sea necesario */
+  overflow: hidden;
+}
+
+.gantt {
+  width: 52px;
+  height: 50px;
+  background: url("./images/Gantt.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  opacity: 1;
+  position: absolute;
+  top: 15px;
+  left: 720px; /* Ajusta la posición horizontal según sea necesario */
+  overflow: hidden;
+}
+
 .Capacitaciones {
     width: 52px;
     height: 50px;

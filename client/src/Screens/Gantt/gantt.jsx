@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Gantt, EventOption, DisplayOption, StylingOption } from 'gantt-task-react';
+import { Gantt } from 'gantt-task-react';
 import "gantt-task-react/dist/index.css";
 import './gantt.css';
 import Axios from 'axios';
@@ -48,7 +48,7 @@ const MyGantt = () => {
   const eventOptions = {};
 
   const displayOptions = {
-    viewMode: 'Week',
+    viewMode: 'Days', // Cambiar a vista por días como vista predeterminada
     viewDate: new Date(),
     preStepsCount: 1,
     locale: 'es',
@@ -56,9 +56,19 @@ const MyGantt = () => {
 
   const stylingOptions = {};
 
+  // Componente personalizado para el contenido del tooltip
+  const CustomTooltipContent = ({ task, fontSize, fontFamily }) => {
+    return (
+      <div style={{ fontSize, fontFamily }}>
+        <div>{task.name}</div>
+        <div>Progreso: {task.progress}%</div>
+        {/* Añade aquí cualquier otra información que desees mostrar */}
+      </div>
+    );
+  };
+
   return (
     <div>
-      
       <div style={{
         position: 'relative',
         width: '100%',
@@ -78,6 +88,8 @@ const MyGantt = () => {
               eventOption={eventOptions}
               displayOption={displayOptions}
               stylingOption={stylingOptions}
+              customScale={{hours: true, days: true, weeks: true}} // Permitir escalas personalizadas
+              TooltipContent={CustomTooltipContent} // Utilizar el componente personalizado para el tooltip
             />
           )}
         </div>
