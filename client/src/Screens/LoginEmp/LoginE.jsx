@@ -39,19 +39,18 @@ function LoginE() {
 
       if (response.data && response.data.ok) {
         alert('Inicio de sesión exitoso.');
-        // Guardar los datos del usuario en sessionStorage
-        const userData = {
-          correo: email,
-          token: token
-        };
+
+        // Guardar los datos del usuario en sessionStorage si el inicio de sesión es exitoso
+        const userData = response.data.userData;
         sessionStorage.setItem('userData', JSON.stringify(userData));
+
         // Redirigir a la página de vacaciones
         window.location.href = '/vacaciones';
       } else {
         setError('Inicio de sesión fallido. Por favor, verifique el token e inténtelo nuevamente.');
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error al iniciar sesión:', error);
       setError('Hubo un error al iniciar sesión.');
     }
   };
