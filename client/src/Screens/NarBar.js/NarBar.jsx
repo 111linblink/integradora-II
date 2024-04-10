@@ -116,6 +116,22 @@ const NarBar = () => {
   </div>
 </Tooltip>
 
+        <Tooltip title="Agregar Actividades" placement="bottom">
+          <div className="tooltip-container">
+            <Link to="/actividades">
+              <div className="actividades" ></div>
+            </Link>
+          </div>
+        </Tooltip>
+
+        <Tooltip title="Visualizar gantt" placement="bottom">
+          <div className="tooltip-container">
+            <Link to="/gantt">
+              <div className="gantt" ></div>
+            </Link>
+          </div>
+        </Tooltip>
+
 
       </div>
 

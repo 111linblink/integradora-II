@@ -15,7 +15,10 @@ const Actividades = () => {
     horaInicio: '',
     horaFinalizacion: '',
     diaInicio: '',
-    diaFinalizacion: ''
+    diaFinalizacion: '',
+    Area: '',
+    Sede: '',
+    Numero_Empleado: ''
   });
 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -58,7 +61,10 @@ const Actividades = () => {
         horaInicio: '',
         horaFinalizacion: '',
         diaInicio: '',
-        diaFinalizacion: ''
+        diaFinalizacion: '',
+        Area: '',
+        Sede: '',
+        Numero_Empleado: ''
       });
       obtenerTodasLasActividades();
       setShowSuccessAlert(true);
@@ -91,6 +97,22 @@ const Actividades = () => {
     }
   };
 
+  const handleCreate = () => {
+    setOpenDialog(true);
+    setSelectedActividadId("");
+    setFormData({
+      nombre: '',
+      descripcion: '',
+      horaInicio: '',
+      horaFinalizacion: '',
+      diaInicio: '',
+      diaFinalizacion: '',
+      Area: '',
+      Sede: '',
+      Numero_Empleado: ''
+    });
+  };
+
   const handleUpdate = (id) => {
     setOpenDialog(true);
     setSelectedActividadId(id);
@@ -101,7 +123,10 @@ const Actividades = () => {
       horaInicio: actividad.horaInicio,
       horaFinalizacion: actividad.horaFinalizacion,
       diaInicio: actividad.diaInicio,
-      diaFinalizacion: actividad.diaFinalizacion
+      diaFinalizacion: actividad.diaFinalizacion,
+      Area: actividad.Area,
+      Sede: actividad.Sede,
+      Numero_Empleado: actividad.Numero_Empleado
     });
   };
 
@@ -142,7 +167,10 @@ const Actividades = () => {
     horaInicio: actividad.horaInicio,
     horaFinalizacion: actividad.horaFinalizacion,
     diaInicio: actividad.diaInicio.substring(0, 10),
-    diaFinalizacion: actividad.diaFinalizacion.substring(0, 10)
+    diaFinalizacion: actividad.diaFinalizacion.substring(0, 10),
+    Area: actividad.Area || '',
+    Sede: actividad.Sede || '',
+    Numero_Empleado: actividad.Numero_Empleado || 0
   }));
 
   const columns = [
@@ -152,6 +180,9 @@ const Actividades = () => {
     { field: 'horaFinalizacion', headerName: 'Hora de finalización', width: 180 },
     { field: 'diaInicio', headerName: 'Día de inicio', width: 150 },
     { field: 'diaFinalizacion', headerName: 'Día de finalización', width: 185 },
+    { field: 'Area', headerName: 'Área', width: 150 },
+    { field: 'Sede', headerName: 'Sede', width: 150 },
+    { field: 'Numero_Empleado', headerName: 'Número de Empleado', width: 200 },
     {
       field: 'actions',
       headerName: 'Acciones',
@@ -179,17 +210,24 @@ const Actividades = () => {
       }} className="root">
         <NarBar/>
         <div className="rectangulo2">
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
             <div className="textoCalendario">Actividades</div>
-            <Button onClick={() => setOpenDialog(true)} variant="contained" color="primary" style={{ marginLeft: '10px' }}>Crear Nueva Actividad</Button>
+            <Button
+              className='crearactividad'
+              onClick={handleCreate}
+              variant="contained"
+              color="primary"
+              style={{ marginTop: '20px' }}
+            >
+              Crear Nueva Actividad
+            </Button>
           </div>
-          
         </div>
         <div style={{ height: '55%', width: '94%', position: 'absolute', top: '35%', left: '3%' }}>
           <DataGrid rows={rows} columns={columns} pageSize={5} />
         </div>
         <Dialog open={openDialog} onClose={handleCloseDialog}>
-          <DialogTitle>Crear Nueva Actividad</DialogTitle>
+          <DialogTitle>{selectedActividadId ? 'Actualizar Actividad' : 'Crear Nueva Actividad'}</DialogTitle>
           <DialogContent>
             <TextField
               id="nombre"
@@ -257,10 +295,42 @@ const Actividades = () => {
                 shrink: true,
               }}
             />
+            <TextField
+              id="Area"
+              label="Área"
+              type="text"
+              value={formData.Area}
+              onChange={handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              id="Sede"
+              label="Sede"
+              type="text"
+              value={formData.Sede}
+              onChange={handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              id="Numero_Empleado"
+              label="Número de Empleado"
+              type="number"
+              value={formData.Numero_Empleado}
+              onChange={handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog}>Cancelar</Button>
-            <Button onClick={crearActividad}>Crear</Button>
+            <Button onClick={selectedActividadId ? handleSaveChanges : crearActividad}>
+              {selectedActividadId ? 'Actualizar' : 'Crear'}
+            </Button>
           </DialogActions>
         </Dialog>
         <div className="alert-container">
