@@ -5,6 +5,7 @@ const asignacionSchema = new Schema({
     Nombre: String,
     Area: String,
     Sede: String,
+    Numero_Empleado: Number,
     Actividad: [
         {
             NombreCapacitacion: String,
