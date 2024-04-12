@@ -5,7 +5,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -175,8 +174,6 @@ const Capavisualizar = () => {
       renderCell: (params) => (
         <div>
           <Button className="actions-button" variant="outlined" onClick={() => handleRowSelection(params.row)}>Seleccionar</Button>
-          <Button className="actions-button" variant="outlined" onClick={handleViewAssignedCapacitaciones}>Ver Capacitaciones Asignadas</Button>
-          <Button onClick={() => handleDelete(params.row.id, params.row.Nombre)} variant="outlined" color="error" startIcon={<DeleteIcon />}>Eliminar</Button>
         </div>
       ),  
     },
