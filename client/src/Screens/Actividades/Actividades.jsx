@@ -166,8 +166,8 @@ const Actividades = () => {
     descripcion: actividad.descripcion,
     horaInicio: actividad.horaInicio,
     horaFinalizacion: actividad.horaFinalizacion,
-    diaInicio: actividad.diaInicio.substring(0, 10),
-    diaFinalizacion: actividad.diaFinalizacion.substring(0, 10),
+    diaInicio: new Date(actividad.diaInicio).toISOString(), // Convertir a formato ISO 8601
+    diaFinalizacion: new Date(actividad.diaFinalizacion).toISOString(), // Convertir a formato ISO 8601
     Area: actividad.Area || '',
     Sede: actividad.Sede || '',
     Numero_Empleado: actividad.Numero_Empleado || 0

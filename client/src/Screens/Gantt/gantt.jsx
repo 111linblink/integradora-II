@@ -1,74 +1,84 @@
 import React, { useEffect, useState } from 'react';
-import { Gantt } from 'gantt-task-react';
-import "gantt-task-react/dist/index.css";
-import './gantt.css';
-import Axios from 'axios';
+import axios from 'axios';
 import NarBar from '../NarBar.js/NarBar';
+import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
+import 'dhtmlx-gantt/codebase/dhtmlxgantt.js';
 
 const MyGantt = () => {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    obtenerTodasLasActividades();
+    const fetchData = async () => {
+      try {
+        const [activitiesResponse, vacationsResponse, usersResponse] = await Promise.all([
+          axios.get('http://localhost:3000/Actividad/actividades'),
+          axios.get('http://localhost:3000/Vacaciones/solicitudes_vacaciones'),
+          axios.get('http://localhost:3000/usuarios/user')
+        ]);
+
+        const activities = activitiesResponse.data.data.map(activity => ({
+          id: `activity-${activity.Numero_Empleado}`,
+          text: activity.nombre,
+          start_date: new Date(activity.diaInicio),
+          end_date: new Date(activity.diaFinalizacion),
+          Numero_Empleado: activity.Numero_Empleado,
+          type: 'activity'
+        }));
+
+        const vacations = vacationsResponse.data.data.filter(vacation => vacation.Estado === 'Aprobada').map((vacation, index) => ({
+          id: `vacation-${vacation.Numero_Empleado}-${index}`,
+          text: `Vacaciones del ${vacation.DiaIni} al ${vacation.DiaFin}`,
+          start_date: new Date(vacation.DiaIni),
+          end_date: new Date(vacation.DiaFin),
+          Numero_Empleado: vacation.Numero_Empleado,
+          type: 'vacation'
+        }));
+
+        const combinedTasks = [...activities, ...vacations];
+
+        const users = usersResponse.data.data.reduce((acc, user) => {
+          acc[user.Numero_Empleado] = user;
+          return acc;
+        }, {});
+
+        const tasksWithUserData = combinedTasks.map(task => {
+          const user = users[task.Numero_Empleado];
+          if (user) {
+            return {
+              ...task,
+              Sede: user.Sede,
+              Area: user.Area,
+              Contrato: user.Contrato
+            };
+          }
+          return task;
+        });
+
+        setTasks(tasksWithUserData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const obtenerTodasLasActividades = async () => {
-    try {
-      const data = await Axios.get(`http://localhost:3000/Actividad/actividades`);
-      const actividades = data.data.data.map((actividad, index) => {
-        const start = actividad.diaInicio ? new Date(actividad.diaInicio) : new Date();
-        const end = actividad.diaFinalizacion ? new Date(actividad.diaFinalizacion) : new Date();
-        const progress = calcularProgreso(actividad); // Calcular el progreso aquí
-        return {
-          id: `Task${index + 1}`,
-          name: actividad.nombre,
-          type: 'task',
-          start: start,
-          end: end,
-          progress: progress,
-          dependencies: [],
-          styles: {
-            backgroundColor: '#4CAF50',
-            progressColor: '#FF9800',
-          },
-        };
-      });
-      setTasks(actividades);
-    } catch (error) {
-      console.error('Error al obtener las actividades:', error.message);
-      setTasks([]);
+  useEffect(() => {
+    window.gantt.config.columns = [
+      { name: "Numero_Empleado", label: "Número de empleado", width: 120, align: "center" },
+      { name: "Sede", label: "Sede", width: 120, align: "center" },
+      { name: "Area", label: "Área", width: 120, align: "center" },
+      { name: "Contrato", label: "Contrato", width: 120, align: "center" }
+    ];
+
+    if (tasks.length > 0) {
+      window.gantt.init('gantt-container');
+      window.gantt.parse({ data: tasks });
     }
-  };
-
-  const calcularProgreso = (actividad) => {
-    // Implementa tu lógica para calcular el progreso de la actividad aquí
-    return 0;
-  };
-
-  const eventOptions = {};
-
-  const displayOptions = {
-    viewMode: 'Days', // Cambiar a vista por días como vista predeterminada
-    viewDate: new Date(),
-    preStepsCount: 1,
-    locale: 'es',
-  };
-
-  const stylingOptions = {};
-
-  // Componente personalizado para el contenido del tooltip
-  const CustomTooltipContent = ({ task, fontSize, fontFamily }) => {
-    return (
-      <div style={{ fontSize, fontFamily }}>
-        <div>{task.name}</div>
-        <div>Progreso: {task.progress}%</div>
-        {/* Añade aquí cualquier otra información que desees mostrar */}
-      </div>
-    );
-  };
+  }, [tasks]);
 
   return (
-    <div>
+    <>
       <div style={{
         position: 'relative',
         width: '100%',
@@ -80,21 +90,9 @@ const MyGantt = () => {
         alignItems: 'center',
       }} className="root">
         <NarBar />
-        <div className="rectangulogantt">
-          <h1>Gantt de actividades</h1>
-          {tasks.length > 0 && (
-            <Gantt
-              tasks={tasks}
-              eventOption={eventOptions}
-              displayOption={displayOptions}
-              stylingOption={stylingOptions}
-              customScale={{hours: true, days: true, weeks: true}} // Permitir escalas personalizadas
-              TooltipContent={CustomTooltipContent} // Utilizar el componente personalizado para el tooltip
-            />
-          )}
-        </div>
-      </div>
+        <div id="gantt-container" style={{ width: '95%', height: '80%', top:'7%', border:'20pxs' }}></div>
     </div>
+    </>
   );
 };
 
