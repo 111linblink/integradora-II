@@ -9,4 +9,7 @@ router.post('/asignacion', asignarCapacitacionesController.crearAsignacion);
 // Ruta para obtener las capacitaciones asignadas por número de empleado
 router.get('/capacitaciones/numeroEmpleado/:numeroEmpleado', asignarCapacitacionesController.obtenerCapacitacionesAsignadasPorNumeroEmpleado);
 
+// Ruta para obtener todas las asignaciones
+router.get('/asignaciones', asignarCapacitacionesController.obtenerTodasLasAsignaciones);
+
 export default router;

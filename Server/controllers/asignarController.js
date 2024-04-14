@@ -13,6 +13,19 @@ export const obtenerCapacitacionesAsignadasPorNumeroEmpleado = async (req, res) 
 };
 
 
+export const obtenerTodasLasAsignaciones = async (req, res) => {
+  try {
+    const asignaciones = await Asignacion.find();
+    console.log('Todas las asignaciones:', asignaciones); // Imprime los datos en la consola del servidor
+    res.status(200).json(asignaciones);
+  } catch (error) {
+    console.error('Error al obtener todas las asignaciones:', error);
+    res.status(500).json({ message: 'Error al obtener todas las asignaciones', error: error.message });
+  }
+};
+
+
+
 
 
 export const crearAsignacion = async (req, res) => {
