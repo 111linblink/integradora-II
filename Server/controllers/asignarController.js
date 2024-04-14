@@ -30,22 +30,14 @@ export const obtenerTodasLasAsignaciones = async (req, res) => {
 
 export const crearAsignacion = async (req, res) => {
   try {
-    const { Nombre, Numero_Empleado, Area, Sede, Actividad } = req.body;
-
-    // Extraer datos de la actividad
-    const { NombreCapacitacion, FechaInicio, FechaFin, Descripcion } = Actividad;
+    const { Nombre, Numero_Empleado, Area, Sede, Capacitacion } = req.body;
 
     const nuevaAsignacion = new Asignacion({
       Nombre,
       Numero_Empleado,
       Area,
       Sede,
-      Actividad: [{
-        NombreCapacitacion,
-        FechaInicio,
-        FechaFin,
-        Descripcion
-      }]
+      Capacitacion
     });
 
     const asignacionGuardada = await nuevaAsignacion.save();

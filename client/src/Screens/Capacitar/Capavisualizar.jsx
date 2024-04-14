@@ -101,36 +101,37 @@ const Capavisualizar = () => {
     setOpenDialog(false);
   };
 
-  const handleAssignCapacitaciones = () => {
-    if (!selectedUser || !selectedCapacitacion) {
-      console.error('No se han seleccionado usuarios o capacitaciones');
-      return;
+const handleAssignCapacitaciones = () => {
+  if (!selectedUser || !selectedCapacitacion) {
+    console.error('No se han seleccionado usuarios o capacitaciones');
+    return;
+  }
+
+  const asignacionData = {
+    Nombre: selectedUser.Nombre,
+    Area: selectedUser.Area,
+    Sede: selectedUser.Sede,
+    Numero_Empleado: selectedUser.Numero_Empleado,
+    Capacitacion: {
+      NombreCapacitacion: selectedCapacitacion.Nombre,
+      FechaInicio: selectedCapacitacion.Actividad[0].FechaInicio, // Corregido de selectedCapacitacion.Actividad.FechaInicio
+      FechaFin: selectedCapacitacion.Actividad[0].FechaFin, // Corregido de selectedCapacitacion.Actividad.FechaFin
+      Descripcion: selectedCapacitacion.Descripcion
     }
-
-    const asignacionData = {
-      Nombre: selectedUser.Nombre,
-      Area: selectedUser.Area,
-      Sede: selectedUser.Sede,
-      Numero_Empleado: selectedUser.Numero_Empleado,
-      Actividad: {
-        NombreCapacitacion: selectedCapacitacion.Nombre,
-        FechaInicio: selectedCapacitacion.FechaInicio,
-        FechaFin: selectedCapacitacion.FechaFin,
-        Descripcion: selectedCapacitacion.Descripcion
-      }
-    };
-
-    axios.post('http://localhost:3000/asignacion/asignacion', asignacionData)
-      .then(response => {
-        console.log('Asignación guardada:', response.data);
-        setAssignedCapacitacionName(selectedCapacitacion.Nombre);
-        setAssignmentAlert(true);
-        // Aquí puedes manejar la lógica después de guardar la asignación
-      })
-      .catch(error => {
-        console.error('Error al guardar la asignación:', error);
-      });
   };
+
+  axios.post('http://localhost:3000/asignacion/asignacion', asignacionData)
+    .then(response => {
+      console.log('Asignación guardada:', response.data);
+      setAssignedCapacitacionName(selectedCapacitacion.Nombre);
+      setAssignmentAlert(true);
+      // Aquí puedes manejar la lógica después de guardar la asignación
+    })
+    .catch(error => {
+      console.error('Error al guardar la asignación:', error);
+    });
+};
+  
   
   const handleViewAssignedCapacitaciones = () => {
     // Lógica para obtener y visualizar las capacitaciones asignadas al usuario seleccionado
