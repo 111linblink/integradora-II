@@ -176,7 +176,6 @@ const Sadmicapacitacion = () => {
                                                         Ubicacion: capacitacion.Ubicacion,
                                                         Descripcion: capacitacion.Descripcion,
                                                         Actividad: {
-                                                            NombreActividad: capacitacion.Actividad.NombreActividad,
                                                             FechaInicio: capacitacion.Actividad.FechaInicio,
                                                             FechaFin: capacitacion.Actividad.FechaFin
                                                         }

@@ -113,7 +113,7 @@ const Capavisualizar = () => {
       Sede: selectedUser.Sede,
       Numero_Empleado: selectedUser.Numero_Empleado,
       Actividad: {
-        NombreActividad: selectedCapacitacion.NombreCapacitacion,
+        NombreCapacitacion: selectedCapacitacion.Nombre,
         FechaInicio: selectedCapacitacion.FechaInicio,
         FechaFin: selectedCapacitacion.FechaFin,
         Descripcion: selectedCapacitacion.Descripcion

@@ -7,8 +7,13 @@ const capacitacionSchema = new Schema({
     Sede: String,
     Ubicacion: String,
     Descripcion: String,
-}, {
+    FechaInicio: Date,
+    FechaFin: Date,
+    Actividad: [
+        {
+
+        },{
     timestamps: true
-});
+}]});
 
 export default mongoose.model("capacitaciones", capacitacionSchema);

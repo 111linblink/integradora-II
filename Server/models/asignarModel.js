@@ -10,7 +10,7 @@ const asignacionSchema = new Schema({
         {
             NombreCapacitacion: String,
             FechaInicio: Date,
-            FechaFin: Date,
+            FechaFin: Date, 
             Descripcion: String 
         }
     ]
