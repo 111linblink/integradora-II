@@ -1,15 +1,18 @@
 import Asignacion from '../models/asignarModel.js';
 
-export const obtenerCapacitacionesAsignadasPorUsuarioNombre = async (req, res) => {
+export const obtenerCapacitacionesAsignadasPorNumeroEmpleado = async (req, res) => {
   try {
-    const nombreUsuario = req.params.nombreUsuario; // Cambia el nombre del parámetro a nombreUsuario
-    const asignaciones = await Asignacion.find({ Nombre: nombreUsuario }).populate('Actividad');
+    const numeroEmpleado = req.params.numeroEmpleado; // Cambia el nombre del parámetro a numeroEmpleado
+    const asignaciones = await Asignacion.find({ Numero_Empleado: numeroEmpleado }).populate('Actividad');
+    console.log('Capacitaciones asignadas:', asignaciones); // Imprime los datos en la consola del servidor
     res.status(200).json(asignaciones);
   } catch (error) {
     console.error('Error al obtener las capacitaciones asignadas:', error);
     res.status(500).json({ message: 'Error al obtener las capacitaciones asignadas', error: error.message });
   }
 };
+
+
 
 
 export const crearAsignacion = async (req, res) => {

@@ -134,20 +134,22 @@ const Capavisualizar = () => {
   
   const handleViewAssignedCapacitaciones = () => {
     // Lógica para obtener y visualizar las capacitaciones asignadas al usuario seleccionado
-    if (!selectedUser) {
-      console.error('No se ha seleccionado un usuario');
+    if (!selectedUser || !selectedUser.Nombre) {
+      console.error('No se ha seleccionado un usuario o el nombre de usuario no está definido');
       return;
     }
-
-    axios.get(`http://localhost:3000/asignacion/capacitaciones/nombre/${selectedUser.Nombre}`) // Cambia la ruta para buscar por nombre de usuario
+  
+    axios.get(`http://localhost:3000/asignacion/capacitaciones/numeroEmpleado/${selectedUser.Numero_Empleado}`)
       .then(response => {
         console.log('Capacitaciones asignadas:', response.data);
         // Aquí puedes manejar la visualización de las capacitaciones asignadas
+        // Por ejemplo, puedes asignar response.data a una variable y utilizarla en tu aplicación
       })
       .catch(error => {
         console.error('Error al obtener las capacitaciones asignadas:', error);
       });
   };
+  
   
 
   const handleDelete = (id, nombre) => {
