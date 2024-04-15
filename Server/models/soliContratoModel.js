@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const solicontratoSchema = new Schema({
@@ -12,4 +11,4 @@ const solicontratoSchema = new Schema({
   Area: String
 });
 
-export default mongoose.model('SoliContrato', solicontratoSchema);
+export default mongoose.model("SoliContrato", solicontratoSchema);

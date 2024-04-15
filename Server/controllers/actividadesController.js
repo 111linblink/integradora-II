@@ -1,16 +1,16 @@
 import Actividad from "../models/actividadesModel.js";
 
 // Crear una actividad
-export const crearActividad = async (req, res) => {
+export const crearActividad = async (req, res) => { 
     try {
         const { nombre, descripcion, horaInicio, horaFinalizacion, diaInicio, diaFinalizacion, Area, Sede, Numero_Empleado } = req.body;
-        const nuevaActividad = new Actividad({ nombre, descripcion, horaInicio, horaFinalizacion, diaInicio, diaFinalizacion,Area, Sede, Numero_Empleado });
+        const nuevaActividad = new Actividad({ nombre, descripcion, horaInicio, horaFinalizacion, diaInicio, diaFinalizacion, Area, Sede, Numero_Empleado });
         console.log("Nueva actividad:", nuevaActividad);
         await nuevaActividad.save();
         res.json({ success: true, message: "Actividad creada exitosamente", data: nuevaActividad });
     } catch (error) {
         console.error("Error al crear la actividad:", error);
-        res.status(500).json({ success: false, message: "Error del servidor al crear la actividad" });
+        res.status(500).json({ success: false, message: "Error del servidor al crear la actividad", error: error.message });
     }
 };
 
@@ -44,16 +44,18 @@ export const obtenerActividadPorId = async (req, res) => {
 // Actualizar una actividad por su ID
 export const actualizarActividad = async (req, res) => {
     const id = req.params.id;
-    const newData = req.body;
+    const { Numero_Empleado, ...restoDatos } = req.body; // Extraer Numero_Empleado del cuerpo de la solicitud
 
     try {
-        const data = await Actividad.findByIdAndUpdate(id, newData, { new: true });
+        // Usar $set para actualizar solo los campos proporcionados en restoDatos y mantener Numero_Empleado sin cambios
+        const data = await Actividad.findByIdAndUpdate(id, { $set: restoDatos }, { new: true });
         res.json({ success: true, message: "Actividad actualizada exitosamente", data: data });
     } catch (error) {
         console.error("Error al actualizar la actividad:", error);
         res.status(500).json({ success: false, message: "Error del servidor al actualizar la actividad" });
     }
 };
+
 
 // Eliminar una actividad por su ID
 export const eliminarActividadPorId = async (req, res) => {
