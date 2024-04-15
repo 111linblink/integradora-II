@@ -101,36 +101,37 @@ const Capavisualizar = () => {
     setOpenDialog(false);
   };
 
-const handleAssignCapacitaciones = () => {
-  if (!selectedUser || !selectedCapacitacion) {
-    console.error('No se han seleccionado usuarios o capacitaciones');
-    return;
-  }
-
-  const asignacionData = {
-    Nombre: selectedUser.Nombre,
-    Area: selectedUser.Area,
-    Sede: selectedUser.Sede,
-    Numero_Empleado: selectedUser.Numero_Empleado,
-    Capacitacion: {
-      NombreCapacitacion: selectedCapacitacion.Nombre,
-      FechaInicio: selectedCapacitacion.Actividad[0].FechaInicio, // Corregido de selectedCapacitacion.Actividad.FechaInicio
-      FechaFin: selectedCapacitacion.Actividad[0].FechaFin, // Corregido de selectedCapacitacion.Actividad.FechaFin
-      Descripcion: selectedCapacitacion.Descripcion
+  const handleAssignCapacitaciones = () => {
+    if (!selectedUser || !selectedCapacitacion || !selectedCapacitacion.Actividad || selectedCapacitacion.Actividad.length === 0) {
+      console.error('No se han seleccionado usuarios o capacitaciones, o la actividad está vacía');
+      return;
     }
+  
+    const asignacionData = {
+      Nombre: selectedUser.Nombre,
+      Area: selectedUser.Area,
+      Sede: selectedUser.Sede,
+      Numero_Empleado: selectedUser.Numero_Empleado,
+      Capacitacion: {
+        NombreCapacitacion: selectedCapacitacion.Nombre,
+        FechaInicio: selectedCapacitacion.Actividad[0].FechaInicio, // Accedemos al primer elemento del array de actividades
+        FechaFin: selectedCapacitacion.Actividad[0].FechaFin, // Accedemos al primer elemento del array de actividades
+        Descripcion: selectedCapacitacion.Descripcion
+      }
+    };
+  
+    axios.post('http://localhost:3000/asignacion/asignacion', asignacionData)
+      .then(response => {
+        console.log('Asignación guardada:', response.data);
+        setAssignedCapacitacionName(selectedCapacitacion.Nombre);
+        setAssignmentAlert(true);
+        // Aquí puedes manejar la lógica después de guardar la asignación
+      })
+      .catch(error => {
+        console.error('Error al guardar la asignación:', error);
+      });
   };
-
-  axios.post('http://localhost:3000/asignacion/asignacion', asignacionData)
-    .then(response => {
-      console.log('Asignación guardada:', response.data);
-      setAssignedCapacitacionName(selectedCapacitacion.Nombre);
-      setAssignmentAlert(true);
-      // Aquí puedes manejar la lógica después de guardar la asignación
-    })
-    .catch(error => {
-      console.error('Error al guardar la asignación:', error);
-    });
-};
+  
   
   
   const handleViewAssignedCapacitaciones = () => {
