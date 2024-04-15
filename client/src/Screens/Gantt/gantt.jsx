@@ -45,28 +45,18 @@ const MyGantt = () => {
 
         const assignments = assignmentsResponse.data?.map(assignment => ({
           id: `assignment-${assignment.Numero_Empleado}`,
-          text: assignment.Nombre,
-          start_date: new Date(assignment.createdAt),
-          end_date: new Date(assignment.updatedAt),
-          Numero_Empleado: assignment.Numero_Empleado,
+          text: assignment.Capacitacion.NombreCapacitacion, // Nombre de la capacitación como texto
+          start_date: new Date(assignment.Capacitacion.FechaInicio),
+          end_date: new Date(assignment.Capacitacion.FechaFin),
+          Numero_Empleado: assignment.Numero_Empleado, // Incluir número de empleado
           type: 'assignment',
-          Sede: assignment.Sede,
-          Area: assignment.Area,
-          Capacitacion: {
+          Capacitacion: { // Guarda toda la información de la capacitación
             NombreCapacitacion: assignment.Capacitacion.NombreCapacitacion,
             FechaInicio: new Date(assignment.Capacitacion.FechaInicio),
             FechaFin: new Date(assignment.Capacitacion.FechaFin),
             Descripcion: assignment.Capacitacion.Descripcion
-          },
-          Actividades: assignment.Actividad?.map(activity => ({
-            id: `activity-${assignment.Numero_Empleado}-${activity._id}`,
-            text: activity.Descripcion,
-            start_date: new Date(/* Define una fecha de inicio para la actividad */),
-            end_date: new Date(/* Define una fecha de finalización para la actividad */),
-            type: 'activity'
-          })) || []
+          }
         })) || [];
-        
 
         combinedTasks.push(...assignments);
 
