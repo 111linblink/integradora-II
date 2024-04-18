@@ -17,6 +17,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.3.3",
+    "dhtmlx-gantt": "^8.0.6",
     "gantt-task-react": "^0.3.9",
     "react": "^18.2.0",
     "react-big-calendar": "^1.11.2",
@@ -30,6 +31,9 @@
     "react-router-dom": "^6.22.1",
     "react-scripts": "5.0.1",
     "styled-components": "^6.1.8",
+    "vis": "^4.21.0-EOL",
+    "vis-data": "^7.1.9",
+    "vis-timeline": "^7.7.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

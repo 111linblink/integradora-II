@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const capacitacionSchema = new Schema({
     Nombre: String,
@@ -7,8 +7,12 @@ const capacitacionSchema = new Schema({
     Sede: String,
     Ubicacion: String,
     Descripcion: String,
-}, {
-    timestamps: true
-});
+    Actividad: [
+        {
+            FechaInicio: Date,
+            FechaFin: Date
+        }
+    ]
+}, { timestamps: true });
 
 export default mongoose.model("capacitaciones", capacitacionSchema);

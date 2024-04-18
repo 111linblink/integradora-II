@@ -5,7 +5,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -103,23 +102,24 @@ const Capavisualizar = () => {
   };
 
   const handleAssignCapacitaciones = () => {
-    if (!selectedUser || !selectedCapacitacion) {
-      console.error('No se han seleccionado usuarios o capacitaciones');
+    if (!selectedUser || !selectedCapacitacion || !selectedCapacitacion.Actividad || selectedCapacitacion.Actividad.length === 0) {
+      console.error('No se han seleccionado usuarios o capacitaciones, o la actividad está vacía');
       return;
     }
-
+  
     const asignacionData = {
       Nombre: selectedUser.Nombre,
       Area: selectedUser.Area,
       Sede: selectedUser.Sede,
-      Actividad: {
-        NombreActividad: selectedCapacitacion.NombreCapacitacion,
-        FechaInicio: selectedCapacitacion.FechaInicio,
-        FechaFin: selectedCapacitacion.FechaFin,
+      Numero_Empleado: selectedUser.Numero_Empleado,
+      Capacitacion: {
+        NombreCapacitacion: selectedCapacitacion.Nombre,
+        FechaInicio: selectedCapacitacion.Actividad[0].FechaInicio, // Accedemos al primer elemento del array de actividades
+        FechaFin: selectedCapacitacion.Actividad[0].FechaFin, // Accedemos al primer elemento del array de actividades
         Descripcion: selectedCapacitacion.Descripcion
       }
     };
-
+  
     axios.post('http://localhost:3000/asignacion/asignacion', asignacionData)
       .then(response => {
         console.log('Asignación guardada:', response.data);
@@ -132,22 +132,26 @@ const Capavisualizar = () => {
       });
   };
   
+  
+  
   const handleViewAssignedCapacitaciones = () => {
     // Lógica para obtener y visualizar las capacitaciones asignadas al usuario seleccionado
-    if (!selectedUser) {
-      console.error('No se ha seleccionado un usuario');
+    if (!selectedUser || !selectedUser.Nombre) {
+      console.error('No se ha seleccionado un usuario o el nombre de usuario no está definido');
       return;
     }
-
-    axios.get(`http://localhost:3000/asignacion/capacitaciones/nombre/${selectedUser.Nombre}`) // Cambia la ruta para buscar por nombre de usuario
+  
+    axios.get(`http://localhost:3000/asignacion/capacitaciones/numeroEmpleado/${selectedUser.Numero_Empleado}`)
       .then(response => {
         console.log('Capacitaciones asignadas:', response.data);
         // Aquí puedes manejar la visualización de las capacitaciones asignadas
+        // Por ejemplo, puedes asignar response.data a una variable y utilizarla en tu aplicación
       })
       .catch(error => {
         console.error('Error al obtener las capacitaciones asignadas:', error);
       });
   };
+  
   
 
   const handleDelete = (id, nombre) => {
@@ -175,8 +179,6 @@ const Capavisualizar = () => {
       renderCell: (params) => (
         <div>
           <Button className="actions-button" variant="outlined" onClick={() => handleRowSelection(params.row)}>Seleccionar</Button>
-          <Button className="actions-button" variant="outlined" onClick={handleViewAssignedCapacitaciones}>Ver Capacitaciones Asignadas</Button>
-          <Button onClick={() => handleDelete(params.row.id, params.row.Nombre)} variant="outlined" color="error" startIcon={<DeleteIcon />}>Eliminar</Button>
         </div>
       ),  
     },

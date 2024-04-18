@@ -11,8 +11,7 @@ const actividadSchema = new Schema({
   diaFinalizacion: Date,
   Area: String,
   Sede: String,
-  Numero_Empleado: Number
+  Numero_Empleado: [Number]
 });
 
 export default mongoose.model('Actividad', actividadSchema);
-

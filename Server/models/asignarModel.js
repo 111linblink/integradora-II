@@ -1,18 +1,17 @@
 import mongoose from "mongoose";
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const asignacionSchema = new Schema({
     Nombre: String,
     Area: String,
     Sede: String,
-    Actividad: [
-        {
-            NombreCapacitacion: String,
-            FechaInicio: Date,
-            FechaFin: Date,
-            Descripcion: String 
-        }
-    ]
+    Numero_Empleado: Number,
+    Capacitacion: {
+        NombreCapacitacion: String,
+        FechaInicio: Date,
+        FechaFin: Date,
+        Descripcion: String
+    }
 }, {
     timestamps: true
 });

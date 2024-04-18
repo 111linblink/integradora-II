@@ -8,7 +8,7 @@ import { routesSedes } from './routes/routesSedes.js';
 import { routesTipoAreas } from './routes/routerTipoArea.js';
 import { routesTipoUsuario } from './routes/routerTipoUsuarios.js';
 import { routesVacaciones } from './routes/routerVacaciones.js';
-import routesAsignarCapacitaciones from './routes/routesAsignar.js';
+import routesAsignarCapacitaciones from './routes/routesAsignarCapacitaciones.js';
 import { routesActividades } from './routes/routerActividades.js';
 import { routesLoginE } from './routes/routesLoginE.js';
 import { routesSoliContratos } from './routes/routersoliContrato.js';

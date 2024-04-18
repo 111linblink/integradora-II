@@ -1,9 +1,10 @@
 import Asignacion from '../models/asignarModel.js';
 
-export const obtenerCapacitacionesAsignadasPorUsuarioNombre = async (req, res) => {
+export const obtenerCapacitacionesAsignadasPorNumeroEmpleado = async (req, res) => {
   try {
-    const nombreUsuario = req.params.nombreUsuario; // Cambia el nombre del parámetro a nombreUsuario
-    const asignaciones = await Asignacion.find({ Nombre: nombreUsuario }).populate('Actividad');
+    const numeroEmpleado = req.params.numeroEmpleado; // Cambia el nombre del parámetro a numeroEmpleado
+    const asignaciones = await Asignacion.find({ Numero_Empleado: numeroEmpleado }).populate('Actividad');
+    console.log('Capacitaciones asignadas:', asignaciones); // Imprime los datos en la consola del servidor
     res.status(200).json(asignaciones);
   } catch (error) {
     console.error('Error al obtener las capacitaciones asignadas:', error);
@@ -12,24 +13,31 @@ export const obtenerCapacitacionesAsignadasPorUsuarioNombre = async (req, res) =
 };
 
 
+export const obtenerTodasLasAsignaciones = async (req, res) => {
+  try {
+    const asignaciones = await Asignacion.find();
+    console.log('Todas las asignaciones:', asignaciones); // Imprime los datos en la consola del servidor
+    res.status(200).json(asignaciones);
+  } catch (error) {
+    console.error('Error al obtener todas las asignaciones:', error);
+    res.status(500).json({ message: 'Error al obtener todas las asignaciones', error: error.message });
+  }
+};
+
+
+
+
+
 export const crearAsignacion = async (req, res) => {
   try {
-    const { Nombre, Numero_Empleado, Area, Sede, Actividad } = req.body;
-
-    // Extraer datos de la actividad
-    const { NombreCapacitacion, FechaInicio, FechaFin, Descripcion } = Actividad;
+    const { Nombre, Numero_Empleado, Area, Sede, Capacitacion } = req.body;
 
     const nuevaAsignacion = new Asignacion({
       Nombre,
       Numero_Empleado,
       Area,
       Sede,
-      Actividad: [{
-        NombreCapacitacion,
-        FechaInicio,
-        FechaFin,
-        Descripcion
-      }]
+      Capacitacion
     });
 
     const asignacionGuardada = await nuevaAsignacion.save();
