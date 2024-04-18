@@ -7,3 +7,27 @@
     background-color: #FFFFFF;
     border-radius: 20px;
   }
+
+.activity-task {
+  background-color: #ffdb94;
+  border-color: #ffa500;
+  color: #333;
+}
+
+.assignment-task {
+  background-color: #b3e0ff;
+  border-color: #0099ff;
+  color: #333;
+}
+
+.vacation-task {
+  background-color: #adebad;
+  border-color: #4caf50;
+  color: #333;
+}
+
+.rest-task {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+  color: #333;
+}
