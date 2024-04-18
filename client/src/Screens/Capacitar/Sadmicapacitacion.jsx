@@ -71,6 +71,16 @@ const Sadmicapacitacion = () => {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
+        if (name === "FechaInicio") {
+            const currentDate = new Date();
+            const selectedDate = new Date(value);
+            // Verificar si la fecha seleccionada es anterior al día actual
+            if (selectedDate < currentDate) {
+                // Mostrar un mensaje de error o cualquier acción que desees realizar
+                console.error('La fecha de inicio no puede ser anterior al día actual.');
+                return;
+            }
+        }
         if (name === "FechaInicio" || name === "FechaFin") {
             setFormData({
                 ...formData,
@@ -86,6 +96,7 @@ const Sadmicapacitacion = () => {
             });
         }
     };
+    
 
     const handleCrearCapacitacion = async () => {
         try {
