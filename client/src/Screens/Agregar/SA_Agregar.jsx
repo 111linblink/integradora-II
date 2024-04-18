@@ -5,7 +5,6 @@ import "./agregar.css";
 import Axios from 'axios';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CargaMasiva from './CargaMasiva';
 
 const SA_Agregar = () => {
@@ -19,7 +18,7 @@ const SA_Agregar = () => {
         Contrasena: "",
         Sede: "",
         Area: "",
-        Img: ""
+      
     });
 
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -101,7 +100,7 @@ const SA_Agregar = () => {
                 Contrasena: "",
                 Sede: "",
                 Area: "",
-                Img: ""
+             
             });
         } catch (error) {
             console.error('Error al crear el usuario:', error.message);
@@ -122,29 +121,6 @@ const SA_Agregar = () => {
         return emailRegex.test(email);
     };
 
-    const VisuallyHiddenInput = styled('input')({
-        clip: 'rect(0 0 0 0)',
-        clipPath: 'inset(50%)',
-        height: 1,
-        overflow: 'hidden',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        whiteSpace: 'nowrap',
-        width: 1,
-      });
-
-      const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        const imgPreviewUrl = URL.createObjectURL(file);
-        setFormData({
-            ...formData,
-            Img: file,
-            ImgPreview: imgPreviewUrl
-        });
-    };
-    
-
     return (
         <>
             <NarBar />
@@ -152,42 +128,6 @@ const SA_Agregar = () => {
                 <div className="Rectangle157" />
                 <div  style={{marginLeft:'1230px', marginTop:'130px'}} > <CargaMasiva ></CargaMasiva></div>
                 
-                <div className="Rectangle196" onChange={CrearUsuario} name="Img"/>
-
-                <div className="FotoDelEmpleado">
-                    Foto del empleado
-                    <input
-                        type="file"
-                        accept="image/*"
-                        id="img-upload"
-                        style={{ display: 'none' }}
-                        onChange={handleFileChange}
-                    />
-                    <label htmlFor="img-upload">
-                        <Button
-                            component="span"
-                            variant="contained"
-                            startIcon={<CloudUploadIcon />}
-                        >
-                            Subir imagen
-                        </Button>
-                    </label>
-                    <br />
-                    {formData.ImgPreview && (
-                        <img
-                            src={formData.ImgPreview}
-                            alt="Previsualización de la imagen"
-                            style={{
-                                maxWidth: '100%',
-                                maxHeight: '160px',
-                                marginTop: '10px',
-                                position: 'absolute',
-                                zIndex: '9999',
-                            }}
-                        />
-                    )}
-                  
-                </div>
                 <div className="alert-container">
                     {showSuccessAlert && <Alert variant="filled" severity="success">Usuario creado correctamente</Alert>}
                     {showErrorAlert && <Alert variant="filled" severity="error">Por favor, llene todos los campos requeridos correctamente</Alert>}
