@@ -339,16 +339,7 @@ const AgregarSede = () => {
                 </MenuItem>
             ))}
         </TextField>
-        <TextField
-            autoFocus
-            margin="dense"
-            id="nombreArea"
-            label="Nombre Nueva Área"
-            type="text"
-            fullWidth
-            value={areaNombre}
-            onChange={(e) => setAreaNombre(e.target.value)}
-        />
+       
         <List>
             {tipoAreas
                 .filter(typeArea => typeArea.Tipo === areaTipo)
