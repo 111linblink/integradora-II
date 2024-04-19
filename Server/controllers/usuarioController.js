@@ -31,6 +31,7 @@ export const subirEmpleados = async (req, res) => {
                 FechaNacimiento: empleado.FechaNacimiento || null,
                 Sexo: empleado.Sexo || '',
                 Contrato: empleado.Contrato || '',
+                Turno: empleado.Turno || '',
                 Tipo: empleado.Tipo || '',
                 Contrasena: empleado.Contrasena || '',
                 Img: empleado.Img || ''
