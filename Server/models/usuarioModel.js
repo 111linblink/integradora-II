@@ -12,6 +12,7 @@ const usuarioSchema = new Schema({
     FechaNacimiento: Date,
     Sexo: String,
     Contrato: String,
+    Turno:String,
     Tipo: String,
     Contrasena: String,
     Img: String 
