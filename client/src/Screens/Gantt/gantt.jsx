@@ -11,6 +11,28 @@ const MyGantt = () => {
   const [usersMap, setUsersMap] = useState({});
   let timeline = null;
 
+  const parseTime = (timeString) => {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    return date;
+  };
+
+  const adjustToWorkHoursStart = (date, user) => {
+    const workHours = user ? user.Turno.split(' - ') : ['00:00', '24:00'];
+    const workStartHour = parseTime(workHours[0]).getHours(); // Obtener la hora de inicio del turno
+    date.setHours(workStartHour, 0, 0, 0); // Ajustar a la hora de inicio del turno
+    return date;
+  };
+
+  const adjustToWorkHoursEnd = (date, user) => {
+    const workHours = user ? user.Turno.split(' - ') : ['00:00', '24:00'];
+    const workEndHour = parseTime(workHours[1]).getHours(); // Obtener la hora de finalización del turno
+    date.setHours(workEndHour, 0, 0, 0); // Ajustar a la hora de finalización del turno
+    return date;
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,11 +48,6 @@ const MyGantt = () => {
         const assignmentsData = asignacionResponse.data;
         const vacationsData = vacacionesResponse.data.data;
 
-        console.log("Users Data:", usersData);
-        console.log("Activities Data:", activitiesData);
-        console.log("Assignments Data:", assignmentsData);
-        console.log("Vacations Data:", vacationsData);
-
         const usersMapData = usersData.reduce((acc, user) => {
           acc[user.Numero_Empleado] = user;
           return acc;
@@ -38,89 +55,92 @@ const MyGantt = () => {
 
         setUsersMap(usersMapData);
 
-        const activities = activitiesData?.map(activity => ({
-          id: activity.id,
-          content: activity.nombre,
-          start: new Date(activity.diaInicio),
-          end: new Date(activity.diaFinalizacion),
-          group: activity.Numero_Empleado.toString(),
-          user: usersMapData[activity.Numero_Empleado],
-          className: 'activity-task' 
-        })) || [];
+        const adjustedActivities = activitiesData?.map(activity => {
+          const user = usersMapData[activity.Numero_Empleado];
+          return {
+            ...activity,
+            start: adjustToWorkHoursStart(new Date(activity.diaInicio), user),
+            end: adjustToWorkHoursEnd(new Date(activity.diaFinalizacion), user),
+            group: activity.Numero_Empleado.toString(),
+            user: user,
+            className: 'activity-task',
+            content: activity.nombre // Mantener el nombre de la actividad
+          };
+        }) || [];
 
-        const assignments = assignmentsData?.map(assignment => ({
-          id: assignment.id,
-          content: assignment.Capacitacion.NombreCapacitacion,
-          start: new Date(assignment.Capacitacion.FechaInicio),
-          end: new Date(assignment.Capacitacion.FechaFin),
-          group: assignment.Numero_Empleado.toString(),
-          user: usersMapData[assignment.Numero_Empleado],
-          className: 'assignment-task' // Asigna la clase CSS para asignaciones
-        })) || [];
+        const adjustedAssignments = assignmentsData?.map(assignment => {
+          const user = usersMapData[assignment.Numero_Empleado];
+          return {
+            ...assignment,
+            start: adjustToWorkHoursStart(new Date(assignment.Capacitacion.FechaInicio), user),
+            end: adjustToWorkHoursEnd(new Date(assignment.Capacitacion.FechaFin), user),
+            group: assignment.Numero_Empleado.toString(),
+            user: user,
+            className: 'assignment-task',
+            content: assignment.Capacitacion.NombreCapacitacion // Mantener el nombre de la asignación
+          };
+        }) || [];
 
-        const vacations = vacationsData?.filter(vacation => vacation.Estado === 'Aprobada').map(vacation => ({
-          id: vacation.id,
-          content: `Vacaciones del ${vacation.DiaIni} al ${vacation.DiaFin}`,
-          start: new Date(vacation.DiaIni),
-          end: new Date(vacation.DiaFin),
-          group: vacation.Numero_Empleado.toString(),
-          user: usersMapData[vacation.Numero_Empleado],
-          className: 'vacation-task' // Asigna la clase CSS para vacaciones
-        })) || [];
+        const adjustedVacations = vacationsData?.filter(vacation => vacation.Estado === 'Aprobada').map(vacation => {
+          const user = usersMapData[vacation.Numero_Empleado];
+          return {
+            ...vacation,
+            start: adjustToWorkHoursStart(new Date(vacation.DiaIni), user),
+            end: adjustToWorkHoursEnd(new Date(vacation.DiaFin), user),
+            group: vacation.Numero_Empleado.toString(),
+            user: user,
+            className: 'vacation-task',
+            content: `Vacaciones del ${vacation.DiaIni} al ${vacation.DiaFin}` // Mantener el nombre de la vacación
+          };
+        }) || [];
 
         const restDays = [];
+        const workDays = [];
 
         usersData.forEach(user => {
           const contractDays = user.Contrato.split('/');
           const workDayCount = parseInt(contractDays[0], 10);
           const restDayCount = parseInt(contractDays[1], 10);
+          const totalDays = workDayCount + restDayCount;
 
           const today = new Date();
-          const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0);
+          const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 0, 0, 0, 0);
           const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59);
 
           let currentWorkDay = 0;
 
           for (let currentDate = new Date(startOfMonth); currentDate.getTime() <= endOfMonth.getTime(); currentDate.setDate(currentDate.getDate() + 1)) {
             if (currentWorkDay < workDayCount) {
+              workDays.push({
+                id: `work-${user.Numero_Empleado}-${currentDate.getTime()}`,
+                content: 'Día de trabajo',
+                start: adjustToWorkHoursStart(new Date(currentDate), user),
+                end: adjustToWorkHoursEnd(new Date(currentDate), user),
+                group: user.Numero_Empleado.toString(),
+                className: 'work-task' // Clase CSS para estilizar la tarea de trabajo
+              });
               currentWorkDay++;
             } else {
-              for (let i = 0; i < restDayCount; i++) {
-                restDays.push({
-                  id: `rest-${user.Numero_Empleado}-${currentDate.getTime()}`,
-                  content: 'Descanso',
-                  start: new Date(currentDate),
-                  end: new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59),
-                  group: user.Numero_Empleado.toString(),
-                  className: 'rest-task' 
-                });
-                currentDate.setDate(currentDate.getDate() + 1); // Avanzar al siguiente día
-              }
-              currentWorkDay = 1; // Reiniciar contador de días laborables
+              restDays.push({
+                id: `rest-${user.Numero_Empleado}-${currentDate.getTime()}`,
+                content: 'Descanso',
+                start: adjustToWorkHoursStart(new Date(currentDate), user),
+                end: adjustToWorkHoursEnd(new Date(currentDate), user),
+                group: user.Numero_Empleado.toString(),
+                className: 'rest-task'
+              });
+              currentWorkDay = (currentWorkDay + 1) % totalDays; // Usamos módulo para asegurar que no nos pasemos del total de días
             }
           }
         });
 
-        // Adelantar un día solo para las tareas de Actividades, Asignaciones y Vacaciones
-        const updatedActivities = activities.map(activity => ({
-          ...activity,
-          start: new Date(activity.start.getTime() + 1 * 24 * 60 * 60 * 1000),
-          end: new Date(activity.end.getTime() + 1 * 24 * 60 * 60 * 1000)
-        }));
-
-        const updatedAssignments = assignments.map(assignment => ({
-          ...assignment,
-          start: new Date(assignment.start.getTime() + 1 * 24 * 60 * 60 * 1000),
-          end: new Date(assignment.end.getTime() + 1 * 24 * 60 * 60 * 1000)
-        }));
-
-        const updatedVacations = vacations.map(vacation => ({
-          ...vacation,
-          start: new Date(vacation.start.getTime() + 1 * 24 * 60 * 60 * 1000),
-          end: new Date(vacation.end.getTime() + 1 * 24 * 60 * 60 * 1000)
-        }));
-
-        setTasks([...updatedActivities, ...updatedAssignments, ...updatedVacations, ...restDays]);
+        setTasks([
+          ...adjustedActivities,
+          ...adjustedAssignments,
+          ...adjustedVacations,
+          ...workDays,
+          ...restDays
+        ]);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -131,15 +151,13 @@ const MyGantt = () => {
 
   useEffect(() => {
     if (tasks.length > 0) {
-      console.log("Tasks:", tasks);
-
       const container = document.getElementById('timeline-container');
       const groups = tasks.reduce((acc, task) => {
         if (!acc.find(group => group.id === task.group)) {
           const user = usersMap[task.group];
           acc.push({
             id: task.group,
-            content: user ? `${user.Nombre} (${user.Numero_Empleado}) - ${user.Sede} - ${user.Area} - ${user.Contrato}` : task.group
+            content: user ? `${user.Nombre} (${user.Numero_Empleado}) - ${user.Sede} - ${user.Area} - ${user.Contrato} - ${user.Turno}` : task.group
           });
         }
         return acc;
@@ -175,6 +193,27 @@ const MyGantt = () => {
         timeline = null;
       }
     };
+  }, [tasks, usersMap]);
+
+  useEffect(() => {
+    if (tasks.length > 0) {
+      const filteredTasks = tasks.filter(task => {
+        if (task.className === 'work-task') {
+          // Verificar si hay alguna tarea (actividad, asignación o vacación) que se superponga con la tarea de trabajo
+          const overlappingTasks = tasks.some(otherTask =>
+            (otherTask.className === 'activity-task' || otherTask.className === 'assignment-task' || otherTask.className === 'vacation-task') &&
+            otherTask.group === task.group &&
+            otherTask.start.getTime() <= task.end.getTime() &&
+            otherTask.end.getTime() >= task.start.getTime()
+          );
+          // Si hay superposición, filtrar la tarea de trabajo
+          return !overlappingTasks;
+        }
+        // Mantener las tareas que no son de trabajo
+        return true;
+      });
+      timeline.setItems(filteredTasks);
+    }
   }, [tasks, usersMap]);
 
   const applyFilter = value => {

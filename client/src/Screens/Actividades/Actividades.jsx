@@ -192,8 +192,6 @@ const Actividades = () => {
     setFormData({
       nombre: actividad.nombre,
       descripcion: actividad.descripcion,
-      horaInicio: actividad.horaInicio,
-      horaFinalizacion: actividad.horaFinalizacion,
       diaInicio: actividad.diaInicio,
       diaFinalizacion: actividad.diaFinalizacion,
       Area: actividad.Area,
@@ -237,8 +235,6 @@ const Actividades = () => {
     id: actividad._id,
     nombre: actividad.nombre,
     descripcion: actividad.descripcion,
-    horaInicio: actividad.horaInicio,
-    horaFinalizacion: actividad.horaFinalizacion,
     diaInicio: new Date(actividad.diaInicio).toISOString().split('T')[0],
     diaFinalizacion: new Date(actividad.diaFinalizacion).toISOString().split('T')[0],
     Area: actividad.Area || '',
@@ -249,8 +245,6 @@ const Actividades = () => {
   const columns = [
     { field: 'nombre', headerName: 'Nombre', width: 150 },
     { field: 'descripcion', headerName: 'Descripción', width: 200 },
-    { field: 'horaInicio', headerName: 'Hora de inicio', width: 150 },
-    { field: 'horaFinalizacion', headerName: 'Hora de finalización', width: 180 },
     { field: 'diaInicio', headerName: 'Día de inicio', width: 150 },
     { field: 'diaFinalizacion', headerName: 'Día de finalización', width: 185 },
     { field: 'Area', headerName: 'Área', width: 150 },
@@ -310,30 +304,7 @@ const Actividades = () => {
               value={formData.descripcion}
               onChange={handleChange}
             />
-            <TextField
-              margin="dense"
-              id="horaInicio"
-              label="Hora de inicio"
-              type="time"
-              fullWidth
-              value={formData.horaInicio}
-              onChange={handleChange}
-              inputProps={{
-                step: 300,
-              }}
-            />
-            <TextField
-              margin="dense"
-              id="horaFinalizacion"
-              label="Hora de finalización"
-              type="time"
-              fullWidth
-              value={formData.horaFinalizacion}
-              onChange={handleChange}
-              inputProps={{
-                step: 300,
-              }}
-            />
+
             <TextField
               margin="dense"
               id="diaInicio"
