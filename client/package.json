@@ -29,7 +29,6 @@
     "react-gantt-timeline": "^0.4.3",
     "react-icons": "^5.0.1",
     "react-router-dom": "^6.22.1",
-    "react-scripts": "5.0.1",
     "styled-components": "^6.1.8",
     "vis": "^4.21.0-EOL",
     "vis-data": "^7.1.9",
@@ -59,5 +58,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-scripts": "^5.0.1"
   }
 }
