@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.c63ccd2e.css",
+    "main.js": "/static/js/main.7cf1b4ae.js",
+    "static/js/453.258b012d.chunk.js": "/static/js/453.258b012d.chunk.js",
+    "static/media/logo.png": "/static/media/logo.61ded302e172ee501e8b.png",
+    "static/media/circulo-de-usuario.png": "/static/media/circulo-de-usuario.1b539770fe9f2dcafa75.png",
+    "static/media/v141_23.png": "/static/media/v141_23.05d0404ad8a0ab5bdefa.png",
+    "static/media/evaluacion.png": "/static/media/evaluacion.24e1b0c0c2bce88ecfa1.png",
+    "static/media/sonrisa-mas.png": "/static/media/sonrisa-mas.83c2777dff6e1a01f220.png",
+    "static/media/v141_10.png": "/static/media/v141_10.9f504fb47c881e98b9fb.png",
+    "static/media/garaje (1).png": "/static/media/garaje (1).4652382d5119f2565bbc.png",
+    "static/media/sobre-texto-abierto (1).png": "/static/media/sobre-texto-abierto (1).755ec1216ca6b8c6db58.png",
+    "static/media/Actividades.png": "/static/media/Actividades.aac1b959b5dc05137117.png",
+    "static/media/calendario-reloj.png": "/static/media/calendario-reloj.8abdc5ec4386b7544ad4.png",
+    "static/media/multiple.png": "/static/media/multiple.d19c6693301f1371329a.png",
+    "index.html": "/index.html",
+    "main.c63ccd2e.css.map": "/static/css/main.c63ccd2e.css.map",
+    "main.7cf1b4ae.js.map": "/static/js/main.7cf1b4ae.js.map",
+    "453.258b012d.chunk.js.map": "/static/js/453.258b012d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c63ccd2e.css",
+    "static/js/main.7cf1b4ae.js"
+  ]
+}
