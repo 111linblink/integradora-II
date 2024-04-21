@@ -112,7 +112,7 @@ export const getUserById = async (req, res) => {
 // Crear un usuario
 export const createUser = async (req, res) => {
     try {
-        const { Nombre, Numero_Empleado, Status, CorreoElectronico, Area, Sede, FechaNacimiento, Sexo, Contrato, Tipo, Contrasena } = req.body;
+        const { Nombre, Numero_Empleado, Status, CorreoElectronico, Area, Sede, FechaNacimiento, Sexo, Contrato, Turno, Tipo, Contrasena } = req.body;
 
         const img = req.file ? req.file.filename : '';
 
@@ -126,6 +126,7 @@ export const createUser = async (req, res) => {
             FechaNacimiento,
             Sexo,
             Contrato,
+            Turno,
             Tipo,
             Contrasena,
             Img: img

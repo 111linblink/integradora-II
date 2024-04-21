@@ -21,15 +21,15 @@ const MyGantt = () => {
 
   const adjustToWorkHoursStart = (date, user) => {
     const workHours = user ? user.Turno.split(' - ') : ['00:00', '24:00'];
-    const workStartHour = parseTime(workHours[0]).getHours(); // Obtener la hora de inicio del turno
-    date.setHours(workStartHour, 0, 0, 0); // Ajustar a la hora de inicio del turno
+    const workStartHour = parseTime(workHours[0]).getHours();
+    date.setHours(workStartHour, 0, 0, 0); 
     return date;
   };
 
   const adjustToWorkHoursEnd = (date, user) => {
     const workHours = user ? user.Turno.split(' - ') : ['00:00', '24:00'];
-    const workEndHour = parseTime(workHours[1]).getHours(); // Obtener la hora de finalización del turno
-    date.setHours(workEndHour, 0, 0, 0); // Ajustar a la hora de finalización del turno
+    const workEndHour = parseTime(workHours[1]).getHours();
+    date.setHours(workEndHour, 0, 0, 0);
     return date;
   };
 
@@ -64,7 +64,7 @@ const MyGantt = () => {
             group: activity.Numero_Empleado.toString(),
             user: user,
             className: 'activity-task',
-            content: activity.nombre // Mantener el nombre de la actividad
+            content: activity.nombre
           };
         }) || [];
 
@@ -77,7 +77,7 @@ const MyGantt = () => {
             group: assignment.Numero_Empleado.toString(),
             user: user,
             className: 'assignment-task',
-            content: assignment.Capacitacion.NombreCapacitacion // Mantener el nombre de la asignación
+            content: assignment.Capacitacion.NombreCapacitacion 
           };
         }) || [];
 
@@ -90,7 +90,7 @@ const MyGantt = () => {
             group: vacation.Numero_Empleado.toString(),
             user: user,
             className: 'vacation-task',
-            content: `Vacaciones del ${vacation.DiaIni} al ${vacation.DiaFin}` // Mantener el nombre de la vacación
+            content: `Vacaciones del ${vacation.DiaIni} al ${vacation.DiaFin}` 
           };
         }) || [];
 
@@ -117,7 +117,7 @@ const MyGantt = () => {
                 start: adjustToWorkHoursStart(new Date(currentDate), user),
                 end: adjustToWorkHoursEnd(new Date(currentDate), user),
                 group: user.Numero_Empleado.toString(),
-                className: 'work-task' // Clase CSS para estilizar la tarea de trabajo
+                className: 'work-task'
               });
               currentWorkDay++;
             } else {
@@ -129,7 +129,7 @@ const MyGantt = () => {
                 group: user.Numero_Empleado.toString(),
                 className: 'rest-task'
               });
-              currentWorkDay = (currentWorkDay + 1) % totalDays; // Usamos módulo para asegurar que no nos pasemos del total de días
+              currentWorkDay = (currentWorkDay + 1) % totalDays;
             }
           }
         });
@@ -233,7 +233,7 @@ const MyGantt = () => {
   return (
     <div style={{ backgroundColor: '#0c789c', width: '100%', height: '100vh', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center' }} className="root">
       <NarBar />
-      <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '5px', width: '95%', height: '80vh', position: 'relative', top: '6%' }}>
+      <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '5px', width: '95%', height: '80%', position: 'relative', top: '6%' }}>
         <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
         </div>
         <div id="timeline-container" style={{ width: '100%', height: 'calc(100% - 40px)', marginTop: '40px' }}></div>

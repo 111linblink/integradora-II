@@ -11,8 +11,6 @@ const Actividades = () => {
   const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
-    horaInicio: '',
-    horaFinalizacion: '',
     diaInicio: '',
     diaFinalizacion: '',
     Area: '',
@@ -85,8 +83,6 @@ const Actividades = () => {
     setFormData({
       nombre: '',
       descripcion: '',
-      horaInicio: '',
-      horaFinalizacion: '',
       diaInicio: '',
       diaFinalizacion: '',
       Area: '',
@@ -104,8 +100,6 @@ const Actividades = () => {
       const {
         nombre,
         descripcion,
-        horaInicio,
-        horaFinalizacion,
         diaInicio,
         diaFinalizacion,
         Area,
@@ -114,7 +108,7 @@ const Actividades = () => {
       } = formData;
   
       // Verificar si algún campo está vacío
-      if (!nombre || !descripcion || !horaInicio || !horaFinalizacion || !diaInicio || !diaFinalizacion || !Area || !Sede || Numero_Empleado.length === 0) {
+      if (!nombre || !descripcion || !diaInicio || !diaFinalizacion || !Area || !Sede || Numero_Empleado.length === 0) {
         setShowErrorAlert(true);
         setTimeout(() => {
           setShowErrorAlert(false);
@@ -125,8 +119,6 @@ const Actividades = () => {
       const actividadData = {
         nombre,
         descripcion,
-        horaInicio,
-        horaFinalizacion,
         diaInicio,
         diaFinalizacion,
         Area,

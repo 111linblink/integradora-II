@@ -15,6 +15,7 @@ const SA_Agregar = () => {
         Sexo: "",
         Tipo: "",
         Contrato: "",
+        Turno:"",
         Contrasena: "",
         Sede: "",
         Area: "",
@@ -59,7 +60,7 @@ const SA_Agregar = () => {
     const Creacion = async (event) => {
         event.preventDefault();
     
-        const requiredFields = ['Nombre', 'Numero_Empleado', 'CorreoElectronico', 'Sexo', 'Tipo', 'Contrato', 'Contrasena', 'Sede', 'Area'];
+        const requiredFields = ['Nombre', 'Numero_Empleado', 'CorreoElectronico', 'Sexo', 'Tipo', 'Contrato', 'Turno', 'Contrasena', 'Sede', 'Area'];
         const fieldsAreFilled = requiredFields.every(field => formData[field] !== "");
         if (!fieldsAreFilled) {
             setShowErrorAlert(true);
@@ -97,6 +98,7 @@ const SA_Agregar = () => {
                 Sexo: "",
                 Tipo: "",
                 Contrato: "",
+                Turno:"",
                 Contrasena: "",
                 Sede: "",
                 Area: "",
@@ -172,6 +174,7 @@ const SA_Agregar = () => {
                         <option key={index} value={contrato}>{contrato}</option>
                     ))}
                 </select>
+                <input className="RectangleTurno" type="text" placeholder="Turno" onChange={CrearUsuario} name="Turno" value={formData.Turno} />
                 <div className="AgregarNuevoEmpleado" style={{ width: 540, height: 37, left: 98, top: 161, position: 'absolute', color: 'black', fontSize: 30, fontFamily: 'Roboto', fontWeight: '400', wordWrap: 'break-word' }}>
                     Agregar Empleado
                 </div>
